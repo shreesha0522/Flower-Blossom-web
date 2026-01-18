@@ -1,0 +1,13 @@
+# Dart / Flutter cache
+.dartServer/
+.analysis-driver/
+
+# VS Code
+.vscode/
+
+# Node
+node_modules/
+
+# Mac
+.DS_Store
+
