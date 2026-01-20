@@ -1,108 +1,139 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { RegisterData, registerSchema } from "../schema";
-import { useTransition } from "react";
 import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+
+import { RegisterData, registerSchema } from "../schema";
+import { handleRegister } from "../../../../lib/action/auth-action";
 
 export default function RegisterForm() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
+  const [error, setError] = useState("");
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<RegisterData>({
     resolver: zodResolver(registerSchema),
     mode: "onSubmit",
   });
 
-  const submit = async (values: RegisterData) => {
-    startTransition(async () => {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-      router.push("/login");
-    });
-    console.log("register", values);
+  const onSubmit = async (data: RegisterData) => {
+    try {
+      const res = await handleRegister(data);
+
+      if (!res.success) {
+        throw new Error(res.message || "Registration failed");
+      }
+
+      startTransition(() => {
+        router.push("/login");
+      });
+    } catch (err: Error | any) {
+      setError(err.message || "Registration failed");
+    }
   };
 
   return (
-    <form className="space-y-6 p-6 bg-white rounded-lg shadow-md w-full max-w-md mx-auto" onSubmit={handleSubmit(submit)}>
-      
-      {/* Full Name */}
-      <div className="flex flex-col space-y-1">
-        <label htmlFor="name" className="text-sm font-medium">Full name</label>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-6 p-6 bg-white rounded-lg shadow-md w-full max-w-md mx-auto">
+      {error && <p className="text-sm text-red-600">{error}</p>}
+
+      {/* Username */}
+      <div className="space-y-1">
+        <label className="text-sm font-medium" htmlFor="username">
+          Username
+        </label>
         <input
-          id="name"
+          id="username"
           type="text"
-          autoComplete="name"
+          autoComplete="username"
+          className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+          {...register("username")}
           placeholder="shreesha"
-          {...register("name")}
-          className="px-3 h-10 w-full rounded-md border border-gray-300 bg-gray-50 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
         />
-        {errors.name?.message && <span className="text-xs text-red-600">{errors.name.message}</span>}
+        {errors.username && (
+          <p className="text-xs text-red-600">{errors.username.message}</p>
+        )}
       </div>
 
       {/* Email */}
-      <div className="flex flex-col space-y-1">
-        <label htmlFor="email" className="text-sm font-medium">Email</label>
+      <div className="space-y-1">
+        <label className="text-sm font-medium" htmlFor="email">
+          Email
+        </label>
         <input
           id="email"
           type="email"
           autoComplete="email"
-          placeholder="shreesha@example.com"
+          className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
           {...register("email")}
-          className="px-3 h-10 w-full rounded-md border border-gray-300 bg-gray-50 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+          placeholder="shreesha@example.com"
         />
-        {errors.email?.message && <span className="text-xs text-red-600">{errors.email.message}</span>}
+        {errors.email && (
+          <p className="text-xs text-red-600">{errors.email.message}</p>
+        )}
       </div>
 
       {/* Password */}
-      <div className="flex flex-col space-y-1">
-        <label htmlFor="password" className="text-sm font-medium">Password</label>
+      <div className="space-y-1">
+        <label className="text-sm font-medium" htmlFor="password">
+          Password
+        </label>
         <input
           id="password"
           type="password"
           autoComplete="new-password"
-          placeholder="*****"
+          className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
           {...register("password")}
-          className="px-3 h-10 w-full rounded-md border border-gray-300 bg-gray-50 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+          placeholder="*****"
         />
-        {errors.password?.message && <span className="text-xs text-red-600">{errors.password.message}</span>}
+        {errors.password && (
+          <p className="text-xs text-red-600">{errors.password.message}</p>
+        )}
       </div>
 
       {/* Confirm Password */}
-      <div className="flex flex-col space-y-1">
-        <label htmlFor="confirmPassword" className="text-sm font-medium">Confirm password</label>
+      <div className="space-y-1">
+        <label className="text-sm font-medium" htmlFor="confirmPassword">
+          Confirm password
+        </label>
         <input
           id="confirmPassword"
           type="password"
           autoComplete="new-password"
-          placeholder="*****"
+          className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
           {...register("confirmPassword")}
-          className="px-3 h-10 w-full rounded-md border border-gray-300 bg-gray-50 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+          placeholder="*****"
         />
-        {errors.confirmPassword?.message && <span className="text-xs text-red-600">{errors.confirmPassword.message}</span>}
+        {errors.confirmPassword && (
+          <p className="text-xs text-red-600">
+            {errors.confirmPassword.message}
+          </p>
+        )}
       </div>
 
       {/* Submit Button */}
       <button
         type="submit"
-        disabled={isSubmitting || pending}
-        className="h-10 w-full rounded-md bg-pink-400 text-white text-sm font-semibold hover:opacity-90 disabled:opacity-60"
+        disabled={pending}
+        className="h-10 w-full rounded-md bg-pink-400 text-white text-sm font-semibold hover:bg-pink-500 disabled:opacity-60"
       >
-        {isSubmitting || pending ? "Registering..." : "Register"}
+        {pending ? "Registering..." : "Register"}
       </button>
 
       {/* Login Link */}
-      <p className="mt-2 text-center text-sm text-gray-600">
+      <div className="mt-2 text-center text-sm text-gray-600">
         Already have an account?{" "}
         <Link href="/login" className="font-semibold text-pink-400 hover:underline">
           Log in
         </Link>
-      </p>
+      </div>
     </form>
   );
 }
