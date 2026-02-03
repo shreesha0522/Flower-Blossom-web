@@ -11,3 +11,7 @@ node_modules/
 # Mac
 .DS_Store
 
+# Uploaded files
+public/uploads/*
+!public/uploads/.gitkeep
+

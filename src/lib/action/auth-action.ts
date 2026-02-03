@@ -1,0 +1,73 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use server";
+import { login, register } from "../api/auth";
+import { setAuthToken, setUserData } from "../cookie";
+
+export type AuthResponse<T = any> = {
+  success: boolean;
+  message: string;
+  data?: T;
+  user?: {
+    id: string;
+    email: string;
+    name?: string;
+    role: "admin" | "user";
+  };
+};
+
+// ===== HANDLE REGISTER =====
+export const handleRegister = async (formData: any): Promise<AuthResponse> => {
+  try {
+    // send data to backend API
+    const res = await register(formData);
+    if (res.success) {
+      // optionally, you could also set cookie after register if needed
+      // e.g., automatically log in after register
+      return {
+        success: true,
+        data: res.data,
+        message: "Registration successful",
+      };
+    }
+    return { success: false, message: res.message || "Registration failed" };
+  } catch (error: Error | any) {
+    console.error("Register error:", error);
+    return { success: false, message: error.message || "Registration failed" };
+  }
+};
+
+// ===== HANDLE LOGIN =====
+export const handleLogin = async (formData: any): Promise<AuthResponse> => {
+  try {
+    const res = await login(formData);
+    
+    console.log("Backend login response:", res); // Debug log
+    
+    if (res.success) {
+      const token = res.token;
+      
+      // store JWT token in cookie
+      await setAuthToken(token);
+      
+      // store user data in cookie
+      await setUserData(res.data);
+      
+      // ✅ Return user data with role for redirect logic
+      return {
+        success: true,
+        data: res.data,
+        message: "Login successful",
+        user: {
+          id: res.data?.id || res.data?._id,
+          email: res.data?.email,
+          name: res.data?.name,
+          role: res.data?.role || "user", // Get role from backend response
+        },
+      };
+    }
+    return { success: false, message: res.message || "Login failed" };
+  } catch (error: Error | any) {
+    console.error("Login error:", error);
+    return { success: false, message: error.message || "Login failed" };
+  }
+};

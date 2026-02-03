@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 22, "column": 0}, "map": {"version":3,"sources":["file:///Users/shreeshashrestha/Desktop/untitled%20folder/Flower%20Bloosom%20web/src/app/%28auth%29/dashboard/page.tsx"],"sourcesContent":["export default function Page() {\n  return (\n    <div>Dashboard</div>\n  );\n}"],"names":[],"mappings":";;;;;;AAAe,SAAS;IACtB,qBACE,8OAAC;kBAAI;;;;;;AAET"}}]
+}
