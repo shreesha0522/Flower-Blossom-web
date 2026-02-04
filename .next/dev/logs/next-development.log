@@ -1,1 +1,6 @@
-[00:00:00.938] Server  LOG     ✓ Ready in 712ms
+[00:00:01.042] Server  LOG     ✓ Ready in 787ms
+[00:00:05.077] Browser WARN    Image with src "/new.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:20.464] Server  ERROR   (node:5158) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+(Use `node --trace-deprecation ...` to show where the warning was created)
+[00:00:20.608] Server  LOG     Backend login response: {}
+[00:00:20.726] Browser LOG     Login response: {"data":{"__v":0,"_id":"69824896cee50e321fa64e84","bio":null,"createdAt":"2026-02-03T19:12:22.346Z","email":"water@gmail.com","password":"$2b$10$tmw06PzEWCxVnYVhTOR3D.pn3QnZGfRXMvU2EZaDJhLQz2.sjdYIy","phone":null,"profileImage":"","role":"user","updatedAt":"2026-02-03T19:12:22.346Z","username":"water"},"message":"Login successful","success":true,"user":{"email":"water@gmail.com","id":"69824896cee50e321fa64e84","name":"water","role":"user"}}

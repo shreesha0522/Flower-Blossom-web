@@ -1,0 +1,20 @@
+{
+  "node": {
+    "40124750b708925b07bf03f2875b290ce435e2635a": {
+      "workers": {
+        "app/(auth)/register/page": {
+          "moduleId": "[project]/.next-internal/server/app/(auth)/register/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/action/auth-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "handleRegister",
+          "filename": "src/lib/action/auth-action.ts"
+        }
+      },
+      "layer": {
+        "app/(auth)/register/page": "action-browser"
+      },
+      "exportedName": "handleRegister",
+      "filename": "src/lib/action/auth-action.ts"
+    }
+  },
+  "edge": {}
+}
