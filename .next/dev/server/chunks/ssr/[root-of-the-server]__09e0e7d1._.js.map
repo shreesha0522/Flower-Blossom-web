@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 30, "column": 0}, "map": {"version":3,"sources":["file:///Users/shreeshashrestha/Desktop/untitled%20folder/Flower%20Bloosom%20web/src/app/user/profile/page.tsx"],"sourcesContent":["import { redirect } from \"next/navigation\";\nimport ProfileForm from \"./_components/ProfileForm\";\n\n// This will be a client component that fetches on mount\nexport default function ProfilePage() {\n  redirect(\"/user/profile/client\");\n}\n"],"names":[],"mappings":";;;;AAAA;AAAA;;AAIe,SAAS;IACtB,IAAA,iMAAQ,EAAC;AACX"}}]
+}

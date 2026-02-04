@@ -1,6 +1,13 @@
 {
   "/(auth)/login/page": "app/(auth)/login/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js",
+  "/admin/users/create/page": "app/admin/users/create/page.js",
+  "/admin/users/page": "app/admin/users/page.js",
+  "/api/user/me/route": "app/api/user/me/route.js",
   "/dashboard/cart/page": "app/dashboard/cart/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/page": "app/page.js"
+  "/dashboard/profile/page": "app/dashboard/profile/page.js",
+  "/page": "app/page.js",
+  "/user/profile/client/page": "app/user/profile/client/page.js",
+  "/user/profile/page": "app/user/profile/page.js"
 }
