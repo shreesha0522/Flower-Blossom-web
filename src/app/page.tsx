@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import Image from "next/image";
 
 export default function HomePage() {
@@ -72,3 +73,10 @@ export default function HomePage() {
     </main>
   );
 }
+=======
+export default function Home() {
+  return (
+    <h1>Home Page</h1>
+  );
+}
+>>>>>>> origin/main

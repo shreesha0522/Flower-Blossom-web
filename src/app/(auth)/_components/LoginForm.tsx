@@ -1,4 +1,5 @@
 "use client";
+<<<<<<< HEAD
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -6,21 +7,39 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { LoginData, loginSchema } from "../schema";
 import { handleLogin } from "@/lib/action/auth-action";
+=======
+
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { LoginData, loginSchema } from "../schema";
+>>>>>>> origin/main
 
 export default function LoginForm() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
+<<<<<<< HEAD
   const [error, setError] = useState<string>("");
   
   const {
     register,
     handleSubmit,
     formState: { errors },
+=======
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+>>>>>>> origin/main
   } = useForm<LoginData>({
     resolver: zodResolver(loginSchema),
     mode: "onSubmit",
   });
 
+<<<<<<< HEAD
   const onSubmit = async (data: LoginData) => {
     setError("");
     try {
@@ -61,11 +80,31 @@ export default function LoginForm() {
         <label htmlFor="email" className="text-sm font-medium">
           Email
         </label>
+=======
+  const submit = async (values: LoginData) => {
+    startTransition(async () => {
+      // Simulate login request
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      // Redirect to dashboard
+      router.push("/dashboard");
+    });
+    console.log("login", values);
+  };
+
+  return (
+    <form onSubmit={handleSubmit(submit)} className="space-y-6 p-6 bg-white rounded-lg shadow-md w-full max-w-md mx-auto">
+      
+      {/* Email Input */}
+      <div className="flex flex-col space-y-1">
+        <label htmlFor="email" className="text-sm font-medium">Email</label>
+>>>>>>> origin/main
         <input
           id="email"
           type="email"
           autoComplete="email"
           placeholder="shreesha@gmail.com"
+<<<<<<< HEAD
           className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
           {...register("email")}
         />
@@ -79,22 +118,41 @@ export default function LoginForm() {
         <label htmlFor="password" className="text-sm font-medium">
           Password
         </label>
+=======
+          {...register("email")}
+          className="px-3 h-10 w-full rounded-md border border-gray-300 bg-gray-50 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+        />
+        {errors.email?.message && <span className="text-xs text-red-600">{errors.email.message}</span>}
+      </div>
+
+      {/* Password Input */}
+      <div className="flex flex-col space-y-1">
+        <label htmlFor="password" className="text-sm font-medium">Password</label>
+>>>>>>> origin/main
         <input
           id="password"
           type="password"
           autoComplete="current-password"
           placeholder="*****"
+<<<<<<< HEAD
           className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
           {...register("password")}
         />
         {errors.password && (
           <p className="text-xs text-red-600">{errors.password.message}</p>
         )}
+=======
+          {...register("password")}
+          className="px-3 h-10 w-full rounded-md border border-gray-300 bg-gray-50 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
+        />
+        {errors.password?.message && <span className="text-xs text-red-600">{errors.password.message}</span>}
+>>>>>>> origin/main
       </div>
 
       {/* Submit Button */}
       <button
         type="submit"
+<<<<<<< HEAD
         disabled={pending}
         className="h-10 w-full rounded-md bg-pink-400 text-white text-sm font-semibold hover:bg-pink-500 disabled:opacity-60"
       >
@@ -114,3 +172,18 @@ export default function LoginForm() {
     </form>
   );
 }
+=======
+        disabled={isSubmitting || pending}
+        className="h-10 w-full rounded-md bg-pink-400 text-white text-sm font-semibold hover:opacity-90 disabled:opacity-60"
+      >
+        {isSubmitting || pending ? "Logging in..." : "Log in"}
+      </button>
+
+      {/* Signup Link */}
+      <p className="mt-2 text-center text-sm text-gray-600">
+        Don't have an account? <Link href="/register" className="font-semibold text-pink-400 hover:underline">Sign up</Link>
+      </p>
+    </form>
+  );
+}
+>>>>>>> origin/main
