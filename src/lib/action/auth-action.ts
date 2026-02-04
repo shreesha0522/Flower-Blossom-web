@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
+
 import { login, register } from "../api/auth";
 import { setAuthToken, setUserData } from "../cookie";
 
@@ -18,21 +19,27 @@ export type AuthResponse<T = any> = {
 // ===== HANDLE REGISTER =====
 export const handleRegister = async (formData: any): Promise<AuthResponse> => {
   try {
-    // send data to backend API
     const res = await register(formData);
+
     if (res.success) {
-      // optionally, you could also set cookie after register if needed
-      // e.g., automatically log in after register
       return {
         success: true,
         data: res.data,
-        message: "Registration successful",
+        message: res.message || "Registration successful",
       };
     }
-    return { success: false, message: res.message || "Registration failed" };
-  } catch (error: Error | any) {
+
+    return {
+      success: false,
+      message: res.message || "Registration failed",
+    };
+  } catch (error: any) {
     console.error("Register error:", error);
-    return { success: false, message: error.message || "Registration failed" };
+
+    return {
+      success: false,
+      message: error.message || "Registration failed",
+    };
   }
 };
 
@@ -40,34 +47,47 @@ export const handleRegister = async (formData: any): Promise<AuthResponse> => {
 export const handleLogin = async (formData: any): Promise<AuthResponse> => {
   try {
     const res = await login(formData);
-    
-    console.log("Backend login response:", res); // Debug log
-    
-    if (res.success) {
-      const token = res.token;
-      
-      // store JWT token in cookie
-      await setAuthToken(token);
-      
-      // store user data in cookie
-      await setUserData(res.data);
-      
-      // ✅ Return user data with role for redirect logic
+
+    console.log("Backend login response:", res);
+
+    if (!res.success) {
       return {
-        success: true,
-        data: res.data,
-        message: "Login successful",
-        user: {
-          id: res.data?.id || res.data?._id,
-          email: res.data?.email,
-          name: res.data?.name,
-          role: res.data?.role || "user", // Get role from backend response
-        },
+        success: false,
+        message: res.message || "Login failed",
       };
     }
-    return { success: false, message: res.message || "Login failed" };
-  } catch (error: Error | any) {
+
+    // ✅ token is in res.token (your backend response)
+    const token = res.token;
+
+    if (!token) {
+      return {
+        success: false,
+        message: "Token missing from backend response",
+      };
+    }
+
+    // ✅ Save token + user in cookies
+    await setAuthToken(token);
+    await setUserData(res.data);
+
+    return {
+      success: true,
+      data: res.data,
+      message: res.message || "Login successful",
+      user: {
+        id: res.data?._id,
+        email: res.data?.email,
+        name: res.data?.username || res.data?.name,
+        role: res.data?.role || "user",
+      },
+    };
+  } catch (error: any) {
     console.error("Login error:", error);
-    return { success: false, message: error.message || "Login failed" };
+
+    return {
+      success: false,
+      message: error.message || "Login failed",
+    };
   }
 };

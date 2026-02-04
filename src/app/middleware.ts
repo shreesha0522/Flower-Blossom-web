@@ -1,65 +1,61 @@
 import { NextResponse, NextRequest } from "next/server";
 
+function decodeToken(token: string) {
+  try {
+    const payload = token.split(".")[1];
+
+    // ✅ middleware-safe base64 decode
+    const base64 = payload.replace(/-/g, "+").replace(/_/g, "/");
+    const decodedPayload = Buffer.from(base64, "base64").toString("utf-8");
+
+    return JSON.parse(decodedPayload);
+  } catch (error) {
+    console.error("Token decode error:", error);
+    return null;
+  }
+}
+
 export default function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
-  // Get the token from cookies
-  const token = req.cookies.get("token")?.value;
+  // ✅ cookie name must match your setAuthToken()
+  const token = req.cookies.get("auth_token")?.value;
 
-  // ✅ RULE 1: /admin routes - Only admin role can access
+  const decoded = token ? decodeToken(token) : null;
+
+  // ✅ /admin routes - only admin
   if (pathname.startsWith("/admin")) {
-    if (!token) {
+    if (!decoded) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
+    if (decoded.role !== "admin") {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
+  }
 
-    try {
-      const payload = token.split(".")[1];
-      const decoded = JSON.parse(atob(payload));
-
-      if (decoded.role !== "admin") {
-        return NextResponse.redirect(new URL("/dashboard", req.url));
-      }
-    } catch (error) {
-      console.error("Token decode error:", error);
+  // ✅ /dashboard - logged in users only
+  if (pathname.startsWith("/dashboard")) {
+    if (!decoded) {
+      return NextResponse.redirect(new URL("/login", req.url));
+    }
+    if (decoded.exp && decoded.exp * 1000 < Date.now()) {
       return NextResponse.redirect(new URL("/login", req.url));
     }
   }
 
-  // ✅ RULE 2: /user routes - Only logged in users can access
-  if (pathname.startsWith("/user")) {
-    if (!token) {
-      return NextResponse.redirect(new URL("/login", req.url));
-    }
-
-    try {
-      const payload = token.split(".")[1];
-      JSON.parse(atob(payload));
-    } catch (error) {
-      console.error("Token decode error:", error);
-      return NextResponse.redirect(new URL("/login", req.url));
-    }
-  }
-
-  // ✅ RULE 3: /login and /register - If already logged in, redirect to dashboard
+  // ✅ /login + /register - if already logged in redirect
   if (pathname === "/login" || pathname === "/register") {
-    if (token) {
-      try {
-        const payload = token.split(".")[1];
-        JSON.parse(atob(payload));
-        return NextResponse.redirect(new URL("/dashboard", req.url));
-      } catch (error) {
-        // Token is invalid, let them stay on login/register
+    if (decoded) {
+      if (decoded.role === "admin") {
+        return NextResponse.redirect(new URL("/admin/dashboard", req.url));
       }
+      return NextResponse.redirect(new URL("/dashboard", req.url));
     }
   }
 
-  // ✅ RULE 4: Everything else - No protection needed
   return NextResponse.next();
 }
 
-// Config - which routes this middleware runs on
 export const config = {
-  matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api/).*)",
-  ],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|api/).*)"],
 };

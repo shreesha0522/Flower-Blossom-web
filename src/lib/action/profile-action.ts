@@ -1,26 +1,19 @@
 "use server";
 
-import { ProfileUpdateResponse } from "@/app/(public)/user/profile/schema";
+import { ProfileUpdateResponse } from "@/app/user/profile/schema";
 
-/**
- * Update user profile with image upload
- * This function sends FormData to the backend API (Multer support)
- * Endpoint: PUT /api/auth/:id
- */
 export async function handleUpdateProfile(
   userId: string,
   formData: FormData
 ): Promise<ProfileUpdateResponse> {
   try {
-    // Get the backend API URL from environment variable
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
 
-    // Make PUT request to backend with FormData
     const response = await fetch(`${apiUrl}/api/auth/${userId}`, {
       method: "PUT",
-      body: formData, // Send as FormData (Multer requirement)
-      credentials: "include", // Include cookies for authentication
-      // NOTE: Don't set Content-Type header - browser will set it automatically with boundary
+      body: formData,
+      credentials: "include",
     });
 
     const data = await response.json();
@@ -46,15 +39,12 @@ export async function handleUpdateProfile(
   }
 }
 
-/**
- * Get current user profile
- * Endpoint: GET /api/auth/profile or GET /api/auth/:id
- */
 export async function getCurrentUserProfile(
   userId: string
 ): Promise<ProfileUpdateResponse> {
   try {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000";
+    const apiUrl =
+      process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
 
     const response = await fetch(`${apiUrl}/api/auth/${userId}`, {
       method: "GET",
@@ -62,7 +52,7 @@ export async function getCurrentUserProfile(
       headers: {
         "Content-Type": "application/json",
       },
-      cache: "no-store", // Don't cache user data
+      cache: "no-store",
     });
 
     const data = await response.json();

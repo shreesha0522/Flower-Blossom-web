@@ -1,41 +1,30 @@
-"use client";
+import { cookies } from 'next/headers';
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
+export default async function AdminDashboard() {
+  // ✅ AWAIT cookies()
+  const cookieStore = await cookies();
+  const authToken = cookieStore.get('auth_token');
+  const userDataCookie = cookieStore.get('user_data');
+  
+  // ✅ Check if user is logged in
+  if (!authToken || !userDataCookie) {
+    redirect('/login');
+  }
 
-export default function AdminDashboard() {
-  const router = useRouter();
-  const [adminData, setAdminData] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Get admin data from cookie or fetch from API
-    const fetchAdminData = async () => {
-      try {
-        // You can fetch admin data from your API here
-        const admin = {
-          name: "Admin",
-          email: "admin@example.com",
-        };
-        setAdminData(admin);
-      } catch (error) {
-        console.error("Error fetching admin data:", error);
-        router.push("/login");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchAdminData();
-  }, [router]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-pink-50">
-        <p className="text-gray-600">Loading...</p>
-      </div>
-    );
+  // ✅ Parse user data from cookie
+  let userData = null;
+  try {
+    userData = JSON.parse(userDataCookie.value);
+    
+    // ✅ If user is NOT admin, redirect to user dashboard
+    if (userData.role !== 'admin') {
+      redirect('/dashboard');
+    }
+  } catch (error) {
+    console.error("User data parse error:", error);
+    redirect('/login');
   }
 
   return (
@@ -52,21 +41,13 @@ export default function AdminDashboard() {
               </div>
             </div>
             <nav className="flex items-center space-x-4">
+              <span className="text-gray-600">{userData?.email}</span>
               <Link
-                href="/profile"
-                className="text-gray-600 hover:text-pink-600 transition"
-              >
-                Profile
-              </Link>
-              <button
-                onClick={() => {
-                  // Add logout logic here
-                  router.push("/login");
-                }}
+                href="/login"
                 className="px-4 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition"
               >
                 Logout
-              </button>
+              </Link>
             </nav>
           </div>
         </div>
@@ -77,7 +58,7 @@ export default function AdminDashboard() {
         {/* Welcome Section */}
         <div className="bg-gradient-to-r from-pink-500 to-pink-400 rounded-lg shadow-lg p-8 mb-8 text-white">
           <h2 className="text-3xl font-bold mb-2">
-            Welcome back, {adminData?.name || "Admin"}! 👋
+            Welcome back, {userData?.name || userData?.email || "Admin"}! 👋
           </h2>
           <p className="text-pink-100">
             Manage your flower blossom business from here

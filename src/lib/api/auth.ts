@@ -1,45 +1,60 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-// Note: Actual backend API calls
-import axios from "./axios"; // info: axios instance with base URL
+import { setAuthToken, setUserData } from "../cookie";
+import axios from "./axios";
 import { API } from "./endpoint";
 
-export const register = async(registerData: any) => {
-  try {
-    const response = await axios.post(API.AUTH.REGISTER, registerData);
-    return response.data; // response ko body (what backend returns)
-  } catch (error: Error | any) {
-    // info: if 4xx/5xx error, axios throws error
-    throw new Error(
-      error.response?.data?.message // backend error message
-      || error.message // general axios error message
-      || "Registration Failed" // fallback message
-    )
-  }
-}
+ // 👈 your cookie functions
 
-export const login = async(loginData: any) => {
+export const register = async (registerData: any) => {
   try {
-    const response = await axios.post(API.AUTH.LOGIN, loginData);
-    return response.data; // response ko body (what backend returns)
-  } catch (error: Error | any) {
-    // info: if 4xx/5xx error, axios throws error
-    throw new Error(
-      error.response?.data?.message // backend error message
-      || error.message // general axios error message
-      || "Login Failed" // fallback message
-    )
-  }
-}
-
-export const getCurrentUser = async() => {
-  try {
-    const response = await axios.get(API.AUTH.ME);
+    const response = await axios.post(API.AUTH.REGISTER, registerData, {
+      withCredentials: true,
+    });
     return response.data;
-  } catch (error: Error | any) {
+  } catch (error: any) {
     throw new Error(
-      error.response?.data?.message
-      || error.message
-      || "Failed to fetch user"
-    )
+      error?.response?.data?.message ||
+        error?.message ||
+        "Registration Failed"
+    );
   }
-}
+};
+
+export const login = async (loginData: any) => {
+  try {
+    const response = await axios.post(API.AUTH.LOGIN, loginData, {
+      withCredentials: true,
+    });
+
+    // ✅ Save token + user in cookies
+    const token = response.data?.data?.token;
+    const user = response.data?.data;
+
+    if (token) {
+      await setAuthToken(token);
+    }
+
+    if (user) {
+      await setUserData(user);
+    }
+
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message || error?.message || "Login Failed"
+    );
+  }
+};
+
+export const getCurrentUser = async () => {
+  try {
+    const response = await axios.get(API.AUTH.ME, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error: any) {
+    throw new Error(
+      error?.response?.data?.message || error?.message || "Failed to fetch user"
+    );
+  }
+};
