@@ -1,13 +1,11 @@
 {
   "/(auth)/login/page": "app/(auth)/login/page.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/admin/users/create/page": "app/admin/users/create/page.js",
-  "/admin/users/page": "app/admin/users/page.js",
-  "/api/user/me/route": "app/api/user/me/route.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/dashboard/about/page": "app/dashboard/about/page.js",
   "/dashboard/cart/page": "app/dashboard/cart/page.js",
+  "/dashboard/checkout/page": "app/dashboard/checkout/page.js",
+  "/dashboard/orders/page": "app/dashboard/orders/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/profile/page": "app/dashboard/profile/page.js",
-  "/page": "app/page.js",
-  "/user/profile/client/page": "app/user/profile/client/page.js",
-  "/user/profile/page": "app/user/profile/page.js"
+  "/dashboard/settings/page": "app/dashboard/settings/page.js",
+  "/page": "app/page.js"
 }
