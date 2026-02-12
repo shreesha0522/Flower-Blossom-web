@@ -14,70 +14,99 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist
 var _s = __turbopack_context__.k.signature(), _s1 = __turbopack_context__.k.signature();
 "use client";
 ;
-// Create context
 const CartContext = /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["createContext"])(undefined);
-const useCart = ()=>{
+function CartProvider({ children }) {
     _s();
-    const context = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useContext"])(CartContext);
-    if (!context) throw new Error("useCart must be used within CartProvider");
-    return context;
-};
-_s(useCart, "b9L3QQ+jgeyIrH0NfHrJ8nn7VMU=");
-const CartProvider = ({ children })=>{
-    _s1();
     const [cart, setCart] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
-    // Add product to cart
-    const addToCart = (product, qty = 1)=>{
-        setCart((prev)=>{
-            const exists = prev.find((p)=>p.id === product.id);
-            if (exists) {
-                // If product exists, increase quantity
-                return prev.map((p)=>p.id === product.id ? {
-                        ...p,
-                        quantity: (p.quantity || 1) + qty
-                    } : p);
+    const [isClient, setIsClient] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
+    // Load cart from localStorage on mount
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "CartProvider.useEffect": ()=>{
+            setIsClient(true);
+            const savedCart = localStorage.getItem("cart");
+            if (savedCart) {
+                try {
+                    setCart(JSON.parse(savedCart));
+                } catch (error) {
+                    console.error("Error loading cart:", error);
+                    setCart([]);
+                }
             }
-            // If new product, add to cart
+        }
+    }["CartProvider.useEffect"], []);
+    // Save cart to localStorage whenever it changes
+    (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
+        "CartProvider.useEffect": ()=>{
+            if (isClient) {
+                localStorage.setItem("cart", JSON.stringify(cart));
+                // Dispatch event to notify other components (like navbar)
+                window.dispatchEvent(new Event("cartUpdated"));
+            }
+        }
+    }["CartProvider.useEffect"], [
+        cart,
+        isClient
+    ]);
+    const addToCart = (product)=>{
+        setCart((prevCart)=>{
+            const existingItem = prevCart.find((item)=>item.id === product.id && item.isBouquet === product.isBouquet);
+            if (existingItem) {
+                return prevCart.map((item)=>item.id === product.id && item.isBouquet === product.isBouquet ? {
+                        ...item,
+                        quantity: (item.quantity || 1) + (product.quantity || 1)
+                    } : item);
+            }
             return [
-                ...prev,
+                ...prevCart,
                 {
                     ...product,
-                    quantity: qty
+                    quantity: product.quantity || 1
                 }
             ];
         });
     };
-    // Remove product from cart
+    const updateQuantity = (id, quantity)=>{
+        if (quantity <= 0) {
+            removeFromCart(id);
+            return;
+        }
+        setCart((prevCart)=>prevCart.map((item)=>item.id === id ? {
+                    ...item,
+                    quantity
+                } : item));
+    };
     const removeFromCart = (id)=>{
-        setCart((prev)=>prev.filter((p)=>p.id !== id));
+        setCart((prevCart)=>prevCart.filter((item)=>item.id !== id));
     };
-    // Update product quantity
-    const updateQuantity = (id, qty)=>{
-        if (qty < 1) return; // prevent invalid quantity
-        setCart((prev)=>prev.map((p)=>p.id === id ? {
-                    ...p,
-                    quantity: qty
-                } : p));
+    const clearCart = ()=>{
+        setCart([]);
     };
-    // Clear entire cart
-    const clearCart = ()=>setCart([]);
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(CartContext.Provider, {
         value: {
             cart,
             addToCart,
-            removeFromCart,
             updateQuantity,
+            removeFromCart,
             clearCart
         },
         children: children
     }, void 0, false, {
         fileName: "[project]/src/app/context/CartContext.tsx",
-        lineNumber: 69,
+        lineNumber: 92,
         columnNumber: 5
-    }, ("TURBOPACK compile-time value", void 0));
-};
-_s1(CartProvider, "ZqFaEIYkzI5UoYUmTgmqHbYYm/0=");
+    }, this);
+}
+_s(CartProvider, "0nXdIKADR3u9u9NvHmcusJzElDo=");
 _c = CartProvider;
+function useCart() {
+    _s1();
+    const context = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useContext"])(CartContext);
+    if (!context) {
+        throw new Error("useCart must be used within a CartProvider");
+    }
+    return context;
+}
+_s1(useCart, "b9L3QQ+jgeyIrH0NfHrJ8nn7VMU=");
 var _c;
 __turbopack_context__.k.register(_c, "CartProvider");
 if (typeof globalThis.$RefreshHelpers$ === 'object' && globalThis.$RefreshHelpers !== null) {

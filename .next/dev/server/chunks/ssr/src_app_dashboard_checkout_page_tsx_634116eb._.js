@@ -27,26 +27,116 @@ function CheckoutPage() {
     const [paymentMethod, setPaymentMethod] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("esewa");
     const [processing, setProcessing] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     const [success, setSuccess] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
+    const [orderNumber, setOrderNumber] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])("");
     const subtotal = cart.reduce((sum, item)=>sum + (item.discountedPrice || item.price) * (item.quantity || 1), 0);
     const delivery = 500;
     const total = subtotal + delivery;
-    const handlePayment = ()=>{
+    const handlePayment = async ()=>{
         if (!name || !phone || !location) {
             alert("Please fill all shipping details!");
             return;
         }
+        if (cart.length === 0) {
+            alert("Your cart is empty!");
+            return;
+        }
         setProcessing(true);
-        setTimeout(()=>{
-            setProcessing(false);
+        try {
+            // Simulate payment processing
+            await new Promise((resolve)=>setTimeout(resolve, 2000));
+            // Generate order number
+            const newOrderNumber = `ORD-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 10000)).padStart(4, "0")}`;
+            const order = {
+                _id: Date.now().toString(),
+                orderNumber: newOrderNumber,
+                date: new Date().toISOString().split("T")[0],
+                total,
+                status: "pending",
+                items: cart.map((item)=>({
+                        id: item.id,
+                        name: item.name,
+                        quantity: item.quantity,
+                        price: item.discountedPrice || item.price,
+                        image: item.image
+                    })),
+                deliveryAddress: location,
+                deliveryTime,
+                customerName: name,
+                customerPhone: phone,
+                paymentMethod
+            };
+            // Save to localStorage
+            const existingOrders = JSON.parse(localStorage.getItem("orders") || "[]");
+            localStorage.setItem("orders", JSON.stringify([
+                order,
+                ...existingOrders
+            ]));
+            setOrderNumber(newOrderNumber);
             setSuccess(true);
-            // Clear cart on successful payment
+            // Clear cart
             clearCart();
-            // Redirect to dashboard after 2s
+            // Redirect to orders page after 3s
             setTimeout(()=>{
-                router.push("/dashboard");
-            }, 2000);
-        }, 2000); // simulate 2s payment processing
+                router.push("/dashboard/orders");
+            }, 3000);
+        } catch (error) {
+            console.error("Payment error:", error);
+            alert("Payment failed. Please try again.");
+        } finally{
+            setProcessing(false);
+        }
     };
+    if (cart.length === 0 && !success) {
+        return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+            className: "min-h-screen bg-gray-50 flex items-center justify-center p-6",
+            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                className: "bg-white rounded-xl p-12 text-center max-w-md",
+                children: [
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "text-6xl mb-4",
+                        children: "🛒"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                        lineNumber: 97,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h2", {
+                        className: "text-2xl font-bold text-gray-800 mb-2",
+                        children: "Your cart is empty"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                        lineNumber: 98,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                        className: "text-gray-500 mb-6",
+                        children: "Add some flowers before checking out!"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                        lineNumber: 99,
+                        columnNumber: 11
+                    }, this),
+                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
+                        onClick: ()=>router.push("/dashboard/catalog"),
+                        className: "px-6 py-3 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition font-semibold",
+                        children: "Browse Flowers"
+                    }, void 0, false, {
+                        fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                        lineNumber: 100,
+                        columnNumber: 11
+                    }, this)
+                ]
+            }, void 0, true, {
+                fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                lineNumber: 96,
+                columnNumber: 9
+            }, this)
+        }, void 0, false, {
+            fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+            lineNumber: 95,
+            columnNumber: 7
+        }, this);
+    }
     return /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
         className: "min-h-screen bg-gray-50 p-6",
         children: [
@@ -55,7 +145,7 @@ function CheckoutPage() {
                 children: "Checkout"
             }, void 0, false, {
                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                lineNumber: 52,
+                lineNumber: 113,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -66,7 +156,7 @@ function CheckoutPage() {
                         children: "Order Summary"
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 56,
+                        lineNumber: 117,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -76,7 +166,7 @@ function CheckoutPage() {
                                 children: "Subtotal"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 58,
+                                lineNumber: 119,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -86,13 +176,13 @@ function CheckoutPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 59,
+                                lineNumber: 120,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 57,
+                        lineNumber: 118,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -102,7 +192,7 @@ function CheckoutPage() {
                                 children: "Delivery"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 62,
+                                lineNumber: 123,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -112,20 +202,20 @@ function CheckoutPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 63,
+                                lineNumber: 124,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 61,
+                        lineNumber: 122,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                         className: "border-pink-100 my-2"
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 65,
+                        lineNumber: 126,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -135,7 +225,7 @@ function CheckoutPage() {
                                 children: "Total"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 67,
+                                lineNumber: 128,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -146,19 +236,19 @@ function CheckoutPage() {
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 68,
+                                lineNumber: 129,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 66,
+                        lineNumber: 127,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                lineNumber: 55,
+                lineNumber: 116,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -169,7 +259,7 @@ function CheckoutPage() {
                         children: "Shipping Information"
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 74,
+                        lineNumber: 135,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -183,18 +273,45 @@ function CheckoutPage() {
                                 className: "w-full px-4 py-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 76,
+                                lineNumber: 137,
                                 columnNumber: 11
                             }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                type: "tel",
-                                placeholder: "Phone Number",
-                                value: phone,
-                                onChange: (e)=>setPhone(e.target.value),
-                                className: "w-full px-4 py-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
-                            }, void 0, false, {
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "flex gap-2",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "w-24",
+                                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                            type: "text",
+                                            value: "+977",
+                                            readOnly: true,
+                                            className: "w-full px-4 py-2 border border-pink-200 rounded-lg bg-gray-100 text-gray-700 font-semibold"
+                                        }, void 0, false, {
+                                            fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                            lineNumber: 146,
+                                            columnNumber: 15
+                                        }, this)
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                        lineNumber: 145,
+                                        columnNumber: 13
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                        type: "tel",
+                                        placeholder: "98XXXXXXXX",
+                                        value: phone,
+                                        onChange: (e)=>setPhone(e.target.value),
+                                        maxLength: 10,
+                                        className: "flex-1 px-4 py-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                        lineNumber: 153,
+                                        columnNumber: 13
+                                    }, this)
+                                ]
+                            }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 83,
+                                lineNumber: 144,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
@@ -205,7 +322,7 @@ function CheckoutPage() {
                                 className: "w-full px-4 py-2 border border-pink-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500"
                             }, void 0, false, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 90,
+                                lineNumber: 162,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("select", {
@@ -218,7 +335,7 @@ function CheckoutPage() {
                                         children: "Morning (8AM - 12PM)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                        lineNumber: 102,
+                                        lineNumber: 174,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -226,7 +343,7 @@ function CheckoutPage() {
                                         children: "Afternoon (12PM - 4PM)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                        lineNumber: 103,
+                                        lineNumber: 175,
                                         columnNumber: 13
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("option", {
@@ -234,25 +351,25 @@ function CheckoutPage() {
                                         children: "Evening (4PM - 8PM)"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                        lineNumber: 104,
+                                        lineNumber: 176,
                                         columnNumber: 13
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 97,
+                                lineNumber: 169,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 75,
+                        lineNumber: 136,
                         columnNumber: 9
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                lineNumber: 73,
+                lineNumber: 134,
                 columnNumber: 7
             }, this),
             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -263,14 +380,14 @@ function CheckoutPage() {
                         children: "Payment Method"
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 111,
+                        lineNumber: 183,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "flex flex-col gap-3",
                         children: [
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                className: "flex items-center gap-3",
+                                className: "flex items-center gap-3 p-4 border border-pink-200 rounded-lg cursor-pointer hover:bg-pink-50 transition",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         type: "radio",
@@ -278,21 +395,45 @@ function CheckoutPage() {
                                         value: "esewa",
                                         checked: paymentMethod === "esewa",
                                         onChange: (e)=>setPaymentMethod(e.target.value),
-                                        className: "accent-pink-500"
+                                        className: "accent-pink-500 w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                        lineNumber: 114,
+                                        lineNumber: 186,
                                         columnNumber: 13
                                     }, this),
-                                    "eSewa"
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center gap-2",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "text-lg",
+                                                children: "💳"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                                lineNumber: 195,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "font-semibold",
+                                                children: "eSewa"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                                lineNumber: 196,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                        lineNumber: 194,
+                                        columnNumber: 13
+                                    }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 113,
+                                lineNumber: 185,
                                 columnNumber: 11
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                className: "flex items-center gap-3",
+                                className: "flex items-center gap-3 p-4 border border-pink-200 rounded-lg cursor-pointer hover:bg-pink-50 transition",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         type: "radio",
@@ -300,53 +441,112 @@ function CheckoutPage() {
                                         value: "khalti",
                                         checked: paymentMethod === "khalti",
                                         onChange: (e)=>setPaymentMethod(e.target.value),
-                                        className: "accent-pink-500"
+                                        className: "accent-pink-500 w-5 h-5"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                        lineNumber: 125,
+                                        lineNumber: 200,
                                         columnNumber: 13
                                     }, this),
-                                    "Khalti"
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                        className: "flex items-center gap-2",
+                                        children: [
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "text-lg",
+                                                children: "💰"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                                lineNumber: 209,
+                                                columnNumber: 15
+                                            }, this),
+                                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                                className: "font-semibold",
+                                                children: "Khalti"
+                                            }, void 0, false, {
+                                                fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                                lineNumber: 210,
+                                                columnNumber: 15
+                                            }, this)
+                                        ]
+                                    }, void 0, true, {
+                                        fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                        lineNumber: 208,
+                                        columnNumber: 13
+                                    }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                                lineNumber: 124,
+                                lineNumber: 199,
                                 columnNumber: 11
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 112,
+                        lineNumber: 184,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                         onClick: handlePayment,
                         disabled: processing || success,
                         className: `w-full py-3 px-4 mt-4 rounded-full text-white font-semibold ${processing || success ? "bg-gray-400 cursor-not-allowed" : "bg-pink-500 hover:bg-pink-600"} transition`,
-                        children: processing ? "Processing..." : success ? "Payment Successful!" : "Pay & Place Order"
+                        children: processing ? "Processing Payment..." : success ? "✓ Payment Successful!" : `Pay Rs ${total.toLocaleString()} & Place Order`
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 138,
+                        lineNumber: 215,
                         columnNumber: 9
                     }, this),
-                    success && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        className: "mt-3 text-green-600 font-semibold text-center",
-                        children: "Payment Successful! Redirecting to Dashboard..."
-                    }, void 0, false, {
+                    success && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                        className: "mt-4 p-4 bg-green-50 border border-green-200 rounded-lg",
+                        children: [
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-green-700 font-semibold text-center mb-2",
+                                children: "🎉 Payment Successful!"
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                lineNumber: 231,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-green-600 text-sm text-center",
+                                children: [
+                                    "Order Number: ",
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
+                                        className: "font-bold",
+                                        children: orderNumber
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                        lineNumber: 235,
+                                        columnNumber: 29
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                lineNumber: 234,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
+                                className: "text-green-600 text-sm text-center mt-1",
+                                children: "Redirecting to your orders..."
+                            }, void 0, false, {
+                                fileName: "[project]/src/app/dashboard/checkout/page.tsx",
+                                lineNumber: 237,
+                                columnNumber: 13
+                            }, this)
+                        ]
+                    }, void 0, true, {
                         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                        lineNumber: 153,
+                        lineNumber: 230,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-                lineNumber: 110,
+                lineNumber: 182,
                 columnNumber: 7
             }, this)
         ]
     }, void 0, true, {
         fileName: "[project]/src/app/dashboard/checkout/page.tsx",
-        lineNumber: 51,
+        lineNumber: 112,
         columnNumber: 5
     }, this);
 }

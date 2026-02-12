@@ -11,7 +11,7 @@ export default function LoginForm() {
   const router = useRouter();
   const [pending, startTransition] = useTransition();
   const [error, setError] = useState<string>("");
-  
+
   const {
     register,
     handleSubmit,
@@ -26,10 +26,22 @@ export default function LoginForm() {
     try {
       const res = await handleLogin(data);
       console.log("Login response:", res);
-      
+
       if (!res.success) {
         setError(res.message || "Login Failed");
         return;
+      }
+
+      // ✅ SAVE USER DATA TO LOCALSTORAGE
+      if (res.user) {
+        const user = res.user as any; // Type assertion to fix TypeScript errors
+        localStorage.setItem('user', JSON.stringify({
+          id: user._id || user.id,
+          _id: user._id || user.id,
+          name: user.username || user.name,
+          email: user.email,
+          role: user.role
+        }));
       }
 
       // ✅ Wait for cookies to be set server-side
@@ -55,7 +67,7 @@ export default function LoginForm() {
       className="space-y-6 p-6 bg-white rounded-lg shadow-md w-full max-w-md mx-auto"
     >
       {error && <p className="text-sm text-red-600">{error}</p>}
-      
+
       {/* Email */}
       <div className="space-y-1">
         <label htmlFor="email" className="text-sm font-medium">
