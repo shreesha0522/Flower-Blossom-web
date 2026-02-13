@@ -1,60 +1,39 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import { setAuthToken, setUserData } from "../cookie";
-import axios from "./axios";
-import { API } from "./endpoint";
+import axiosInstance from "@/lib/api/axiosInstance";  // ✅ FIXED
+import { API } from "@/lib/api/endpoint";              // ✅ FIXED
 
- // 👈 your cookie functions
-
-export const register = async (registerData: any) => {
-  try {
-    const response = await axios.post(API.AUTH.REGISTER, registerData, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error: any) {
-    throw new Error(
-      error?.response?.data?.message ||
-        error?.message ||
-        "Registration Failed"
-    );
-  }
+export const registerUser = async (data: {
+  username: string;
+  email: string;
+  password: string;
+  firstName?: string;
+  lastName?: string;
+}) => {
+  const response = await axiosInstance.post(API.AUTH.REGISTER, data);
+  return response.data;
 };
 
-export const login = async (loginData: any) => {
-  try {
-    const response = await axios.post(API.AUTH.LOGIN, loginData, {
-      withCredentials: true,
-    });
-
-    // ✅ Save token + user in cookies
-    const token = response.data?.data?.token;
-    const user = response.data?.data;
-
-    if (token) {
-      await setAuthToken(token);
-    }
-
-    if (user) {
-      await setUserData(user);
-    }
-
-    return response.data;
-  } catch (error: any) {
-    throw new Error(
-      error?.response?.data?.message || error?.message || "Login Failed"
-    );
-  }
+export const loginUser = async (data: {
+  email: string;
+  password: string;
+}) => {
+  const response = await axiosInstance.post(API.AUTH.LOGIN, data);
+  return response.data;
 };
 
-export const getCurrentUser = async () => {
-  try {
-    const response = await axios.get(API.AUTH.ME, {
-      withCredentials: true,
-    });
-    return response.data;
-  } catch (error: any) {
-    throw new Error(
-      error?.response?.data?.message || error?.message || "Failed to fetch user"
-    );
-  }
+export const getMe = async () => {
+  const response = await axiosInstance.get(API.AUTH.ME);
+  return response.data;
+};
+
+export const forgotPassword = async (email: string) => {
+  const response = await axiosInstance.post(API.AUTH.FORGOT_PASSWORD, { email });
+  return response.data;
+};
+
+export const resetPassword = async (token: string, newPassword: string) => {
+  const response = await axiosInstance.post(
+  API.AUTH.RESET_PASSWORD + "/" + token,
+    { newPassword }
+  );
+  return response.data;
 };

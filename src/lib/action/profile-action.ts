@@ -1,19 +1,31 @@
 "use server";
 
 import { ProfileUpdateResponse } from "@/app/user/profile/schema";
+import { cookies } from "next/headers";
 
+const API_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+
+// ─── Helper to get token on server side ─────────────────────
+const getToken = async (): Promise<string | null> => {
+  const cookieStore = await cookies();
+  return cookieStore.get("auth_token")?.value || null;
+};
+
+// ─── UPDATE PROFILE ─────────────────────────────────────────
 export async function handleUpdateProfile(
   userId: string,
   formData: FormData
 ): Promise<ProfileUpdateResponse> {
   try {
-    const apiUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+    const token = await getToken();
 
-    const response = await fetch(`${apiUrl}/api/auth/${userId}`, {
+    const response = await fetch(`${API_URL}/api/auth/${userId}`, { // ✅ FIXED ( 
       method: "PUT",
       body: formData,
-      credentials: "include",
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+        // ✅ Don't set Content-Type for FormData — browser sets it with boundary
+      },
     });
 
     const data = await response.json();
@@ -39,18 +51,18 @@ export async function handleUpdateProfile(
   }
 }
 
+// ─── GET CURRENT USER PROFILE ───────────────────────────────
 export async function getCurrentUserProfile(
   userId: string
 ): Promise<ProfileUpdateResponse> {
   try {
-    const apiUrl =
-      process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+    const token = await getToken();
 
-    const response = await fetch(`${apiUrl}/api/auth/${userId}`, {
+    const response = await fetch(`${API_URL}/api/auth/${userId}`, { // ✅ FIXED (
       method: "GET",
-      credentials: "include",
       headers: {
         "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       cache: "no-store",
     });
