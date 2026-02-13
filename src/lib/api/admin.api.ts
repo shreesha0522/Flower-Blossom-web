@@ -1,128 +1,46 @@
-// lib/api/admin.api.ts
+import axiosInstance from "@/lib/api/axiosInstance";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+// ✅ 1. GET ALL USERS WITH PAGINATION + SEARCH + FILTER
+export const getAllUsers = async (params?: {
+  page?: number;
+  limit?: number;
+  search?: string;
+  role?: string;
+}) => {
+  const query = new URLSearchParams();
+  if (params?.page) query.set("page", String(params.page));
+  if (params?.limit) query.set("limit", String(params.limit));
+  if (params?.search) query.set("search", params.search);
+  if (params?.role) query.set("role", params.role);
 
-// Helper function to get token from cookie
-const getToken = (): string | null => {
-  if (typeof document === "undefined") return null;
-
-  const cookies = document.cookie.split(";");
-
-  for (const cookie of cookies) {
-    const [name, ...rest] = cookie.trim().split("=");
-    const value = rest.join("=");
-
-    if (name === "auth_token") {
-      return decodeURIComponent(value);
-    }
-  }
-
-  return null;
+  const response = await axiosInstance.get("/api/admin/users?" + query.toString());
+  return response.data;
 };
 
-// ✅ 1. CREATE USER
-export const createUser = async (formData: FormData) => {
-  const token = getToken();
-  if (!token) throw new Error("No authentication token found. Please login again.");
-
-  const response = await fetch(`${API_BASE_URL}/api/admin/users`, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: formData,
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to create user");
-  }
-
-  return data;
-};
-
-// ✅ 2. GET ALL USERS
-export const getAllUsers = async () => {
-  const token = getToken();
-  if (!token) throw new Error("No authentication token found. Please login again.");
-
-  const response = await fetch(`${API_BASE_URL}/api/admin/users`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to fetch users");
-  }
-
-  return data;
-};
-
-// ✅ 3. GET SINGLE USER BY ID
+// ✅ 2. GET SINGLE USER BY ID
 export const getUserById = async (id: string) => {
-  const token = getToken();
-  if (!token) throw new Error("No authentication token found. Please login again.");
+  const response = await axiosInstance.get("/api/admin/users/" + id);
+  return response.data;
+};
 
-  const response = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
+// ✅ 3. CREATE USER
+export const createUser = async (formData: FormData) => {
+  const response = await axiosInstance.post("/api/admin/users", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
   });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to fetch user");
-  }
-
-  return data;
+  return response.data;
 };
 
 // ✅ 4. UPDATE USER BY ID
 export const updateUser = async (id: string, formData: FormData) => {
-  const token = getToken();
-  if (!token) throw new Error("No authentication token found. Please login again.");
-
-  const response = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-    body: formData,
+  const response = await axiosInstance.put("/api/admin/users/" + id, formData, {
+    headers: { "Content-Type": "multipart/form-data" },
   });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to update user");
-  }
-
-  return data;
+  return response.data;
 };
 
 // ✅ 5. DELETE USER BY ID
 export const deleteUser = async (id: string) => {
-  const token = getToken();
-  if (!token) throw new Error("No authentication token found. Please login again.");
-
-  const response = await fetch(`${API_BASE_URL}/api/admin/users/${id}`, {
-    method: "DELETE",
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-
-  const data = await response.json();
-
-  if (!response.ok) {
-    throw new Error(data.message || "Failed to delete user");
-  }
-
-  return data;
+  const response = await axiosInstance.delete("/api/admin/users/" + id);
+  return response.data;
 };

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
-import { login, register } from "../api/auth";
+import { loginUser, registerUser } from "../api/auth"; // ✅ FIXED IMPORT
 import { setAuthToken, setUserData } from "../cookie";
 
 export type AuthResponse<T = any> = {
@@ -19,8 +19,7 @@ export type AuthResponse<T = any> = {
 // ===== HANDLE REGISTER =====
 export const handleRegister = async (formData: any): Promise<AuthResponse> => {
   try {
-    const res = await register(formData);
-
+    const res = await registerUser(formData); // ✅ FIXED
     if (res.success) {
       return {
         success: true,
@@ -28,17 +27,15 @@ export const handleRegister = async (formData: any): Promise<AuthResponse> => {
         message: res.message || "Registration successful",
       };
     }
-
     return {
       success: false,
       message: res.message || "Registration failed",
     };
   } catch (error: any) {
     console.error("Register error:", error);
-
     return {
       success: false,
-      message: error.message || "Registration failed",
+      message: error.response?.data?.message || error.message || "Registration failed",
     };
   }
 };
@@ -46,8 +43,7 @@ export const handleRegister = async (formData: any): Promise<AuthResponse> => {
 // ===== HANDLE LOGIN =====
 export const handleLogin = async (formData: any): Promise<AuthResponse> => {
   try {
-    const res = await login(formData);
-
+    const res = await loginUser(formData); // ✅ FIXED
     console.log("Backend login response:", res);
 
     if (!res.success) {
@@ -57,9 +53,7 @@ export const handleLogin = async (formData: any): Promise<AuthResponse> => {
       };
     }
 
-    // ✅ token is in res.token (your backend response)
     const token = res.token;
-
     if (!token) {
       return {
         success: false,
@@ -67,7 +61,6 @@ export const handleLogin = async (formData: any): Promise<AuthResponse> => {
       };
     }
 
-    // ✅ Save token + user in cookies
     await setAuthToken(token);
     await setUserData(res.data);
 
@@ -84,10 +77,9 @@ export const handleLogin = async (formData: any): Promise<AuthResponse> => {
     };
   } catch (error: any) {
     console.error("Login error:", error);
-
     return {
       success: false,
-      message: error.message || "Login failed",
+      message: error.response?.data?.message || error.message || "Login failed",
     };
   }
 };

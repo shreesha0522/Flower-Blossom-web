@@ -1,148 +1,64 @@
 import { NextRequest, NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
-import { existsSync } from "fs";
+import { cookies } from "next/headers";
 
-export async function POST(request: NextRequest) {
+const API = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
+
+export async function POST(req: NextRequest) {
   try {
-    // Parse the FormData from the request
-    const formData = await request.formData();
-    
-    // Extract all the fields
-    const userId = formData.get("userId") as string;
-    const name = formData.get("name") as string;
-    const email = formData.get("email") as string;
-    const bio = formData.get("bio") as string | null;
-    const phone = formData.get("phone") as string | null;
-    const image = formData.get("image") as File | null;
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
 
-    // Validate required fields
-    if (!userId || !name || !email) {
+    if (!token) {
       return NextResponse.json(
-        { 
-          success: false, 
-          message: "Missing required fields: userId, name, or email" 
-        },
+        { success: false, message: "Not authenticated" },
+        { status: 401 }
+      );
+    }
+
+    const formData = await req.formData();
+    const userId = formData.get("userId") as string;
+
+    if (!userId) {
+      return NextResponse.json(
+        { success: false, message: "User ID is required" },
         { status: 400 }
       );
     }
 
-    let imageUrl: string | null = null;
-
-    // Handle image upload if a file was provided
-    if (image && image.size > 0) {
-      try {
-        // Validate file type
-        const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
-        if (!validTypes.includes(image.type)) {
-          return NextResponse.json(
-            { 
-              success: false, 
-              message: "Invalid file type. Only JPG, PNG, GIF, and WebP are allowed." 
-            },
-            { status: 400 }
-          );
-        }
-
-        // Validate file size (5MB max)
-        const maxSize = 5 * 1024 * 1024; // 5MB in bytes
-        if (image.size > maxSize) {
-          return NextResponse.json(
-            { 
-              success: false, 
-              message: "File size too large. Maximum size is 5MB." 
-            },
-            { status: 400 }
-          );
-        }
-
-        // Convert file to buffer
-        const bytes = await image.arrayBuffer();
-        const buffer = Buffer.from(bytes);
-
-        // Create uploads directory if it doesn't exist
-        const uploadsDir = path.join(process.cwd(), "public", "uploads");
-        if (!existsSync(uploadsDir)) {
-          await mkdir(uploadsDir, { recursive: true });
-        }
-
-        // Generate unique filename
-        const fileExtension = image.name.split(".").pop();
-        const uniqueFilename = `${userId}-${Date.now()}.${fileExtension}`;
-        const filepath = path.join(uploadsDir, uniqueFilename);
-
-        // Save the file to the public/uploads directory
-        await writeFile(filepath, buffer);
-
-        // Create the public URL for the image
-        imageUrl = `/uploads/${uniqueFilename}`;
-
-        console.log("✅ Image uploaded successfully:", imageUrl);
-      } catch (uploadError) {
-        console.error("Image upload error:", uploadError);
-        return NextResponse.json(
-          { 
-            success: false, 
-            message: "Failed to upload image. Please try again." 
-          },
-          { status: 500 }
-        );
-      }
-    }
-
-    // Prepare data for database update
-    const updateData = {
-      name,
-      email,
-      bio: bio || null,
-      phone: phone || null,
-      ...(imageUrl && { image: imageUrl }), // Only include image if it was uploaded
-    };
-
-    // TODO: Update your database here
-    // Example with Prisma:
-    // const updatedUser = await prisma.user.update({
-    //   where: { id: userId },
-    //   data: updateData,
-    // });
-
-    // Example with MongoDB:
-    // const updatedUser = await User.findByIdAndUpdate(
-    //   userId,
-    //   { $set: updateData },
-    //   { new: true }
-    // );
-
-    // For now, just log the data (remove this when you add database integration)
-    console.log("📝 Profile update data:", {
-      userId,
-      ...updateData,
-    });
-
-    // Return success response
-    return NextResponse.json({
-      success: true,
-      message: "Profile updated successfully",
-      imageUrl: imageUrl, // Send back the image URL so frontend can update preview
-      data: updateData, // Optional: send back all updated data
-    });
-
-  } catch (error) {
-    console.error("❌ Profile update error:", error);
-    return NextResponse.json(
-      { 
-        success: false, 
-        message: "An unexpected error occurred. Please try again later." 
+    // ✅ Proxy to Express backend
+    const response = await fetch(`${API}/api/auth/${userId}`, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        // ✅ Don't set Content-Type — fetch sets it automatically for FormData
       },
+      body: formData,
+    });
+
+    const data = await response.json();
+    return NextResponse.json(data, { status: response.status });
+  } catch (error) {
+    console.error("Profile update error:", error);
+    return NextResponse.json(
+      { success: false, message: "Server error" },
       { status: 500 }
     );
   }
 }
 
-// Optional: Add GET method to retrieve profile data
-export async function GET(request: NextRequest) {
+export async function GET(req: NextRequest) {
   try {
-    const { searchParams } = new URL(request.url);
+    const cookieStore = await cookies();
+    const token = cookieStore.get("auth_token")?.value;
+
+    if (!token) {
+      return NextResponse.json(
+        { success: false, message: "Not authenticated" },
+        { status: 401 }
+      );
+    }
+
+    const { searchParams } = new URL(req.url);
     const userId = searchParams.get("userId");
 
     if (!userId) {
@@ -152,28 +68,21 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // TODO: Fetch user data from database
-    // const user = await prisma.user.findUnique({
-    //   where: { id: userId },
-    // });
-
-    // For now, return mock data
-    return NextResponse.json({
-      success: true,
-      data: {
-        userId,
-        name: "John Doe",
-        email: "john@example.com",
-        bio: null,
-        phone: null,
-        image: null,
+    // ✅ Proxy to Express backend
+    const response = await fetch(`${API}/api/auth/${userId}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
     });
 
+    const data = await response.json();
+    return NextResponse.json(data, { status: response.status });
   } catch (error) {
-    console.error("Error fetching profile:", error);
+    console.error("Profile fetch error:", error);
     return NextResponse.json(
-      { success: false, message: "Failed to fetch profile" },
+      { success: false, message: "Server error" },
       { status: 500 }
     );
   }

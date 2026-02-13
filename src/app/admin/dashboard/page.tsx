@@ -1,196 +1,156 @@
-import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
+import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
+import Link from "next/link";
 
 export default async function AdminDashboard() {
-  // ✅ AWAIT cookies()
   const cookieStore = await cookies();
-  const authToken = cookieStore.get('auth_token');
-  const userDataCookie = cookieStore.get('user_data');
-  
-  // ✅ Check if user is logged in
-  if (!authToken || !userDataCookie) {
-    redirect('/login');
-  }
+  const authToken = cookieStore.get("auth_token");
+  const userDataCookie = cookieStore.get("user_data");
 
-  // ✅ Parse user data from cookie
+  if (!authToken || !userDataCookie) redirect("/login");
+
   let userData = null;
   try {
     userData = JSON.parse(userDataCookie.value);
-    
-    // ✅ If user is NOT admin, redirect to user dashboard
-    if (userData.role !== 'admin') {
-      redirect('/dashboard');
-    }
+    if (userData.role !== "admin") redirect("/dashboard");
   } catch (error) {
-    console.error("User data parse error:", error);
-    redirect('/login');
+    redirect("/login");
   }
 
+  const stats = [
+    { label: "Total Users", value: "156", change: "+12%", icon: "👥", color: "from-pink-500 to-rose-400" },
+    { label: "Total Orders", value: "248", change: "+8%", icon: "📦", color: "from-violet-500 to-purple-400" },
+    { label: "Revenue", value: "$12.5k", change: "+23%", icon: "💰", color: "from-emerald-500 to-teal-400" },
+    { label: "Products", value: "89", change: "+4%", icon: "🌹", color: "from-amber-500 to-orange-400" },
+  ];
+
+  const quickLinks = [
+    { href: "/admin/users", icon: "👥", title: "Manage Users", desc: "View, edit and manage all registered users", color: "bg-pink-50 border-pink-200 hover:bg-pink-100" },
+    { href: "/admin/users/create", icon: "➕", title: "Create User", desc: "Add a new user to the system", color: "bg-violet-50 border-violet-200 hover:bg-violet-100" },
+    { href: "#", icon: "📦", title: "Manage Orders", desc: "Track and manage all flower orders", color: "bg-emerald-50 border-emerald-200 hover:bg-emerald-100" },
+    { href: "#", icon: "🌺", title: "Flower Inventory", desc: "Manage flower products and stock levels", color: "bg-amber-50 border-amber-200 hover:bg-amber-100" },
+    { href: "#", icon: "📊", title: "Analytics", desc: "View sales reports and statistics", color: "bg-blue-50 border-blue-200 hover:bg-blue-100" },
+    { href: "#", icon: "⚙️", title: "Settings", desc: "Configure your system preferences", color: "bg-gray-50 border-gray-200 hover:bg-gray-100" },
+  ];
+
+  const recentActivity = [
+    { action: "New user registered", user: "sis@gmail.com", time: "2 min ago", icon: "👤" },
+    { action: "Order #248 placed", user: "jenisha@gmail.com", time: "15 min ago", icon: "📦" },
+    { action: "Product updated", user: "admin", time: "1 hr ago", icon: "🌹" },
+    { action: "New user registered", user: "tara@gmail.com", time: "2 hr ago", icon: "👤" },
+    { action: "Order #247 delivered", user: "ros@gmail.com", time: "3 hr ago", icon: "✅" },
+  ];
+
   return (
-    <div className="min-h-screen bg-pink-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b border-pink-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center space-x-3">
-              <span className="text-3xl">🌸</span>
-              <div>
-                <h1 className="text-2xl font-bold text-pink-600">Flower Blossom</h1>
-                <p className="text-sm text-gray-500">Admin Panel</p>
-              </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Top Bar */}
+      <div className="bg-white border-b border-gray-200 px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+            <p className="text-sm text-gray-500">
+              Welcome back, <span className="text-pink-500 font-medium">{userData?.name || userData?.email || "Admin"}</span>
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="text-right hidden sm:block">
+              <p className="text-sm font-medium text-gray-800">{userData?.name || "Admin"}</p>
+              <p className="text-xs text-gray-500">{userData?.email}</p>
             </div>
-            <nav className="flex items-center space-x-4">
-              <span className="text-gray-600">{userData?.email}</span>
-              <Link
-                href="/login"
-                className="px-4 py-2 bg-pink-500 text-white rounded-md hover:bg-pink-600 transition"
-              >
-                Logout
-              </Link>
-            </nav>
+            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white font-bold text-sm shadow-md">
+              {userData?.name?.[0]?.toUpperCase() || userData?.email?.[0]?.toUpperCase() || "A"}
+            </div>
           </div>
         </div>
-      </header>
+      </div>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Welcome Section */}
-        <div className="bg-gradient-to-r from-pink-500 to-pink-400 rounded-lg shadow-lg p-8 mb-8 text-white">
-          <h2 className="text-3xl font-bold mb-2">
-            Welcome back, {userData?.name || userData?.email || "Admin"}! 👋
-          </h2>
-          <p className="text-pink-100">
-            Manage your flower blossom business from here
-          </p>
+      <div className="p-6 space-y-6 max-w-7xl mx-auto">
+        {/* Welcome Banner */}
+        <div className="relative overflow-hidden bg-gradient-to-r from-pink-500 via-rose-400 to-pink-400 rounded-2xl p-6 text-white shadow-lg">
+          {/* Decorative circles */}
+          <div className="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full" />
+          <div className="absolute -bottom-6 -right-4 w-24 h-24 bg-white/10 rounded-full" />
+          <div className="absolute top-4 right-32 w-12 h-12 bg-white/10 rounded-full" />
+          <div className="relative">
+            <div className="flex items-center gap-2 mb-2">
+              <span className="text-2xl">🌸</span>
+              <span className="text-sm font-medium bg-white/20 px-3 py-1 rounded-full">
+                Flower Blossom Admin
+              </span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold mb-1">
+              Good day, {userData?.name || "Admin"}! 👋
+            </h2>
+            <p className="text-pink-100 text-sm">
+              Here's what's happening with your store today.
+            </p>
+          </div>
         </div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {/* Total Orders */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-sm">Total Orders</p>
-                <p className="text-3xl font-bold text-gray-800">248</p>
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          {stats.map((stat) => (
+            <div key={stat.label} className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow">
+              <div className="flex items-center justify-between mb-3">
+                <div className={`w-10 h-10 rounded-lg bg-gradient-to-br ${stat.color} flex items-center justify-center text-lg shadow-sm`}>
+                  {stat.icon}
+                </div>
+                <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full">
+                  {stat.change}
+                </span>
               </div>
-              <div className="text-5xl">📦</div>
+              <p className="text-2xl font-bold text-gray-800">{stat.value}</p>
+              <p className="text-xs text-gray-500 mt-1">{stat.label}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Quick Links + Recent Activity */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {/* Quick Links */}
+          <div className="lg:col-span-2">
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+              Quick Actions
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              {quickLinks.map((link) => (
+                <Link key={link.title} href={link.href}>
+                  <div className={`border rounded-xl p-4 transition-all cursor-pointer ${link.color}`}>
+                    <div className="flex items-start gap-3">
+                      <span className="text-2xl">{link.icon}</span>
+                      <div>
+                        <p className="text-sm font-semibold text-gray-800">{link.title}</p>
+                        <p className="text-xs text-gray-500 mt-0.5">{link.desc}</p>
+                      </div>
+                    </div>
+                  </div>
+                </Link>
+              ))}
             </div>
           </div>
 
-          {/* Total Users */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-sm">Total Users</p>
-                <p className="text-3xl font-bold text-gray-800">156</p>
-              </div>
-              <div className="text-5xl">👥</div>
-            </div>
-          </div>
-
-          {/* Revenue */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-sm">Revenue</p>
-                <p className="text-3xl font-bold text-gray-800">$12.5k</p>
-              </div>
-              <div className="text-5xl">💰</div>
-            </div>
-          </div>
-
-          {/* Products */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-gray-500 text-sm">Products</p>
-                <p className="text-3xl font-bold text-gray-800">89</p>
-              </div>
-              <div className="text-5xl">🌹</div>
+          {/* Recent Activity */}
+          <div>
+            <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
+              Recent Activity
+            </h2>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 divide-y divide-gray-50">
+              {recentActivity.map((item, index) => (
+                <div key={index} className="flex items-start gap-3 p-4 hover:bg-gray-50 transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-pink-50 border border-pink-100 flex items-center justify-center text-sm flex-shrink-0">
+                    {item.icon}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-gray-800">{item.action}</p>
+                    <p className="text-xs text-gray-500 truncate">{item.user}</p>
+                  </div>
+                  <span className="text-xs text-gray-400 flex-shrink-0">{item.time}</span>
+                </div>
+              ))}
             </div>
           </div>
         </div>
-
-        {/* Management Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* Manage Users */}
-          <Link href="/admin/users">
-            <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer">
-              <div className="text-5xl mb-4">👥</div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Manage Users
-              </h3>
-              <p className="text-gray-600 mb-4">
-                View and manage all registered users
-              </p>
-              <div className="text-pink-500 font-medium">View Users →</div>
-            </div>
-          </Link>
-
-          {/* Create User */}
-          <Link href="/admin/create">
-            <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer">
-              <div className="text-5xl mb-4">➕</div>
-              <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                Create User
-              </h3>
-              <p className="text-gray-600 mb-4">
-                Add new users to the system
-              </p>
-              <div className="text-pink-500 font-medium">Create User →</div>
-            </div>
-          </Link>
-
-          {/* Manage Orders */}
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer">
-            <div className="text-5xl mb-4">📦</div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              Manage Orders
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Track and manage all flower orders
-            </p>
-            <div className="text-pink-500 font-medium">View Orders →</div>
-          </div>
-
-          {/* Products */}
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer">
-            <div className="text-5xl mb-4">🌺</div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              Flower Inventory
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Manage flower products and stock
-            </p>
-            <div className="text-pink-500 font-medium">Manage Products →</div>
-          </div>
-
-          {/* Analytics */}
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer">
-            <div className="text-5xl mb-4">📊</div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              Analytics
-            </h3>
-            <p className="text-gray-600 mb-4">
-              View sales reports and statistics
-            </p>
-            <div className="text-pink-500 font-medium">View Analytics →</div>
-          </div>
-
-          {/* Settings */}
-          <div className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition cursor-pointer">
-            <div className="text-5xl mb-4">⚙️</div>
-            <h3 className="text-xl font-semibold text-gray-800 mb-2">
-              Settings
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Configure system settings
-            </p>
-            <div className="text-pink-500 font-medium">Open Settings →</div>
-          </div>
-        </div>
-      </main>
+      </div>
     </div>
   );
 }

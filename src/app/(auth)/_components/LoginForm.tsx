@@ -26,7 +26,6 @@ export default function LoginForm() {
     try {
       const res = await handleLogin(data);
       console.log("Login response:", res);
-
       if (!res.success) {
         setError(res.message || "Login Failed");
         return;
@@ -34,7 +33,7 @@ export default function LoginForm() {
 
       // ✅ SAVE USER DATA TO LOCALSTORAGE
       if (res.user) {
-        const user = res.user as any; // Type assertion to fix TypeScript errors
+        const user = res.user as any;
         localStorage.setItem('user', JSON.stringify({
           id: user._id || user.id,
           _id: user._id || user.id,
@@ -47,7 +46,7 @@ export default function LoginForm() {
       // ✅ Wait for cookies to be set server-side
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      // ✅ Use window.location for hard navigation (forces page reload with cookies)
+      // ✅ Use window.location for hard navigation
       if (res.user?.role === "admin") {
         window.location.href = "/admin/dashboard";
       } else if (res.user?.role === "user") {
@@ -102,6 +101,16 @@ export default function LoginForm() {
         {errors.password && (
           <p className="text-xs text-red-600">{errors.password.message}</p>
         )}
+        
+        {/* 👇 FORGOT PASSWORD LINK - ADDED HERE */}
+        <div className="text-right">
+          <Link
+            href="/forgot-password"
+            className="text-xs text-pink-400 hover:underline"
+          >
+            Forgot Password?
+          </Link>
+        </div>
       </div>
 
       {/* Submit Button */}

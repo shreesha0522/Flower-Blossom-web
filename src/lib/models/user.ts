@@ -11,11 +11,11 @@ const UserSchema = new Schema(
       required: true,
       unique: true,
     },
-    password: {              // ✅ ADDED
+    password: {
       type: String,
       required: true,
     },
-    role: {                  // ✅ ADDED
+    role: {
       type: String,
       enum: ["admin", "user"],
       default: "user",
@@ -30,6 +30,16 @@ const UserSchema = new Schema(
     },
     image: {
       type: String,
+      default: null,
+    },
+
+    // ✅ ADD THESE for forgot/reset password
+    resetPasswordToken: {
+      type: String,
+      default: null,
+    },
+    resetPasswordExpires: {
+      type: Date,
       default: null,
     },
   },
