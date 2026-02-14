@@ -1,27 +1,19 @@
-[00:00:01.070] Server  LOG     ✓ Ready in 810ms
-[00:00:05.856] Browser WARN    Image with src "/new.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:00:05.856] Browser WARN    Image with src "/images/flower3.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:00:05.856] Browser WARN    Image with src "/images/flower4.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:00:05.856] Browser WARN    Image with src "/images/flower2.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:00:05.857] Browser WARN    Image with src "/images/flower1.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:00:20.703] Server  ERROR   (node:80513) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+[00:00:00.991] Server  LOG     ✓ Ready in 729ms
+[00:00:04.676] Browser WARN    Image with src "/new.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:04.676] Browser WARN    Image with src "/images/flower4.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:04.676] Browser WARN    Image with src "/images/flower3.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:04.676] Browser WARN    Image with src "/images/flower2.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:04.676] Browser WARN    Image with src "/images/flower1.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:16.124] Server  ERROR   (node:94914) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[00:00:20.891] Server  LOG     Backend login response: {}
-[00:00:21.013] Browser LOG     Login response: {"data":{"__v":0,"_id":"69719e33c04a8c7d9bc0c6f4","bio":"dfgg","createdAt":"2026-01-22T03:49:07.987Z","email":"sis10@gmail.com","firstName":"sis","lastName":"","password":"$2b$10$kXmlsSbIrOVPhOewt9Bus.RbS.etUXJCfR8Fz.kaqNzGDUWLwRc.m","phone":"1234567890","profileImage":"/uploads/1770125208592-Screenshot 2026-02-03 at 12.21.09â¯AM.png","resetPasswordExpires":null,"resetPasswordToken":null,"role":"admin","updatedAt":"2026-02-13T07:01:38.715Z","username":"sis10"},"message":"Login successful","success":true,"user":{"email":"sis10@gmail.com","id":"69719e33c04a8c7d9bc0c6f4","name":"sis10","role":"admin"}}
-[00:02:41.446] Server  LOG     ✓ Compiled in 72ms
-[00:05:04.816] Server  LOG     ✓ Compiled in 55ms
-[04:00:22.421] Server  ERROR   API Error: {}
-[04:00:22.684] Server  ERROR   Login error: AxiosError: Request failed with status code 500
-[04:00:22.794] Browser LOG     Login response: {"message":"No user found","success":false}
-[04:01:14.192] Server  LOG     Backend login response: {}
-[04:01:14.316] Browser LOG     Login response: {"data":{"__v":0,"_id":"698f0ea81509db62e71b77a7","bio":null,"createdAt":"2026-02-13T11:44:40.124Z","email":"jenish@gmail.com","password":"$2b$10$Xu2ZwZjjYYjXweNXPTkW6.gezDsKzhjRjih6uziHDzNEO6Izc6X.i","phone":null,"profileImage":"","resetPasswordExpires":null,"resetPasswordToken":null,"role":"user","updatedAt":"2026-02-13T11:44:40.124Z","username":"shrestha"},"message":"Login successful","success":true,"user":{"email":"jenish@gmail.com","id":"698f0ea81509db62e71b77a7","name":"shrestha","role":"user"}}
-[04:01:15.239] Browser WARN    Image with src "/images/flower1.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[04:01:15.239] Browser WARN    Image with src "/images/flower6.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[04:01:15.239] Browser WARN    Image with src "/images/flower3.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[04:01:15.239] Browser WARN    Image with src "/images/flower8.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[04:01:15.239] Browser WARN    Image with src "/images/flower2.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[04:01:16.998] Browser WARN    Image with src "/images/flower5.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[04:01:23.311] Browser WARN    Image with src "/images/flower4.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[04:01:23.311] Browser WARN    Image with src "/images/flower7.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[04:04:20.700] Server  LOG     Backend login response: {}
-[04:04:20.831] Browser LOG     Login response: {"data":{"__v":0,"_id":"69719e33c04a8c7d9bc0c6f4","bio":"dfgg","createdAt":"2026-01-22T03:49:07.987Z","email":"sis10@gmail.com","firstName":"sis","lastName":"","password":"$2b$10$kXmlsSbIrOVPhOewt9Bus.RbS.etUXJCfR8Fz.kaqNzGDUWLwRc.m","phone":"1234567890","profileImage":"/uploads/1770125208592-Screenshot 2026-02-03 at 12.21.09â¯AM.png","resetPasswordExpires":null,"resetPasswordToken":null,"role":"admin","updatedAt":"2026-02-13T07:01:38.715Z","username":"sis10"},"message":"Login successful","success":true,"user":{"email":"sis10@gmail.com","id":"69719e33c04a8c7d9bc0c6f4","name":"sis10","role":"admin"}}
+[00:00:16.230] Server  ERROR   API Error: {}
+[00:00:16.492] Server  ERROR   Login error: AxiosError: Request failed with status code 500
+[00:00:16.601] Browser LOG     Login response: {"message":"Invalid Credentials","success":false}
+[00:00:22.027] Server  ERROR   API Error: {}
+[00:00:22.165] Server  ERROR   Login error: AxiosError: Request failed with status code 500
+[00:00:22.271] Browser LOG     Login response: {"message":"Invalid Credentials","success":false}
+[00:05:01.941] Server  ERROR   API Error: {}
+[00:05:02.126] Server  ERROR   Login error: AxiosError: Request failed with status code 500
+[00:05:02.236] Browser LOG     Login response: {"message":"Invalid Credentials","success":false}
+[00:05:06.248] Server  LOG     Backend login response: {}
+[00:05:06.366] Browser LOG     Login response: {"data":{"__v":0,"_id":"69719e33c04a8c7d9bc0c6f4","bio":"dfgg","createdAt":"2026-01-22T03:49:07.987Z","email":"sis10@gmail.com","firstName":"sis","lastName":"","password":"$2b$10$80zmkLI7EFxQyfoSHn9CBOCUw7Ft2HZuWhfCxQzszylOu9inru5U2","phone":"1234567890","profileImage":"/uploads/1770125208592-Screenshot 2026-02-03 at 12.21.09â¯AM.png","resetPasswordExpires":null,"resetPasswordToken":null,"role":"admin","updatedAt":"2026-02-14T06:01:33.219Z","username":"sis10"},"message":"Login successful","success":true,"user":{"email":"sis10@gmail.com","id":"69719e33c04a8c7d9bc0c6f4","name":"sis10","role":"admin"}}
