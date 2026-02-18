@@ -1,5 +1,36 @@
 {
-  "node": {},
+  "node": {
+    "4043979a73f58764c3ada1c78cd671057a170826d2": {
+      "workers": {
+        "app/(auth)/login/page": {
+          "moduleId": "[project]/.next-internal/server/app/(auth)/login/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/action/auth-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "handleLogin",
+          "filename": "src/lib/action/auth-action.ts"
+        }
+      },
+      "layer": {
+        "app/(auth)/login/page": "action-browser"
+      },
+      "filename": "src/lib/action/auth-action.ts",
+      "exportedName": "handleLogin"
+    },
+    "406cc0ea14c84a36f2a1894713b4a5b7144fc2cf2c": {
+      "workers": {
+        "app/(auth)/register/page": {
+          "moduleId": "[project]/.next-internal/server/app/(auth)/register/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/action/auth-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "handleRegister",
+          "filename": "src/lib/action/auth-action.ts"
+        }
+      },
+      "layer": {
+        "app/(auth)/register/page": "action-browser"
+      },
+      "filename": "src/lib/action/auth-action.ts",
+      "exportedName": "handleRegister"
+    }
+  },
   "edge": {},
   "encryptionKey": "uh7eJmC4hst5IHLZvG4jIQtrdPeKxXE7qZESv78OOBw="
 }
