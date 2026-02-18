@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
-
-import { loginUser, registerUser } from "../api/auth"; // ✅ FIXED IMPORT
+import { loginUser, registerUser } from "../api/auth";
 import { setAuthToken, setUserData } from "../cookie";
 
 export type AuthResponse<T = any> = {
@@ -16,10 +15,9 @@ export type AuthResponse<T = any> = {
   };
 };
 
-// ===== HANDLE REGISTER =====
 export const handleRegister = async (formData: any): Promise<AuthResponse> => {
   try {
-    const res = await registerUser(formData); // ✅ FIXED
+    const res = await registerUser(formData);
     if (res.success) {
       return {
         success: true,
@@ -40,10 +38,9 @@ export const handleRegister = async (formData: any): Promise<AuthResponse> => {
   }
 };
 
-// ===== HANDLE LOGIN =====
 export const handleLogin = async (formData: any): Promise<AuthResponse> => {
   try {
-    const res = await loginUser(formData); // ✅ FIXED
+    const res = await loginUser(formData);
     console.log("Backend login response:", res);
 
     if (!res.success) {

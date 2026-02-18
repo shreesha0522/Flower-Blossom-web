@@ -1,6 +1,4 @@
-// app/admin/users/[id]/edit/page.tsx
 "use client";
-
 import { useEffect, useState, useRef, ChangeEvent } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -22,7 +20,6 @@ export default function AdminUserEditPage() {
   const { id } = useParams();
   const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
-
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -31,7 +28,6 @@ export default function AdminUserEditPage() {
   const [shouldRemoveImage, setShouldRemoveImage] = useState(false);
   const [imagePreview, setImagePreview] = useState<string>("");
 
-  // Form data state
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -42,7 +38,6 @@ export default function AdminUserEditPage() {
     role: "user",
   });
 
-  // Fetch user data when page loads
   useEffect(() => {
     fetchUser();
   }, [id]);
@@ -53,7 +48,6 @@ export default function AdminUserEditPage() {
       const data = await getUserById(id as string);
       const user = data.data;
 
-      // Fill form with existing data
       setFormData({
         username: user.username || "",
         email: user.email || "",
@@ -64,7 +58,6 @@ export default function AdminUserEditPage() {
         role: user.role || "user",
       });
 
-      // Set image preview
       if (user.profileImage) {
         const proxiedUrl = user.profileImage.startsWith("/uploads")
           ? `/api/image-proxy?url=${encodeURIComponent(
@@ -80,7 +73,6 @@ export default function AdminUserEditPage() {
     }
   };
 
-  // Handle input change
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -89,7 +81,6 @@ export default function AdminUserEditPage() {
     }));
   };
 
-  // Handle image change
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     setError("");
     const file = e.target.files?.[0];
@@ -115,7 +106,6 @@ export default function AdminUserEditPage() {
     setShouldRemoveImage(false);
   };
 
-  // Handle image removal
   const handleRemoveImage = () => {
     setImagePreview("");
     setSelectedFile(null);
@@ -125,7 +115,6 @@ export default function AdminUserEditPage() {
     }
   };
 
-  // Handle form submit
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -133,7 +122,6 @@ export default function AdminUserEditPage() {
     setSubmitting(true);
 
     try {
-      // Create FormData
       const form = new FormData();
       form.append("username", formData.username);
       form.append("email", formData.email);
@@ -143,19 +131,15 @@ export default function AdminUserEditPage() {
       form.append("phone", formData.phone);
       form.append("role", formData.role);
 
-      // Handle image
       if (shouldRemoveImage) {
         form.append("removeImage", "true");
       } else if (selectedFile) {
         form.append("image", selectedFile);
       }
 
-      // Call update API
       await updateUser(id as string, form);
-
       setSuccess("User updated successfully!");
 
-      // Redirect after 1 second
       setTimeout(() => {
         router.push(`/admin/users/${id}`);
       }, 1000);
@@ -166,7 +150,6 @@ export default function AdminUserEditPage() {
     }
   };
 
-  // Default avatar letter
   const getDefaultAvatar = () => {
     return formData.firstName
       ? formData.firstName[0].toUpperCase()
@@ -175,7 +158,6 @@ export default function AdminUserEditPage() {
       : "U";
   };
 
-  // Loading
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -189,7 +171,6 @@ export default function AdminUserEditPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -197,24 +178,21 @@ export default function AdminUserEditPage() {
               href={`/admin/users/${id}`}
               className="text-sm text-gray-500 hover:text-pink-500 transition-colors"
             >
-              ← Back
+              Back
             </Link>
             <h1 className="text-2xl font-bold text-gray-800">Edit User</h1>
           </div>
         </div>
       </div>
 
-      {/* Form */}
       <div className="max-w-2xl mx-auto px-4 py-6">
         <form
           onSubmit={handleSubmit}
           className="bg-white rounded-lg shadow-md p-6 space-y-6"
         >
-          {/* Messages */}
           {error && <p className="text-sm text-red-600">{error}</p>}
           {success && <p className="text-sm text-green-600">{success}</p>}
 
-          {/* Profile Image */}
           <div className="flex flex-col items-center space-y-3">
             <div className="relative group">
               <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-pink-200 shadow-lg bg-pink-100 flex items-center justify-center">
@@ -230,8 +208,6 @@ export default function AdminUserEditPage() {
                   </span>
                 )}
               </div>
-
-              {/* Hover overlay */}
               <div
                 onClick={() => fileInputRef.current?.click()}
                 className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center cursor-pointer"
@@ -240,7 +216,6 @@ export default function AdminUserEditPage() {
               </div>
             </div>
 
-            {/* Hidden file input */}
             <input
               ref={fileInputRef}
               type="file"
@@ -249,7 +224,6 @@ export default function AdminUserEditPage() {
               className="hidden"
             />
 
-            {/* Choose & Remove buttons */}
             <div className="flex gap-2 w-full">
               <button
                 type="button"
@@ -258,7 +232,6 @@ export default function AdminUserEditPage() {
               >
                 Choose Photo
               </button>
-
               <button
                 type="button"
                 onClick={handleRemoveImage}
@@ -268,11 +241,9 @@ export default function AdminUserEditPage() {
                 Remove
               </button>
             </div>
-
-            <p className="text-xs text-gray-500">JPG, PNG, GIF, WebP • Max 5MB</p>
+            <p className="text-xs text-gray-500">JPG, PNG, GIF, WebP - Max 5MB</p>
           </div>
 
-          {/* First Name + Last Name */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-1">
               <label className="text-sm font-medium">First Name</label>
@@ -285,7 +256,6 @@ export default function AdminUserEditPage() {
                 className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
               />
             </div>
-
             <div className="space-y-1">
               <label className="text-sm font-medium">Last Name</label>
               <input
@@ -299,7 +269,6 @@ export default function AdminUserEditPage() {
             </div>
           </div>
 
-          {/* Username */}
           <div className="space-y-1">
             <label className="text-sm font-medium">Username</label>
             <input
@@ -312,7 +281,6 @@ export default function AdminUserEditPage() {
             />
           </div>
 
-          {/* Email */}
           <div className="space-y-1">
             <label className="text-sm font-medium">Email</label>
             <input
@@ -325,7 +293,6 @@ export default function AdminUserEditPage() {
             />
           </div>
 
-          {/* Phone */}
           <div className="space-y-1">
             <label className="text-sm font-medium">Phone (optional)</label>
             <input
@@ -338,7 +305,6 @@ export default function AdminUserEditPage() {
             />
           </div>
 
-          {/* Bio */}
           <div className="space-y-1">
             <label className="text-sm font-medium">Bio (optional)</label>
             <textarea
@@ -351,7 +317,6 @@ export default function AdminUserEditPage() {
             />
           </div>
 
-          {/* Role */}
           <div className="space-y-1">
             <label className="text-sm font-medium">Role</label>
             <select
@@ -365,7 +330,6 @@ export default function AdminUserEditPage() {
             </select>
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={submitting}

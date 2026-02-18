@@ -4,7 +4,6 @@ import Image from "next/image";
 export default function AboutUsPage() {
   return (
     <div className="min-h-screen bg-white">
-      {/* Hero Section */}
       <div className="relative h-[400px] bg-gradient-to-r from-pink-100 to-rose-100">
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="text-center px-4">
@@ -14,10 +13,8 @@ export default function AboutUsPage() {
         </div>
       </div>
 
-      {/* Main Content */}
       <div className="max-w-6xl mx-auto px-6 py-16">
-        
-        {/* Our Story Section */}
+
         <div className="mb-16">
           <h2 className="text-4xl font-bold text-gray-800 mb-6 text-center">Our Story</h2>
           <div className="grid md:grid-cols-2 gap-8 items-center">
@@ -40,11 +37,9 @@ export default function AboutUsPage() {
           </div>
         </div>
 
-        {/* Our Values Section */}
         <div className="mb-16">
           <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">Our Values</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Value 1 */}
             <div className="text-center p-6 rounded-xl bg-pink-50 hover:shadow-lg transition">
               <div className="text-5xl mb-4">🌸</div>
               <h3 className="text-2xl font-bold text-gray-800 mb-3">Quality First</h3>
@@ -53,7 +48,6 @@ export default function AboutUsPage() {
               </p>
             </div>
 
-            {/* Value 2 */}
             <div className="text-center p-6 rounded-xl bg-rose-50 hover:shadow-lg transition">
               <div className="text-5xl mb-4">💝</div>
               <h3 className="text-2xl font-bold text-gray-800 mb-3">Customer Love</h3>
@@ -62,7 +56,6 @@ export default function AboutUsPage() {
               </p>
             </div>
 
-            {/* Value 3 */}
             <div className="text-center p-6 rounded-xl bg-pink-50 hover:shadow-lg transition">
               <div className="text-5xl mb-4">🌿</div>
               <h3 className="text-2xl font-bold text-gray-800 mb-3">Sustainability</h3>
@@ -73,7 +66,6 @@ export default function AboutUsPage() {
           </div>
         </div>
 
-        {/* Why Choose Us Section */}
         <div className="mb-16">
           <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">Why Choose Us</h2>
           <div className="grid md:grid-cols-2 gap-6">
@@ -127,11 +119,9 @@ export default function AboutUsPage() {
           </div>
         </div>
 
-        {/* Our Team Section */}
         <div className="mb-16">
           <h2 className="text-4xl font-bold text-gray-800 mb-12 text-center">Meet Our Team</h2>
           <div className="grid md:grid-cols-3 gap-8">
-            {/* Team Member 1 */}
             <div className="text-center">
               <div className="w-48 h-48 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-200 to-rose-300 flex items-center justify-center text-6xl">
                 👨‍💼
@@ -141,7 +131,6 @@ export default function AboutUsPage() {
               <p className="text-gray-600">Passionate about flowers with 15+ years of experience in the floral industry.</p>
             </div>
 
-            {/* Team Member 2 */}
             <div className="text-center">
               <div className="w-48 h-48 mx-auto mb-4 rounded-full bg-gradient-to-br from-rose-200 to-pink-300 flex items-center justify-center text-6xl">
                 👩‍🎨
@@ -151,7 +140,6 @@ export default function AboutUsPage() {
               <p className="text-gray-600">Award-winning florist specializing in creative and elegant arrangements.</p>
             </div>
 
-            {/* Team Member 3 */}
             <div className="text-center">
               <div className="w-48 h-48 mx-auto mb-4 rounded-full bg-gradient-to-br from-pink-200 to-rose-300 flex items-center justify-center text-6xl">
                 👨‍💻
@@ -163,7 +151,6 @@ export default function AboutUsPage() {
           </div>
         </div>
 
-        {/* Stats Section */}
         <div className="bg-gradient-to-r from-pink-500 to-rose-500 rounded-2xl p-12 text-white mb-16">
           <div className="grid md:grid-cols-4 gap-8 text-center">
             <div>
@@ -185,7 +172,6 @@ export default function AboutUsPage() {
           </div>
         </div>
 
-        {/* Contact CTA Section */}
         <div className="text-center">
           <h2 className="text-4xl font-bold text-gray-800 mb-6">Let's Bloom Together</h2>
           <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">

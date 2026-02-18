@@ -4,7 +4,6 @@ import { useMemo, useState, useEffect } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { useFavorites } from "@/app/context/FavoritesContext";
 
-// Define the Flower type
 interface Flower {
   id: number;
   name: string;
@@ -213,7 +212,6 @@ const flowers: Flower[] = [
   },
 ];
 
-// Banner slides data with Valentine's Day images
 const bannerSlides = [
   {
     id: 1,
@@ -236,24 +234,18 @@ export default function DashboardPage() {
   const [selectedFlower, setSelectedFlower] = useState<Flower | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [isBouquet, setIsBouquet] = useState<boolean>(false);
-  
-  // Banner slider state
   const [currentSlide, setCurrentSlide] = useState(0);
-  
-  // Use cart and favorites context
   const { addToCart } = useCart();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
-  // Auto-slide effect - changes every 4 seconds
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSlide((prev) => (prev + 1) % bannerSlides.length);
-    }, 4000); // Change slide every 4 seconds
+    }, 4000);
 
     return () => clearInterval(timer);
   }, []);
 
-  // Manual slide navigation
   const goToSlide = (index: number) => {
     setCurrentSlide(index);
   };
@@ -266,7 +258,6 @@ export default function DashboardPage() {
     setCurrentSlide((prev) => (prev - 1 + bannerSlides.length) % bannerSlides.length);
   };
 
-  // Group flowers by category
   const categorizedFlowers = useMemo(() => {
     const categories: { [key: string]: Flower[] } = {};
     flowers.forEach((flower) => {
@@ -278,10 +269,9 @@ export default function DashboardPage() {
     return categories;
   }, []);
 
-  // Toggle favorite
   const handleToggleFavorite = (flower: Flower, e: React.MouseEvent) => {
     e.stopPropagation();
-    
+
     if (isFavorite(flower.id)) {
       removeFromFavorites(flower.id);
     } else {
@@ -299,7 +289,6 @@ export default function DashboardPage() {
     }
   };
 
-  // Add to cart function
   const handleAddToCart = () => {
     if (!selectedFlower) return;
 
@@ -317,9 +306,9 @@ export default function DashboardPage() {
       description: selectedFlower.description,
       discount: selectedFlower.discount,
     });
-    
+
     alert(`Added ${quantity} ${isBouquet ? 'bouquet(s)' : 'rose(s)'} to cart!`);
-    
+
     setSelectedFlower(null);
     setQuantity(1);
     setIsBouquet(false);
@@ -335,13 +324,11 @@ export default function DashboardPage() {
     return isBouquet ? selectedFlower.originalBouquetPrice : selectedFlower.originalPricePerRose;
   };
 
-  // Render flower card
   const renderFlowerCard = (flower: Flower) => (
     <div
       key={flower.id}
       className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition relative"
     >
-      {/* Square Image */}
       <div className="w-full aspect-square relative mb-4">
         <Image
           src={flower.image}
@@ -349,8 +336,7 @@ export default function DashboardPage() {
           fill
           className="object-cover rounded-lg"
         />
-        
-        {/* Favorite Button - Top Left Corner */}
+
         <button
           onClick={(e) => handleToggleFavorite(flower, e)}
           className="absolute top-2 left-2 bg-white rounded-full p-2 shadow-md hover:scale-110 transition z-20"
@@ -369,20 +355,17 @@ export default function DashboardPage() {
             />
           </svg>
         </button>
-        
-        {/* Discount Badge - Top Right Corner - Only show if discount > 0 */}
+
         {flower.discount > 0 && (
           <div className="absolute top-2 right-2 bg-red-500 text-white px-2.5 py-1 rounded-lg text-xs font-bold shadow-md z-20">
             {flower.discount}% OFF
           </div>
         )}
       </div>
-      
-      {/* Name */}
+
       <h2 className="text-lg font-semibold text-gray-800">
         {flower.name}
       </h2>
-      {/* Price */}
       <div className="mt-2">
         <div className="flex items-center gap-2">
           <p className="text-pink-600 font-bold text-lg">
@@ -396,7 +379,6 @@ export default function DashboardPage() {
         </div>
         <p className="text-gray-500 text-xs">per rose</p>
       </div>
-      {/* Button */}
       <button 
         onClick={() => {
           setSelectedFlower(flower);
@@ -412,9 +394,7 @@ export default function DashboardPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* BANNER SLIDER */}
       <div className="relative w-full h-[400px] overflow-hidden bg-gray-100">
-        {/* Slides - transition speed is now 500ms (0.5 seconds) */}
         <div 
           className="flex transition-transform duration-500 ease-in-out h-full"
           style={{ transform: `translateX(-${currentSlide * 100}%)` }}
@@ -424,7 +404,6 @@ export default function DashboardPage() {
               key={slide.id}
               className="min-w-full h-full relative"
             >
-              {/* Background Image */}
               <Image
                 src={slide.image}
                 alt={slide.title}
@@ -432,11 +411,9 @@ export default function DashboardPage() {
                 className="object-top"
                 priority={slide.id === 1}
               />
-              
-              {/* Optional: Add overlay gradient for better text readability */}
+
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
-              
-              {/* Text Content - Positioned at bottom for better visibility */}
+
               <div className="absolute bottom-12 left-0 right-0 text-center text-white px-4 z-10">
                 <h1 className="text-5xl font-bold mb-4 drop-shadow-lg">
                   {slide.title}
@@ -452,7 +429,6 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Previous Button */}
         <button
           onClick={prevSlide}
           className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition z-10"
@@ -462,17 +438,15 @@ export default function DashboardPage() {
           </svg>
         </button>
 
-        {/* Next Button */}
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition z-10"
+          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray.800 rounded-full p-3 shadow-lg transition z-10"
         >
           <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
 
-        {/* Dots Navigation */}
         <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
           {bannerSlides.map((_, index) => (
             <button
@@ -486,15 +460,11 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Content wrapper with padding */}
       <div className="p-6">
-        {/* Categorized Flower Sections */}
         {Object.entries(categorizedFlowers).map(([category, categoryFlowers]) => (
           <div key={category} className="mb-12">
-            {/* Category Title */}
             <h2 className="text-2xl font-bold text-gray-800 mb-6">{category}</h2>
-            
-            {/* Horizontal Scrollable Row */}
+
             <div className="overflow-x-auto pb-4">
               <div className="flex gap-6" style={{ minWidth: 'min-content' }}>
                 {categoryFlowers.map((flower) => (
@@ -508,15 +478,12 @@ export default function DashboardPage() {
         ))}
       </div>
 
-      {/* MODAL */}
       {selectedFlower && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          {/* Modal Content */}
           <div 
             className="relative bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl z-10"
             onClick={(e) => e.stopPropagation()}
           >
-            {/* Close Button */}
             <button
               onClick={() => setSelectedFlower(null)}
               className="absolute top-4 right-4 bg-white rounded-full w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-100 shadow-md z-20 transition"
@@ -526,7 +493,6 @@ export default function DashboardPage() {
               </svg>
             </button>
 
-            {/* IMAGE */}
             <div className="relative h-56 bg-white rounded-t-2xl overflow-hidden">
               <Image
                 src={selectedFlower.image}
@@ -542,17 +508,15 @@ export default function DashboardPage() {
               )}
             </div>
 
-            {/* CONTENT */}
             <div className="p-6">
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
                 {selectedFlower.name}
               </h2>
-              
+
               <p className="text-gray-600 text-sm mb-6 leading-relaxed">
                 {selectedFlower.description}
               </p>
 
-              {/* Purchase Options */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-700 mb-3">
                   Select Option
@@ -599,7 +563,6 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Quantity */}
               <div className="mb-6">
                 <label className="block text-sm font-semibold text-gray-700 mb-3">
                   Quantity
@@ -625,7 +588,6 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Total */}
               <div className="bg-gray-50 rounded-lg p-4 mb-6">
                 <div className="flex justify-between items-center">
                   <div>
@@ -647,7 +609,6 @@ export default function DashboardPage() {
                 </div>
               </div>
 
-              {/* Add to Cart */}
               <button
                 onClick={handleAddToCart}
                 className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg transition font-semibold shadow-md"

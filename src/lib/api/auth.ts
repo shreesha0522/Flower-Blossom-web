@@ -1,5 +1,5 @@
-import axiosInstance from "@/lib/api/axiosInstance";  // ✅ FIXED
-import { API } from "@/lib/api/endpoint";              // ✅ FIXED
+import axiosInstance from "@/lib/api/axiosInstance";
+import { API } from "@/lib/api/endpoint";
 
 export const registerUser = async (data: {
   username: string;
@@ -12,10 +12,7 @@ export const registerUser = async (data: {
   return response.data;
 };
 
-export const loginUser = async (data: {
-  email: string;
-  password: string;
-}) => {
+export const loginUser = async (data: { email: string; password: string }) => {
   const response = await axiosInstance.post(API.AUTH.LOGIN, data);
   return response.data;
 };
@@ -32,7 +29,7 @@ export const forgotPassword = async (email: string) => {
 
 export const resetPassword = async (token: string, newPassword: string) => {
   const response = await axiosInstance.post(
-  API.AUTH.RESET_PASSWORD + "/" + token,
+    API.AUTH.RESET_PASSWORD + "/" + token,
     { newPassword }
   );
   return response.data;

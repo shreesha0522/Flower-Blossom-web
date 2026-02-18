@@ -15,7 +15,6 @@ export default function CartPage() {
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Shopping Cart</h1>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Cart Items */}
         <div className="lg:col-span-2 space-y-4">
           {cart.length === 0 ? (
             <div className="bg-white rounded-xl p-12 text-center">
@@ -34,7 +33,6 @@ export default function CartPage() {
                 key={`${item.id}-${item.isBouquet}-${index}`}
                 className="bg-white rounded-xl p-6 flex gap-6 border border-pink-100 shadow-sm"
               >
-                {/* Product Image */}
                 <div className="w-24 h-24 bg-pink-50 rounded-lg flex items-center justify-center flex-shrink-0 overflow-hidden">
                   {item.image ? (
                     <Image
@@ -49,7 +47,6 @@ export default function CartPage() {
                   )}
                 </div>
 
-                {/* Product Details */}
                 <div className="flex-1">
                   <h3 className="font-semibold text-gray-800 mb-1">{item.name}</h3>
                   {item.isBouquet && (
@@ -59,7 +56,6 @@ export default function CartPage() {
                     Rs {(item.discountedPrice || item.price).toLocaleString()}
                   </p>
 
-                  {/* Quantity Controls */}
                   <div className="flex items-center gap-4">
                     <div className="flex items-center gap-2 border border-pink-200 rounded-full px-3 py-1">
                       <button
@@ -88,7 +84,6 @@ export default function CartPage() {
                   </div>
                 </div>
 
-                {/* Item Total */}
                 <div className="text-right">
                   <p className="text-gray-500 text-sm mb-1">Total</p>
                   <p className="text-xl font-bold text-gray-800">
@@ -100,7 +95,6 @@ export default function CartPage() {
           )}
         </div>
 
-        {/* Order Summary */}
         <div className="lg:col-span-1">
           <div className="bg-white rounded-xl p-6 border border-pink-100 shadow-sm sticky top-8">
             <h2 className="text-xl font-bold text-gray-800 mb-6">Order Summary</h2>

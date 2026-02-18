@@ -1,5 +1,4 @@
 "use client";
-
 import { useState } from "react";
 import { forgotPassword } from "@/lib/api/auth";
 import Link from "next/link";
@@ -18,7 +17,6 @@ export default function ForgotPasswordForm() {
 
     try {
       const response = await forgotPassword(email);
-      
       if (response.success) {
         setSuccess(true);
         setEmail("");
@@ -36,11 +34,11 @@ export default function ForgotPasswordForm() {
       className="space-y-6 p-6 bg-white rounded-lg shadow-md w-full max-w-md mx-auto"
     >
       {error && <p className="text-sm text-red-600">{error}</p>}
-      
+
       {success ? (
         <div className="space-y-4">
           <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-md">
-            <p className="font-medium">✅ Email sent successfully!</p>
+            <p className="font-medium">Email sent successfully!</p>
             <p className="text-sm mt-1">
               Please check your inbox for the password reset link.
             </p>
@@ -50,13 +48,12 @@ export default function ForgotPasswordForm() {
               href="/login"
               className="text-sm font-semibold text-pink-400 hover:underline"
             >
-              ← Back to Login
+              Back to Login
             </Link>
           </div>
         </div>
       ) : (
         <>
-          {/* Email */}
           <div className="space-y-1">
             <label htmlFor="email" className="text-sm font-medium">
               Email Address
@@ -73,7 +70,6 @@ export default function ForgotPasswordForm() {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
@@ -82,7 +78,6 @@ export default function ForgotPasswordForm() {
             {loading ? "Sending..." : "Send Reset Link"}
           </button>
 
-          {/* Back to Login Link */}
           <div className="text-center text-sm text-gray-600">
             Remember your password?{" "}
             <Link

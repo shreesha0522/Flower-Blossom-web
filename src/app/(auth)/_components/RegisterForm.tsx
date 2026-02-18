@@ -1,11 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
-
 import { RegisterData, registerSchema } from "../schema";
 import { handleRegister } from "@/lib/action/auth-action";
 
@@ -41,7 +39,6 @@ export default function RegisterForm() {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       {error && <p className="text-sm text-red-600">{error}</p>}
 
-      {/* Name */}
       <div className="space-y-1">
         <label className="text-sm font-medium" htmlFor="name">
           Full name
@@ -59,7 +56,6 @@ export default function RegisterForm() {
         )}
       </div>
 
-      {/* Username */}
       <div className="space-y-1">
         <label className="text-sm font-medium" htmlFor="username">
           Username
@@ -77,7 +73,6 @@ export default function RegisterForm() {
         )}
       </div>
 
-      {/* Email */}
       <div className="space-y-1">
         <label className="text-sm font-medium" htmlFor="email">
           Email
@@ -95,7 +90,6 @@ export default function RegisterForm() {
         )}
       </div>
 
-      {/* Password */}
       <div className="space-y-1">
         <label className="text-sm font-medium" htmlFor="password">
           Password
@@ -113,7 +107,6 @@ export default function RegisterForm() {
         )}
       </div>
 
-      {/* Confirm Password */}
       <div className="space-y-1">
         <label className="text-sm font-medium" htmlFor="confirmPassword">
           Confirm password
@@ -133,7 +126,6 @@ export default function RegisterForm() {
         )}
       </div>
 
-      {/* Submit */}
       <button
         type="submit"
         disabled={pending}
@@ -142,7 +134,6 @@ export default function RegisterForm() {
         {pending ? "Registering..." : "Register"}
       </button>
 
-      {/* Login link */}
       <div className="mt-1 text-center text-sm">
         Already have an account?{" "}
         <Link href="/login" className="font-semibold hover:underline">

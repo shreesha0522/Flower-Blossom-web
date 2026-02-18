@@ -61,13 +61,12 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
       {success ? (
         <div className="space-y-4">
           <div className="bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-md">
-            <p className="font-medium">✅ Password reset successful!</p>
+            <p className="font-medium">Password reset successful!</p>
             <p className="text-sm mt-1">Redirecting to login page...</p>
           </div>
         </div>
       ) : (
         <>
-          {/* New Password */}
           <div className="space-y-1">
             <label htmlFor="newPassword" className="text-sm font-medium">
               New Password
@@ -90,7 +89,6 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             </p>
           </div>
 
-          {/* Confirm Password */}
           <div className="space-y-1">
             <label htmlFor="confirmPassword" className="text-sm font-medium">
               Confirm Password
@@ -110,7 +108,6 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             />
           </div>
 
-          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
@@ -119,7 +116,6 @@ export default function ResetPasswordForm({ token }: ResetPasswordFormProps) {
             {loading ? "Resetting..." : "Reset Password"}
           </button>
 
-          {/* Back to Login Link */}
           <div className="text-center text-sm text-gray-600">
             Remember your password?{" "}
             <Link

@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
@@ -34,11 +33,11 @@ export default function AdminUsersPage() {
   const [deleteId, setDeleteId] = useState<string | null>(null);
   const [deleteLoading, setDeleteLoading] = useState(false);
 
-  // Search + filter + pagination state
   const [search, setSearch] = useState("");
   const [roleFilter, setRoleFilter] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [searchInput, setSearchInput] = useState("");
+
   const LIMIT = 8;
 
   const fetchUsers = useCallback(async () => {
@@ -64,7 +63,6 @@ export default function AdminUsersPage() {
     fetchUsers();
   }, [fetchUsers]);
 
-  // Search with debounce
   useEffect(() => {
     const timer = setTimeout(() => {
       setSearch(searchInput);
@@ -85,7 +83,6 @@ export default function AdminUsersPage() {
       await deleteUser(deleteId);
       setUsers((prev) => prev.filter((u) => u.id !== deleteId));
       setDeleteId(null);
-      // Refresh to update pagination counts
       fetchUsers();
     } catch (err: any) {
       setError(err.response?.data?.message || err.message || "Failed to delete user");
@@ -109,7 +106,6 @@ export default function AdminUsersPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
@@ -128,9 +124,7 @@ export default function AdminUsersPage() {
       </div>
 
       <div className="p-6 space-y-4">
-        {/* Search + Filter Bar */}
         <div className="flex flex-col sm:flex-row gap-3">
-          {/* Search */}
           <div className="relative flex-1">
             <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">🔍</span>
             <input
@@ -142,7 +136,6 @@ export default function AdminUsersPage() {
             />
           </div>
 
-          {/* Role Filter */}
           <div className="flex gap-2">
             {["", "user", "admin"].map((role) => (
               <button
@@ -160,14 +153,12 @@ export default function AdminUsersPage() {
           </div>
         </div>
 
-        {/* Error */}
         {error && (
           <div className="rounded-lg border border-red-200 bg-red-50 px-4 py-3">
             <p className="text-sm text-red-600">{error}</p>
           </div>
         )}
 
-        {/* Table */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -216,7 +207,6 @@ export default function AdminUsersPage() {
                 ) : (
                   users.map((user) => (
                     <tr key={user.id} className="hover:bg-gray-50 transition-colors">
-                      {/* User */}
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-3">
                           <div className="w-9 h-9 rounded-full overflow-hidden bg-pink-100 border border-pink-200 flex items-center justify-center flex-shrink-0">
@@ -234,17 +224,14 @@ export default function AdminUsersPage() {
                         </div>
                       </td>
 
-                      {/* Email */}
                       <td className="px-5 py-4">
                         <p className="text-sm text-gray-600">{user.email}</p>
                       </td>
 
-                      {/* Username */}
                       <td className="px-5 py-4 hidden sm:table-cell">
                         <p className="text-sm text-gray-500">@{user.username}</p>
                       </td>
 
-                      {/* Role */}
                       <td className="px-5 py-4">
                         <span className={`inline-block px-2.5 py-1 rounded-full text-xs font-semibold ${
                           user.role === "admin"
@@ -255,14 +242,12 @@ export default function AdminUsersPage() {
                         </span>
                       </td>
 
-                      {/* Joined */}
                       <td className="px-5 py-4 hidden md:table-cell">
                         <p className="text-sm text-gray-500">
                           {new Date(user.createdAt).toLocaleDateString()}
                         </p>
                       </td>
 
-                      {/* Actions */}
                       <td className="px-5 py-4">
                         <div className="flex items-center gap-1.5">
                           <Link
@@ -292,7 +277,6 @@ export default function AdminUsersPage() {
             </table>
           </div>
 
-          {/* Pagination */}
           {pagination && pagination.totalPages > 1 && (
             <div className="flex items-center justify-between px-5 py-4 border-t border-gray-100 bg-gray-50">
               <p className="text-sm text-gray-500">
@@ -300,18 +284,15 @@ export default function AdminUsersPage() {
                   {(pagination.currentPage - 1) * pagination.limit + 1}–{Math.min(pagination.currentPage * pagination.limit, pagination.totalUsers)}
                 </span> of <span className="font-medium text-gray-700">{pagination.totalUsers}</span> users
               </p>
-
               <div className="flex items-center gap-1">
-                {/* Prev */}
                 <button
                   onClick={() => setCurrentPage((p) => p - 1)}
                   disabled={!pagination.hasPrevPage}
                   className="w-8 h-8 flex items-center justify-center rounded-lg text-sm text-gray-600 hover:bg-white border border-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
-                  ‹
+                  &lsaquo;
                 </button>
 
-                {/* Page numbers */}
                 {Array.from({ length: pagination.totalPages }, (_, i) => i + 1)
                   .filter((p) => p === 1 || p === pagination.totalPages || Math.abs(p - currentPage) <= 1)
                   .reduce<(number | string)[]>((acc, p, i, arr) => {
@@ -337,13 +318,12 @@ export default function AdminUsersPage() {
                     )
                   )}
 
-                {/* Next */}
                 <button
                   onClick={() => setCurrentPage((p) => p + 1)}
                   disabled={!pagination.hasNextPage}
                   className="w-8 h-8 flex items-center justify-center rounded-lg text-sm text-gray-600 hover:bg-white border border-gray-200 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
                 >
-                  ›
+                  &rsaquo;
                 </button>
               </div>
             </div>
@@ -351,7 +331,6 @@ export default function AdminUsersPage() {
         </div>
       </div>
 
-      {/* Delete Confirmation Modal */}
       {deleteId && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full">
@@ -368,7 +347,7 @@ export default function AdminUsersPage() {
                 : deleteUser_?.email}?
             </p>
             <p className="text-xs text-red-500 text-center mb-6">
-              ⚠️ This action cannot be undone.
+              This action cannot be undone.
             </p>
             <div className="flex gap-3">
               <button

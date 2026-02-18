@@ -21,7 +21,6 @@ export default function SettingsPage() {
     <div className="max-w-4xl mx-auto">
       <h1 className="text-3xl font-bold text-gray-800 mb-6">Settings</h1>
 
-      {/* Tabs */}
       <div className="flex gap-4 mb-6 border-b border-gray-200">
         <button
           onClick={() => setActiveTab("account")}
@@ -55,12 +54,11 @@ export default function SettingsPage() {
         </button>
       </div>
 
-      {/* Account Tab */}
       {activeTab === "account" && (
         <div className="bg-white rounded-lg shadow-md p-6 space-y-6">
           <div>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">Account Settings</h2>
-            
+
             <div className="space-y-4">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -153,11 +151,10 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {/* Notifications Tab */}
       {activeTab === "notifications" && (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Notification Preferences</h2>
-          
+
           <div className="space-y-4">
             <label className="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
               <div>
@@ -186,11 +183,10 @@ export default function SettingsPage() {
         </div>
       )}
 
-      {/* Privacy Tab */}
       {activeTab === "privacy" && (
         <div className="bg-white rounded-lg shadow-md p-6">
           <h2 className="text-xl font-semibold text-gray-800 mb-4">Privacy Settings</h2>
-          
+
           <div className="space-y-4">
             <label className="flex items-center justify-between p-4 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50">
               <div>

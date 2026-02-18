@@ -7,13 +7,11 @@ export default function CheckoutPage() {
   const router = useRouter();
   const { cart, clearCart } = useCart();
 
-  // Shipping Info State
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [location, setLocation] = useState("");
   const [deliveryTime, setDeliveryTime] = useState("Morning");
 
-  // Payment State
   const [paymentMethod, setPaymentMethod] = useState("esewa");
   const [processing, setProcessing] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -40,10 +38,8 @@ export default function CheckoutPage() {
     setProcessing(true);
 
     try {
-      // Simulate payment processing
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
-      // Generate order number
       const newOrderNumber = `ORD-${new Date().getFullYear()}-${String(
         Math.floor(Math.random() * 10000)
       ).padStart(4, "0")}`;
@@ -68,17 +64,14 @@ export default function CheckoutPage() {
         paymentMethod,
       };
 
-      // Save to localStorage
       const existingOrders = JSON.parse(localStorage.getItem("orders") || "[]");
       localStorage.setItem("orders", JSON.stringify([order, ...existingOrders]));
 
       setOrderNumber(newOrderNumber);
       setSuccess(true);
 
-      // Clear cart
       clearCart();
 
-      // Redirect to orders page after 3s
       setTimeout(() => {
         router.push("/dashboard/orders");
       }, 3000);
@@ -112,7 +105,6 @@ export default function CheckoutPage() {
     <div className="min-h-screen bg-gray-50 p-6">
       <h1 className="text-3xl font-bold text-gray-800 mb-8">Checkout</h1>
 
-      {/* Order Summary */}
       <div className="bg-white rounded-xl p-6 mb-6 border border-pink-100 max-w-2xl mx-auto space-y-2">
         <h2 className="text-xl font-bold mb-2">Order Summary</h2>
         <div className="flex justify-between text-gray-600">
@@ -130,7 +122,6 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* Shipping Info */}
       <div className="bg-white rounded-xl p-6 mb-6 border border-pink-100 max-w-2xl mx-auto space-y-4">
         <h2 className="text-xl font-bold mb-4">Shipping Information</h2>
         <div className="space-y-3">
@@ -178,7 +169,6 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      {/* Payment Section */}
       <div className="bg-white rounded-xl p-6 border border-pink-100 max-w-2xl mx-auto space-y-4">
         <h2 className="text-xl font-bold mb-4">Payment Method</h2>
         <div className="flex flex-col gap-3">

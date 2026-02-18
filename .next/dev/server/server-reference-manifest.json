@@ -14,6 +14,21 @@
       },
       "filename": "src/lib/action/auth-action.ts",
       "exportedName": "handleLogin"
+    },
+    "406cc0ea14c84a36f2a1894713b4a5b7144fc2cf2c": {
+      "workers": {
+        "app/(auth)/register/page": {
+          "moduleId": "[project]/.next-internal/server/app/(auth)/register/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/action/auth-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "handleRegister",
+          "filename": "src/lib/action/auth-action.ts"
+        }
+      },
+      "layer": {
+        "app/(auth)/register/page": "action-browser"
+      },
+      "filename": "src/lib/action/auth-action.ts",
+      "exportedName": "handleRegister"
     }
   },
   "edge": {},

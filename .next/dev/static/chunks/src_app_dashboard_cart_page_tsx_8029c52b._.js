@@ -46,7 +46,7 @@ function CartPage() {
                                     children: "🛒"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                    lineNumber: 22,
+                                    lineNumber: 21,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -54,7 +54,7 @@ function CartPage() {
                                     children: "Your cart is empty"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                    lineNumber: 23,
+                                    lineNumber: 22,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
@@ -63,13 +63,13 @@ function CartPage() {
                                     children: "Start Shopping"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                    lineNumber: 24,
+                                    lineNumber: 23,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                            lineNumber: 21,
+                            lineNumber: 20,
                             columnNumber: 13
                         }, this) : cart.map((item, index)=>/*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                                 className: "bg-white rounded-xl p-6 flex gap-6 border border-pink-100 shadow-sm",
@@ -84,19 +84,19 @@ function CartPage() {
                                             className: "object-cover w-full h-full"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                            lineNumber: 40,
+                                            lineNumber: 38,
                                             columnNumber: 21
                                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
                                             className: "text-4xl",
                                             children: "💐"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                            lineNumber: 48,
+                                            lineNumber: 46,
                                             columnNumber: 21
                                         }, this)
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                        lineNumber: 38,
+                                        lineNumber: 36,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -107,7 +107,7 @@ function CartPage() {
                                                 children: item.name
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                lineNumber: 54,
+                                                lineNumber: 51,
                                                 columnNumber: 19
                                             }, this),
                                             item.isBouquet && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -115,7 +115,7 @@ function CartPage() {
                                                 children: "Bouquet (12 pieces)"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                lineNumber: 56,
+                                                lineNumber: 53,
                                                 columnNumber: 21
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -126,7 +126,7 @@ function CartPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                lineNumber: 58,
+                                                lineNumber: 55,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -141,7 +141,7 @@ function CartPage() {
                                                                 children: "−"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                                lineNumber: 65,
+                                                                lineNumber: 61,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -149,7 +149,7 @@ function CartPage() {
                                                                 children: item.quantity || 1
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                                lineNumber: 71,
+                                                                lineNumber: 67,
                                                                 columnNumber: 23
                                                             }, this),
                                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -158,13 +158,13 @@ function CartPage() {
                                                                 children: "+"
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                                lineNumber: 72,
+                                                                lineNumber: 68,
                                                                 columnNumber: 23
                                                             }, this)
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                        lineNumber: 64,
+                                                        lineNumber: 60,
                                                         columnNumber: 21
                                                     }, this),
                                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -183,31 +183,31 @@ function CartPage() {
                                                                     d: "M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                                                                 }, void 0, false, {
                                                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                                    lineNumber: 84,
+                                                                    lineNumber: 80,
                                                                     columnNumber: 25
                                                                 }, this)
                                                             }, void 0, false, {
                                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                                lineNumber: 83,
+                                                                lineNumber: 79,
                                                                 columnNumber: 23
                                                             }, this),
                                                             "Remove"
                                                         ]
                                                     }, void 0, true, {
                                                         fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                        lineNumber: 79,
+                                                        lineNumber: 75,
                                                         columnNumber: 21
                                                     }, this)
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                lineNumber: 63,
+                                                lineNumber: 59,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                        lineNumber: 53,
+                                        lineNumber: 50,
                                         columnNumber: 17
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -218,7 +218,7 @@ function CartPage() {
                                                 children: "Total"
                                             }, void 0, false, {
                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                lineNumber: 93,
+                                                lineNumber: 88,
                                                 columnNumber: 19
                                             }, this),
                                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
@@ -229,24 +229,24 @@ function CartPage() {
                                                 ]
                                             }, void 0, true, {
                                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                lineNumber: 94,
+                                                lineNumber: 89,
                                                 columnNumber: 19
                                             }, this)
                                         ]
                                     }, void 0, true, {
                                         fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                        lineNumber: 92,
+                                        lineNumber: 87,
                                         columnNumber: 17
                                     }, this)
                                 ]
                             }, `${item.id}-${item.isBouquet}-${index}`, true, {
                                 fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                lineNumber: 33,
+                                lineNumber: 32,
                                 columnNumber: 15
                             }, this))
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                        lineNumber: 19,
+                        lineNumber: 18,
                         columnNumber: 9
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -259,7 +259,7 @@ function CartPage() {
                                     children: "Order Summary"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                    lineNumber: 106,
+                                    lineNumber: 100,
                                     columnNumber: 13
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -272,7 +272,7 @@ function CartPage() {
                                                     children: "Subtotal"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                    lineNumber: 109,
+                                                    lineNumber: 103,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -283,13 +283,13 @@ function CartPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                    lineNumber: 110,
+                                                    lineNumber: 104,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                            lineNumber: 108,
+                                            lineNumber: 102,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -299,7 +299,7 @@ function CartPage() {
                                                     children: "Delivery"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                    lineNumber: 113,
+                                                    lineNumber: 107,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -310,20 +310,20 @@ function CartPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                    lineNumber: 114,
+                                                    lineNumber: 108,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                            lineNumber: 112,
+                                            lineNumber: 106,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("hr", {
                                             className: "border-pink-100"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                            lineNumber: 116,
+                                            lineNumber: 110,
                                             columnNumber: 15
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -333,7 +333,7 @@ function CartPage() {
                                                     children: "Total"
                                                 }, void 0, false, {
                                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                    lineNumber: 118,
+                                                    lineNumber: 112,
                                                     columnNumber: 17
                                                 }, this),
                                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("span", {
@@ -344,19 +344,19 @@ function CartPage() {
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                                    lineNumber: 119,
+                                                    lineNumber: 113,
                                                     columnNumber: 17
                                                 }, this)
                                             ]
                                         }, void 0, true, {
                                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                            lineNumber: 117,
+                                            lineNumber: 111,
                                             columnNumber: 15
                                         }, this)
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                    lineNumber: 107,
+                                    lineNumber: 101,
                                     columnNumber: 13
                                 }, this),
                                 cart.length > 0 && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["Fragment"], {
@@ -367,7 +367,7 @@ function CartPage() {
                                             children: "Proceed to Checkout →"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                            lineNumber: 125,
+                                            lineNumber: 119,
                                             columnNumber: 17
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -376,7 +376,7 @@ function CartPage() {
                                             children: "Clear Cart"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                            lineNumber: 131,
+                                            lineNumber: 125,
                                             columnNumber: 17
                                         }, this)
                                     ]
@@ -387,18 +387,18 @@ function CartPage() {
                                     children: "Continue Shopping"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                                    lineNumber: 139,
+                                    lineNumber: 133,
                                     columnNumber: 13
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                            lineNumber: 105,
+                            lineNumber: 99,
                             columnNumber: 11
                         }, this)
                     }, void 0, false, {
                         fileName: "[project]/src/app/dashboard/cart/page.tsx",
-                        lineNumber: 104,
+                        lineNumber: 98,
                         columnNumber: 9
                     }, this)
                 ]

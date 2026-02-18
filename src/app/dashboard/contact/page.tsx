@@ -1,18 +1,12 @@
 "use client";
 import { useState } from "react";
 
-// ============================================
-// 🎨 CUSTOMIZATION SETTINGS - EDIT THESE!
-// ============================================
-
 const SETTINGS = {
-  // Company Information
   company: {
     name: "Flower Blossom",
     tagline: "We'd Love to Hear From You",
   },
 
-  // Contact Details
   contact: {
     address: {
       street: "123 Flower Street",
@@ -36,7 +30,6 @@ const SETTINGS = {
     }
   },
 
-  // Social Media Links
   social: {
     facebook: "https://facebook.com/yourpage",
     instagram: "https://instagram.com/yourpage",
@@ -44,20 +37,15 @@ const SETTINGS = {
     pinterest: "https://pinterest.com/yourpage"
   },
 
-  // Colors (Light Pink Theme)
   colors: {
-    primary: "pink-300",        // Light pink
-    primaryHover: "pink-400",   // Medium pink on hover
-    secondary: "rose-200",      // Light rose
-    accent: "pink-50",          // Very light pink background
-    text: "gray-800",           // Dark gray text
-    lightBg: "pink-50",         // Light background
+    primary: "pink-300",
+    primaryHover: "pink-400",
+    secondary: "rose-200",
+    accent: "pink-50",
+    text: "gray-800",
+    lightBg: "pink-50",
   }
 };
-
-// ============================================
-// 📋 CONTACT PAGE COMPONENT
-// ============================================
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -82,14 +70,12 @@ export default function ContactPage() {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
 
     console.log("Form submitted:", formData);
     setSubmitted(true);
     setLoading(false);
-    
-    // Reset form after 4 seconds
+
     setTimeout(() => {
       setFormData({
         name: "",
@@ -104,11 +90,9 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-white to-pink-50 py-8 md:py-12">
-      {/* Main Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
-          
-          {/* Contact Form - Centered at Top */}
+
           <div className="max-w-3xl mx-auto">
             <div className="bg-white rounded-2xl shadow-sm border border-pink-100 p-6 md:p-8">
               <h2 className={`text-2xl md:text-3xl font-bold text-${SETTINGS.colors.text} mb-3`}>
@@ -133,7 +117,6 @@ export default function ContactPage() {
               )}
 
               <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Name & Email Row */}
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="name" className={`block text-sm font-semibold text-${SETTINGS.colors.text} mb-2`}>
@@ -168,7 +151,6 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                {/* Phone & Subject Row */}
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
                     <label htmlFor="phone" className={`block text-sm font-semibold text-${SETTINGS.colors.text} mb-2`}>
@@ -209,7 +191,6 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                {/* Message */}
                 <div>
                   <label htmlFor="message" className={`block text-sm font-semibold text-${SETTINGS.colors.text} mb-2`}>
                     Your Message <span className="text-red-500">*</span>
@@ -226,7 +207,6 @@ export default function ContactPage() {
                   />
                 </div>
 
-                {/* Submit Button */}
                 <button
                   type="submit"
                   disabled={loading}
@@ -248,10 +228,8 @@ export default function ContactPage() {
             </div>
           </div>
 
-          {/* Contact Info Cards - Grid Below Form */}
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            
-            {/* Quick Contact Card */}
+
             <div className={`bg-gradient-to-br from-${SETTINGS.colors.primary} to-${SETTINGS.colors.secondary} rounded-2xl p-6 text-white shadow-md`}>
               <h3 className="text-2xl font-bold mb-4">Quick Contact</h3>
               <div className="space-y-4">
@@ -280,7 +258,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Visit Us Card */}
             <div className="bg-white rounded-2xl shadow-sm border border-pink-100 p-6">
               <div className="flex items-start gap-3 mb-4">
                 <div className={`bg-${SETTINGS.colors.accent} p-3 rounded-lg`}>
@@ -300,7 +277,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Business Hours Card */}
             <div className="bg-white rounded-2xl shadow-sm border border-pink-100 p-6">
               <div className="flex items-start gap-3 mb-4">
                 <div className={`bg-${SETTINGS.colors.accent} p-3 rounded-lg`}>
@@ -334,7 +310,6 @@ export default function ContactPage() {
               </div>
             </div>
 
-            {/* Social Media Card */}
             <div className="bg-white rounded-2xl shadow-sm border border-pink-100 p-6">
               <h3 className={`font-bold text-${SETTINGS.colors.text} text-lg mb-4`}>Follow Us</h3>
               <div className="grid grid-cols-4 gap-3">

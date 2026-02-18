@@ -1,6 +1,4 @@
-// app/admin/users/[id]/page.tsx
 "use client";
-
 import { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -43,7 +41,6 @@ export default function AdminUserDetailPage() {
     }
   };
 
-  // Loading
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -55,7 +52,6 @@ export default function AdminUserDetailPage() {
     );
   }
 
-  // Error
   if (error || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -72,7 +68,6 @@ export default function AdminUserDetailPage() {
     );
   }
 
-  // Get proxied image URL
   const getImageUrl = (imagePath: string) => {
     if (!imagePath) return null;
     if (imagePath.startsWith("/uploads")) {
@@ -85,7 +80,6 @@ export default function AdminUserDetailPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -93,7 +87,7 @@ export default function AdminUserDetailPage() {
               href="/admin/users"
               className="text-sm text-gray-500 hover:text-pink-500 transition-colors"
             >
-              ← Back
+              Back
             </Link>
             <h1 className="text-2xl font-bold text-gray-800">User Details</h1>
           </div>
@@ -106,12 +100,9 @@ export default function AdminUserDetailPage() {
         </div>
       </div>
 
-      {/* User Detail Card */}
       <div className="max-w-3xl mx-auto px-4 py-6">
         <div className="bg-white rounded-lg shadow-md p-6">
-          {/* Avatar + Name */}
           <div className="flex items-center gap-4 mb-6 pb-6 border-b border-gray-100">
-            {/* Avatar */}
             <div className="w-16 h-16 rounded-full overflow-hidden border-4 border-pink-200 bg-pink-100 flex items-center justify-center">
               {user.profileImage ? (
                 <img
@@ -126,7 +117,6 @@ export default function AdminUserDetailPage() {
               )}
             </div>
 
-            {/* Name + Role */}
             <div>
               <h2 className="text-lg font-semibold text-gray-800">
                 {user.firstName && user.lastName
@@ -145,39 +135,32 @@ export default function AdminUserDetailPage() {
             </div>
           </div>
 
-          {/* User Info Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {/* ID */}
             <div className="bg-gray-50 rounded-md p-3">
               <p className="text-xs font-semibold text-gray-500 uppercase mb-1">User ID</p>
               <p className="text-sm text-gray-700 break-all">{user.id}</p>
             </div>
 
-            {/* Username */}
             <div className="bg-gray-50 rounded-md p-3">
               <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Username</p>
               <p className="text-sm text-gray-700">{user.username}</p>
             </div>
 
-            {/* Email */}
             <div className="bg-gray-50 rounded-md p-3">
               <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Email</p>
               <p className="text-sm text-gray-700">{user.email}</p>
             </div>
 
-            {/* Phone */}
             <div className="bg-gray-50 rounded-md p-3">
               <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Phone</p>
               <p className="text-sm text-gray-700">{user.phone || "Not provided"}</p>
             </div>
 
-            {/* Role */}
             <div className="bg-gray-50 rounded-md p-3">
               <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Role</p>
               <p className="text-sm text-gray-700 capitalize">{user.role}</p>
             </div>
 
-            {/* Created At */}
             <div className="bg-gray-50 rounded-md p-3">
               <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Joined</p>
               <p className="text-sm text-gray-700">
@@ -185,7 +168,6 @@ export default function AdminUserDetailPage() {
               </p>
             </div>
 
-            {/* Updated At */}
             <div className="bg-gray-50 rounded-md p-3">
               <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Last Updated</p>
               <p className="text-sm text-gray-700">
@@ -193,7 +175,6 @@ export default function AdminUserDetailPage() {
               </p>
             </div>
 
-            {/* Bio - spans full width */}
             <div className="bg-gray-50 rounded-md p-3 sm:col-span-2">
               <p className="text-xs font-semibold text-gray-500 uppercase mb-1">Bio</p>
               <p className="text-sm text-gray-700">{user.bio || "No bio provided"}</p>

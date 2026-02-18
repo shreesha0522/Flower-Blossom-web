@@ -110,7 +110,6 @@ export default function OrdersPage() {
         </Link>
       </div>
 
-      {/* Filter Tabs */}
       <div className="flex gap-2 mb-6 overflow-x-auto">
         <button
           onClick={() => setFilter("all")}
@@ -154,7 +153,6 @@ export default function OrdersPage() {
         </button>
       </div>
 
-      {/* Orders List */}
       {filteredOrders.length === 0 ? (
         <div className="text-center py-12 bg-white rounded-lg shadow-md">
           <div className="text-6xl mb-4">📦</div>
@@ -178,7 +176,6 @@ export default function OrdersPage() {
               key={`order-${order.id}-${order.orderNumber}`}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
             >
-              {/* Order Header */}
               <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
                 <div className="flex flex-wrap justify-between items-center gap-4">
                   <div className="flex items-center gap-4">
@@ -207,7 +204,6 @@ export default function OrdersPage() {
                 </div>
               </div>
 
-              {/* Order Items */}
               <div className="p-6">
                 <div className="space-y-4 mb-4">
                   {order.items.map((item) => (
@@ -240,7 +236,6 @@ export default function OrdersPage() {
                   ))}
                 </div>
 
-                {/* Order Details */}
                 <div className="border-t border-gray-200 pt-4 mt-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                     <div>
@@ -254,7 +249,6 @@ export default function OrdersPage() {
                   </div>
                 </div>
 
-                {/* Action Buttons */}
                 <div className="flex gap-3 mt-6">
                   {order.status === "delivered" && (
                     <button className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 py-2 rounded-lg font-semibold transition">

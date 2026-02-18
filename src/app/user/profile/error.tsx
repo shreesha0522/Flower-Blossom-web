@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect } from "react";
 import Link from "next/link";
 
@@ -11,7 +10,6 @@ export default function Error({
   reset: () => void;
 }) {
   useEffect(() => {
-    // Log the error to an error reporting service
     console.error("Profile page error:", error);
   }, [error]);
 
@@ -19,7 +17,6 @@ export default function Error({
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
         <div className="bg-white rounded-lg shadow-lg p-8 text-center space-y-6">
-          {/* Error Icon */}
           <div className="flex justify-center">
             <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center">
               <svg
@@ -38,7 +35,6 @@ export default function Error({
             </div>
           </div>
 
-          {/* Error Title */}
           <div>
             <h1 className="text-2xl font-bold text-gray-800 mb-2">
               Oops! Something went wrong
@@ -48,14 +44,12 @@ export default function Error({
             </p>
           </div>
 
-          {/* Error Message */}
           <div className="bg-red-50 border border-red-200 rounded-md p-4">
             <p className="text-sm text-red-700 font-mono break-words">
               {error.message || "An unexpected error occurred"}
             </p>
           </div>
 
-          {/* Action Buttons */}
           <div className="space-y-3">
             <button
               onClick={reset}
@@ -63,14 +57,12 @@ export default function Error({
             >
               🔄 Try Again
             </button>
-
             <Link
               href="/dashboard"
               className="block w-full h-10 rounded-md bg-gray-100 text-gray-700 text-sm font-semibold hover:bg-gray-200 transition-colors leading-10"
             >
               🏠 Go to Dashboard
             </Link>
-
             <Link
               href="/login"
               className="block text-sm text-pink-500 hover:text-pink-600 font-medium"
@@ -79,7 +71,6 @@ export default function Error({
             </Link>
           </div>
 
-          {/* Debug Info (only in development) */}
           {process.env.NODE_ENV === "development" && error.digest && (
             <div className="mt-4 pt-4 border-t border-gray-200">
               <p className="text-xs text-gray-500">

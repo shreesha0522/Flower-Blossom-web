@@ -19,7 +19,6 @@ function CartProvider({ children }) {
     _s();
     const [cart, setCart] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])([]);
     const [isClient, setIsClient] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useState"])(false);
-    // Load cart from localStorage on mount
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CartProvider.useEffect": ()=>{
             setIsClient(true);
@@ -34,12 +33,10 @@ function CartProvider({ children }) {
             }
         }
     }["CartProvider.useEffect"], []);
-    // Save cart to localStorage whenever it changes
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["useEffect"])({
         "CartProvider.useEffect": ()=>{
             if (isClient) {
                 localStorage.setItem("cart", JSON.stringify(cart));
-                // Dispatch event to notify other components (like navbar)
                 window.dispatchEvent(new Event("cartUpdated"));
             }
         }
@@ -92,7 +89,7 @@ function CartProvider({ children }) {
         children: children
     }, void 0, false, {
         fileName: "[project]/src/app/context/CartContext.tsx",
-        lineNumber: 92,
+        lineNumber: 89,
         columnNumber: 5
     }, this);
 }
