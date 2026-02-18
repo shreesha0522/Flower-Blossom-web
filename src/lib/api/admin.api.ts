@@ -1,6 +1,5 @@
 import axiosInstance from "@/lib/api/axiosInstance";
 
-// ✅ 1. GET ALL USERS WITH PAGINATION + SEARCH + FILTER
 export const getAllUsers = async (params?: {
   page?: number;
   limit?: number;
@@ -13,17 +12,17 @@ export const getAllUsers = async (params?: {
   if (params?.search) query.set("search", params.search);
   if (params?.role) query.set("role", params.role);
 
-  const response = await axiosInstance.get("/api/admin/users?" + query.toString());
+  const response = await axiosInstance.get(
+    "/api/admin/users?" + query.toString()
+  );
   return response.data;
 };
 
-// ✅ 2. GET SINGLE USER BY ID
 export const getUserById = async (id: string) => {
   const response = await axiosInstance.get("/api/admin/users/" + id);
   return response.data;
 };
 
-// ✅ 3. CREATE USER
 export const createUser = async (formData: FormData) => {
   const response = await axiosInstance.post("/api/admin/users", formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -31,7 +30,6 @@ export const createUser = async (formData: FormData) => {
   return response.data;
 };
 
-// ✅ 4. UPDATE USER BY ID
 export const updateUser = async (id: string, formData: FormData) => {
   const response = await axiosInstance.put("/api/admin/users/" + id, formData, {
     headers: { "Content-Type": "multipart/form-data" },
@@ -39,7 +37,6 @@ export const updateUser = async (id: string, formData: FormData) => {
   return response.data;
 };
 
-// ✅ 5. DELETE USER BY ID
 export const deleteUser = async (id: string) => {
   const response = await axiosInstance.delete("/api/admin/users/" + id);
   return response.data;

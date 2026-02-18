@@ -2,9 +2,6 @@
 import Image from "next/image";
 import { useState } from "react";
 
-// ============================================
-// 🎨 CONTACT SETTINGS
-// ============================================
 const CONTACT_SETTINGS = {
   contact: {
     address: {
@@ -62,7 +59,7 @@ export default function HomePage() {
     console.log("Form submitted:", formData);
     setSubmitted(true);
     setLoading(false);
-    
+
     setTimeout(() => {
       setFormData({
         name: "",
@@ -75,18 +72,14 @@ export default function HomePage() {
     }, 4000);
   };
 
-  // Function to handle View All clicks - Check if user is logged in
   const handleViewAllClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    
-    // Check if user is logged in
+
     const isLoggedIn = typeof window !== 'undefined' && localStorage.getItem('isLoggedIn') === 'true';
-    
+
     if (isLoggedIn) {
-      // User is logged in, redirect to dashboard
       window.location.href = '/dashboard';
     } else {
-      // User is not logged in, save intended destination and redirect to login
       if (typeof window !== 'undefined') {
         localStorage.setItem('redirectAfterLogin', '/dashboard');
       }
@@ -97,13 +90,10 @@ export default function HomePage() {
   return (
     <main className="min-h-screen bg-white">
       <div className="w-full">
-        {/* NAVBAR */}
         <nav className="flex items-center justify-between px-6 md:px-10 py-6 max-w-7xl mx-auto">
-          {/* Logo */}
           <div className="flex items-center gap-2 text-pink-500 font-bold text-xl">
             🌸 <span>Flower Blossom</span>
           </div>
-          {/* Menu */}
           <ul className="hidden md:flex gap-8 text-gray-600 font-medium">
             <li className="hover:text-pink-500 cursor-pointer">Home</li>
             <li className="hover:text-pink-500 cursor-pointer">
@@ -119,7 +109,6 @@ export default function HomePage() {
               <a href="#contact">Contact</a>
             </li>
           </ul>
-          {/* Auth buttons */}
           <div className="flex gap-3">
             <a
               href="/login"
@@ -136,9 +125,7 @@ export default function HomePage() {
           </div>
         </nav>
 
-        {/* HERO SECTION */}
         <section className="grid grid-cols-1 md:grid-cols-2 items-center px-6 md:px-10 py-16 max-w-7xl mx-auto">
-          {/* LEFT CONTENT */}
           <div>
             <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight">
               Fresh <br /> Flower Blossom
@@ -151,7 +138,6 @@ export default function HomePage() {
               Explore Collection →
             </button>
           </div>
-          {/* RIGHT IMAGE */}
           <div className="relative w-full h-[350px] md:h-[450px] mt-10 md:mt-0">
             <Image
               src="/new.png"
@@ -163,11 +149,8 @@ export default function HomePage() {
           </div>
         </section>
 
-        {/* NEW ARRIVALS SECTION */}
         <section id="new-arrivals" className="py-16 md:py-20 bg-white">
           <div className="max-w-7xl mx-auto px-6 md:px-10">
-            
-            {/* Section Header */}
             <div className="text-center mb-12">
               <div className="inline-block bg-pink-100 text-pink-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
                 ✨ NEW ARRIVALS
@@ -178,10 +161,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* New Arrivals Grid */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              
-              {/* New Arrival 1 - Pink Rose */}
               <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition border border-pink-100">
                 <div className="relative h-72 bg-pink-50">
                   <Image
@@ -190,15 +170,12 @@ export default function HomePage() {
                     fill
                     className="object-cover group-hover:scale-105 transition duration-300"
                   />
-                  {/* New Badge */}
                   <div className="absolute top-4 left-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
                     🎉 NEW
                   </div>
-                  {/* Discount Badge */}
                   <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
                     25% OFF
                   </div>
-                  {/* Quick Add Button */}
                   <div className="absolute bottom-4 left-0 right-0 px-4 opacity-0 group-hover:opacity-100 transition">
                     <button className="w-full bg-white text-pink-500 py-2.5 rounded-lg font-semibold shadow-lg hover:bg-pink-50 transition">
                       Quick Add to Cart
@@ -218,7 +195,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* New Arrival 2 - Red Rose */}
               <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition border border-pink-100">
                 <div className="relative h-72 bg-pink-50">
                   <Image
@@ -227,15 +203,12 @@ export default function HomePage() {
                     fill
                     className="object-cover group-hover:scale-105 transition duration-300"
                   />
-                  {/* New Badge */}
                   <div className="absolute top-4 left-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
                     🎉 NEW
                   </div>
-                  {/* Hot Badge */}
                   <div className="absolute top-4 right-4 bg-orange-500 text-white px-3 py-1 rounded-full text-xs font-bold">
                     🔥 HOT
                   </div>
-                  {/* Quick Add Button */}
                   <div className="absolute bottom-4 left-0 right-0 px-4 opacity-0 group-hover:opacity-100 transition">
                     <button className="w-full bg-white text-pink-500 py-2.5 rounded-lg font-semibold shadow-lg hover:bg-pink-50 transition">
                       Quick Add to Cart
@@ -254,7 +227,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* New Arrival 3 - Lilly Rose Mix */}
               <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition border border-pink-100">
                 <div className="relative h-72 bg-pink-50">
                   <Image
@@ -263,11 +235,9 @@ export default function HomePage() {
                     fill
                     className="object-cover group-hover:scale-105 transition duration-300"
                   />
-                  {/* New Badge */}
                   <div className="absolute top-4 left-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
                     🎉 NEW
                   </div>
-                  {/* Quick Add Button */}
                   <div className="absolute bottom-4 left-0 right-0 px-4 opacity-0 group-hover:opacity-100 transition">
                     <button className="w-full bg-white text-pink-500 py-2.5 rounded-lg font-semibold shadow-lg hover:bg-pink-50 transition">
                       Quick Add to Cart
@@ -286,7 +256,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* New Arrival 4 - Lilly Pink Rose */}
               <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition border border-pink-100">
                 <div className="relative h-72 bg-pink-50">
                   <Image
@@ -295,15 +264,12 @@ export default function HomePage() {
                     fill
                     className="object-cover group-hover:scale-105 transition duration-300"
                   />
-                  {/* New Badge */}
                   <div className="absolute top-4 left-4 bg-gradient-to-r from-pink-500 to-rose-500 text-white px-3 py-1.5 rounded-full text-xs font-bold shadow-lg">
                     🎉 NEW
                   </div>
-                  {/* Limited Badge */}
                   <div className="absolute top-4 right-4 bg-purple-500 text-white px-3 py-1 rounded-full text-xs font-bold">
                     LIMITED
                   </div>
-                  {/* Quick Add Button */}
                   <div className="absolute bottom-4 left-0 right-0 px-4 opacity-0 group-hover:opacity-100 transition">
                     <button className="w-full bg-white text-pink-500 py-2.5 rounded-lg font-semibold shadow-lg hover:bg-pink-50 transition">
                       Quick Add to Cart
@@ -321,10 +287,8 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-
             </div>
 
-            {/* View All Button - WITH LOGIN CHECK */}
             <div className="text-center mt-12">
               <a
                 href="/dashboard"
@@ -334,15 +298,11 @@ export default function HomePage() {
                 View All New Arrivals →
               </a>
             </div>
-
           </div>
         </section>
 
-        {/* COLLECTIONS SECTION */}
         <section id="collections" className="py-16 md:py-20 bg-gradient-to-b from-white to-pink-50">
           <div className="max-w-7xl mx-auto px-6 md:px-10">
-            
-            {/* Section Header */}
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">Our Collections</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
@@ -350,10 +310,7 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* Collection Categories */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-              
-              {/* Collection 1 - Pink White Tulip */}
               <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer">
                 <div className="relative h-48 bg-pink-50">
                   <Image
@@ -362,7 +319,6 @@ export default function HomePage() {
                     fill
                     className="object-cover"
                   />
-                  {/* Discount Badge */}
                   <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
                     25% OFF
                   </div>
@@ -379,7 +335,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Collection 2 - White Tulip */}
               <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer">
                 <div className="relative h-48 bg-pink-50">
                   <Image
@@ -401,7 +356,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Collection 3 - Baby's Breath */}
               <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer">
                 <div className="relative h-48 bg-pink-50">
                   <Image
@@ -410,7 +364,6 @@ export default function HomePage() {
                     fill
                     className="object-cover"
                   />
-                  {/* Premium Badge */}
                   <div className="absolute top-4 right-4 bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-bold">
                     PREMIUM
                   </div>
@@ -427,7 +380,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Collection 4 - Blue Baby's Breath */}
               <div className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition cursor-pointer">
                 <div className="relative h-48 bg-pink-50">
                   <Image
@@ -436,7 +388,6 @@ export default function HomePage() {
                     fill
                     className="object-cover"
                   />
-                  {/* Sale Badge */}
                   <div className="absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">
                     SALE
                   </div>
@@ -452,18 +403,13 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-
             </div>
 
-            {/* Featured Flowers Carousel */}
             <div className="mb-8">
               <h3 className="text-2xl font-bold text-gray-800 mb-6">Featured Flowers</h3>
-              
-              {/* Horizontal Scroll Container */}
+
               <div className="overflow-x-auto pb-4 scrollbar-hide">
                 <div className="flex gap-6" style={{ minWidth: 'min-content' }}>
-                  
-                  {/* Flower Card 1 */}
                   <div className="flex-shrink-0 w-64 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
                     <div className="relative h-64 bg-pink-50">
                       <Image
@@ -489,7 +435,6 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Flower Card 2 */}
                   <div className="flex-shrink-0 w-64 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
                     <div className="relative h-64 bg-pink-50">
                       <Image
@@ -511,7 +456,6 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Flower Card 3 */}
                   <div className="flex-shrink-0 w-64 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
                     <div className="relative h-64 bg-pink-50">
                       <Image
@@ -537,7 +481,6 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Flower Card 4 */}
                   <div className="flex-shrink-0 w-64 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
                     <div className="relative h-64 bg-pink-50">
                       <Image
@@ -562,7 +505,6 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Flower Card 5 */}
                   <div className="flex-shrink-0 w-64 bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition">
                     <div className="relative h-64 bg-pink-50">
                       <Image
@@ -583,12 +525,10 @@ export default function HomePage() {
                       </button>
                     </div>
                   </div>
-
                 </div>
               </div>
             </div>
 
-            {/* View All Button - WITH LOGIN CHECK */}
             <div className="text-center">
               <a
                 href="/dashboard"
@@ -598,15 +538,11 @@ export default function HomePage() {
                 View All Collections →
               </a>
             </div>
-
           </div>
         </section>
 
-        {/* ABOUT US SECTION */}
         <section id="about" className="py-16 md:py-20 bg-white">
           <div className="max-w-7xl mx-auto px-6 md:px-10">
-            
-            {/* Section Header */}
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">About Us</h2>
               <p className="text-gray-600 max-w-2xl mx-auto">
@@ -614,7 +550,6 @@ export default function HomePage() {
               </p>
             </div>
 
-            {/* Our Story */}
             <div className="grid md:grid-cols-2 gap-12 items-center mb-16">
               <div>
                 <h3 className="text-2xl font-bold text-gray-800 mb-4">Our Story</h3>
@@ -635,12 +570,9 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Our Values */}
             <div className="mb-16">
               <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-10 text-center">Our Values</h3>
               <div className="grid md:grid-cols-3 gap-8">
-                
-                {/* Value 1 */}
                 <div className="text-center p-6 rounded-xl bg-pink-50 hover:shadow-lg transition">
                   <div className="text-5xl mb-4">🌸</div>
                   <h4 className="text-xl font-bold text-gray-800 mb-3">Quality First</h4>
@@ -649,7 +581,6 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                {/* Value 2 */}
                 <div className="text-center p-6 rounded-xl bg-rose-50 hover:shadow-lg transition">
                   <div className="text-5xl mb-4">💝</div>
                   <h4 className="text-xl font-bold text-gray-800 mb-3">Customer Love</h4>
@@ -658,7 +589,6 @@ export default function HomePage() {
                   </p>
                 </div>
 
-                {/* Value 3 */}
                 <div className="text-center p-6 rounded-xl bg-pink-50 hover:shadow-lg transition">
                   <div className="text-5xl mb-4">🌿</div>
                   <h4 className="text-xl font-bold text-gray-800 mb-3">Sustainability</h4>
@@ -666,15 +596,12 @@ export default function HomePage() {
                     We're committed to eco-friendly practices to protect our beautiful planet.
                   </p>
                 </div>
-
               </div>
             </div>
 
-            {/* Why Choose Us */}
             <div className="mb-16">
               <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-10 text-center">Why Choose Us</h3>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                
                 <div className="flex items-start gap-4 p-6 bg-white rounded-xl border-2 border-pink-100 hover:border-pink-300 transition">
                   <div className="text-3xl">✨</div>
                   <div>
@@ -722,11 +649,9 @@ export default function HomePage() {
                     <p className="text-gray-600 text-sm">Our friendly team is always here to help with your questions.</p>
                   </div>
                 </div>
-
               </div>
             </div>
 
-            {/* Stats Section */}
             <div className="bg-gradient-to-r from-pink-400 to-rose-400 rounded-2xl p-8 md:p-12 text-white">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                 <div>
@@ -747,15 +672,11 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-
           </div>
         </section>
 
-        {/* CONTACT SECTION */}
         <section id="contact" className="bg-gradient-to-b from-pink-50 to-white py-16 md:py-20">
           <div className="max-w-7xl mx-auto px-6 md:px-10">
-            
-            {/* Contact Form - Centered */}
             <div className="max-w-3xl mx-auto mb-12">
               <div className="bg-white rounded-2xl shadow-lg border border-pink-100 p-6 md:p-8">
                 <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-3 text-center">
@@ -780,7 +701,6 @@ export default function HomePage() {
                 )}
 
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  {/* Name & Email Row */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-semibold text-gray-800 mb-2">
@@ -815,7 +735,6 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Phone & Subject Row */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="phone" className="block text-sm font-semibold text-gray-800 mb-2">
@@ -856,7 +775,6 @@ export default function HomePage() {
                     </div>
                   </div>
 
-                  {/* Message */}
                   <div>
                     <label htmlFor="message" className="block text-sm font-semibold text-gray-800 mb-2">
                       Your Message <span className="text-red-500">*</span>
@@ -873,7 +791,6 @@ export default function HomePage() {
                     />
                   </div>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={loading}
@@ -895,10 +812,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Contact Info Cards - Grid Below Form */}
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-              
-              {/* Quick Contact Card */}
               <div className="bg-gradient-to-br from-pink-300 to-rose-200 rounded-2xl p-6 text-white shadow-md">
                 <h3 className="text-xl font-bold mb-4">Quick Contact</h3>
                 <div className="space-y-3">
@@ -923,7 +837,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Visit Us Card */}
               <div className="bg-white rounded-2xl shadow-md border border-pink-100 p-6">
                 <div className="flex items-start gap-3">
                   <div className="bg-pink-50 p-2 rounded-lg">
@@ -942,7 +855,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Business Hours Card */}
               <div className="bg-white rounded-2xl shadow-md border border-pink-100 p-6">
                 <div className="flex items-start gap-3">
                   <div className="bg-pink-50 p-2 rounded-lg">
@@ -970,7 +882,6 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Social Media Card */}
               <div className="bg-white rounded-2xl shadow-md border border-pink-100 p-6">
                 <h3 className="font-bold text-gray-800 mb-4">Follow Us</h3>
                 <div className="grid grid-cols-4 gap-2">
@@ -996,12 +907,9 @@ export default function HomePage() {
                   </a>
                 </div>
               </div>
-
             </div>
-
           </div>
         </section>
-
       </div>
     </main>
   );

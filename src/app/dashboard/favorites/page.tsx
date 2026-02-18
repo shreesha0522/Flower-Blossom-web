@@ -12,7 +12,7 @@ export default function FavoritesPage() {
 
   const handleAddToCart = (item: FavoriteProduct) => {
     setAddingToCart(item.id);
-    
+
     addToCart({
       id: item.id,
       name: item.name,
@@ -33,7 +33,6 @@ export default function FavoritesPage() {
   return (
     <div className="min-h-screen bg-gray-50 p-6">
       <div className="max-w-7xl mx-auto">
-        {/* Header */}
         <div className="mb-8 flex justify-between items-center">
           <div>
             <h1 className="text-3xl font-bold text-gray-800">My Favorites</h1>
@@ -52,7 +51,6 @@ export default function FavoritesPage() {
           )}
         </div>
 
-        {/* Favorites Grid */}
         {favorites.length === 0 ? (
           <div className="bg-white rounded-xl p-12 text-center shadow-sm">
             <div className="text-6xl mb-4">💝</div>
@@ -72,7 +70,6 @@ export default function FavoritesPage() {
                 key={item.id}
                 className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition group"
               >
-                {/* Image */}
                 <div className="w-full h-48 relative mb-4">
                   {item.image ? (
                     <Image
@@ -86,15 +83,13 @@ export default function FavoritesPage() {
                       💐
                     </div>
                   )}
-                  
-                  {/* Discount Badge */}
+
                   {item.discount && (
                     <div className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 rounded-lg text-xs font-bold">
                       {item.discount}% OFF
                     </div>
                   )}
 
-                  {/* Remove from Favorites Button */}
                   <button
                     onClick={() => removeFromFavorites(item.id)}
                     className="absolute top-2 left-2 bg-white rounded-full p-2 shadow-md hover:bg-red-50 transition opacity-0 group-hover:opacity-100"
@@ -106,12 +101,10 @@ export default function FavoritesPage() {
                   </button>
                 </div>
 
-                {/* Name */}
                 <h2 className="text-lg font-semibold text-gray-800 mb-2">
                   {item.name}
                 </h2>
 
-                {/* Price */}
                 <div className="mb-4">
                   <div className="flex items-center gap-2">
                     <p className="text-pink-600 font-bold text-lg">
@@ -128,7 +121,6 @@ export default function FavoritesPage() {
                   )}
                 </div>
 
-                {/* Buttons */}
                 <div className="space-y-2">
                   <button
                     onClick={() => handleAddToCart(item)}
@@ -137,7 +129,7 @@ export default function FavoritesPage() {
                   >
                     {addingToCart === item.id ? "Adding..." : "Add to Cart"}
                   </button>
-                  
+
                   <button
                     onClick={() => removeFromFavorites(item.id)}
                     className="w-full border border-red-300 text-red-600 py-2 rounded-lg hover:bg-red-50 transition font-medium"
@@ -150,7 +142,6 @@ export default function FavoritesPage() {
           </div>
         )}
 
-        {/* Continue Shopping */}
         {favorites.length > 0 && (
           <div className="mt-8 text-center">
             <Link

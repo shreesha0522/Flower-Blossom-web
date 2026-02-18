@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { getAllUsers } from "@/lib/api/admin.api";
@@ -22,7 +21,6 @@ export default function AdminStatsPage() {
       try {
         setLoading(true);
 
-        // Fetch all users + admin users + recent users in parallel
         const [allData, adminData, recentData] = await Promise.all([
           getAllUsers({ limit: 1 }),
           getAllUsers({ limit: 1, role: "admin" }),
@@ -94,7 +92,6 @@ export default function AdminStatsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
@@ -117,7 +114,6 @@ export default function AdminStatsPage() {
           </div>
         )}
 
-        {/* Stat Cards */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {statCards.map((card) => (
             <Link key={card.label} href={card.link}>
@@ -132,11 +128,9 @@ export default function AdminStatsPage() {
           ))}
         </div>
 
-        {/* User Role Distribution */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
           <h2 className="text-sm font-semibold text-gray-700 mb-4">Role Distribution</h2>
           <div className="space-y-3">
-            {/* Admin bar */}
             <div>
               <div className="flex justify-between text-xs text-gray-500 mb-1">
                 <span>Admin Users</span>
@@ -149,7 +143,7 @@ export default function AdminStatsPage() {
                 />
               </div>
             </div>
-            {/* Regular users bar */}
+
             <div>
               <div className="flex justify-between text-xs text-gray-500 mb-1">
                 <span>Regular Users</span>
@@ -165,12 +159,11 @@ export default function AdminStatsPage() {
           </div>
         </div>
 
-        {/* Recently Added Users */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
           <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
             <h2 className="text-sm font-semibold text-gray-700">Recently Added Users</h2>
             <Link href="/admin/users" className="text-xs text-pink-500 hover:underline font-medium">
-              View all →
+              View all
             </Link>
           </div>
           <div className="divide-y divide-gray-50">
@@ -195,7 +188,7 @@ export default function AdminStatsPage() {
                     href={`/admin/users/${user.id}`}
                     className="text-xs text-gray-400 hover:text-pink-500 transition-colors"
                   >
-                    View →
+                    View
                   </Link>
                 </div>
               </div>
@@ -203,7 +196,6 @@ export default function AdminStatsPage() {
           </div>
         </div>
 
-        {/* Quick Actions */}
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
           <Link href="/admin/users/create">
             <div className="bg-gradient-to-br from-pink-500 to-rose-400 rounded-xl p-5 text-white hover:shadow-lg transition-shadow cursor-pointer">

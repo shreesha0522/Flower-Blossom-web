@@ -32,8 +32,6 @@ const UserSchema = new Schema(
       type: String,
       default: null,
     },
-
-    // ✅ ADD THESE for forgot/reset password
     resetPasswordToken: {
       type: String,
       default: null,

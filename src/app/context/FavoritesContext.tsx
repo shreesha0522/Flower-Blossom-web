@@ -1,5 +1,4 @@
 "use client";
-
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 
 export interface FavoriteProduct {
@@ -28,7 +27,6 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
   const [favorites, setFavorites] = useState<FavoriteProduct[]>([]);
   const [mounted, setMounted] = useState(false);
 
-  // Load favorites from localStorage on mount
   useEffect(() => {
     setMounted(true);
     try {
@@ -41,7 +39,6 @@ export function FavoritesProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Save favorites to localStorage whenever it changes
   useEffect(() => {
     if (mounted) {
       try {

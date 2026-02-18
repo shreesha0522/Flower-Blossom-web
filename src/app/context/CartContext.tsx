@@ -27,7 +27,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [cart, setCart] = useState<Product[]>([]);
   const [isClient, setIsClient] = useState(false);
 
-  // Load cart from localStorage on mount
   useEffect(() => {
     setIsClient(true);
     const savedCart = localStorage.getItem("cart");
@@ -41,11 +40,9 @@ export function CartProvider({ children }: { children: ReactNode }) {
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
   useEffect(() => {
     if (isClient) {
       localStorage.setItem("cart", JSON.stringify(cart));
-      // Dispatch event to notify other components (like navbar)
       window.dispatchEvent(new Event("cartUpdated"));
     }
   }, [cart, isClient]);

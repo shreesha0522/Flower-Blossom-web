@@ -21,13 +21,11 @@ export default function ProfilePage() {
   const [loading, setLoading] = useState<boolean>(true);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Fetch user data on component mount
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        // Get user data from localStorage (set during signup/login)
         const userData = localStorage.getItem('user');
-        
+
         if (userData) {
           const user = JSON.parse(userData);
           const userProfile: ProfileData = {
@@ -39,7 +37,6 @@ export default function ProfilePage() {
           setProfile(userProfile);
           setEditedProfile(userProfile);
 
-          // Fetch profile image from backend
           const userId = user.id || user._id;
           if (userId) {
             try {
@@ -57,7 +54,7 @@ export default function ProfilePage() {
             }
           }
         }
-        
+
       } catch (error) {
         console.error("Error fetching user data:", error);
       } finally {
@@ -71,7 +68,6 @@ export default function ProfilePage() {
   const handlePhotoUpload = async (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
-      // Show preview immediately
       const reader = new FileReader();
       reader.onloadend = () => {
         const result = reader.result;
@@ -81,23 +77,20 @@ export default function ProfilePage() {
       };
       reader.readAsDataURL(file);
 
-      // Upload to backend
       try {
-        // Get userId from localStorage
         const userData = localStorage.getItem('user');
         if (!userData) {
           alert('User not logged in');
           return;
         }
-        
+
         const user = JSON.parse(userData);
         const userId = user.id || user._id;
 
         const formData = new FormData();
-        formData.append('image', file);  // Backend expects 'image' field name
+        formData.append('image', file);
         formData.append('userId', userId);
-        
-        // Send to your Express backend
+
         const response = await fetch('http://localhost:8000/api/upload/profile-image', {
           method: 'POST',
           body: formData,
@@ -109,16 +102,15 @@ export default function ProfilePage() {
 
         const data = await response.json();
         console.log('Photo uploaded successfully:', data);
-        
-        // Save the server URL to localStorage and update state
+
         if (data.data && data.data.imageUrl) {
           const fullImageUrl = `http://localhost:8000${data.data.imageUrl}`;
           setProfilePhoto(fullImageUrl);
           localStorage.setItem('profilePhoto', fullImageUrl);
         }
-        
+
         alert('Photo uploaded successfully!');
-        
+
       } catch (error) {
         console.error('Error uploading photo:', error);
         alert('Failed to upload photo to server');
@@ -128,17 +120,15 @@ export default function ProfilePage() {
 
   const handleDeletePhoto = async () => {
     try {
-      // Get userId from localStorage
       const userData = localStorage.getItem('user');
       if (!userData) {
         alert('User not logged in');
         return;
       }
-      
+
       const user = JSON.parse(userData);
       const userId = user.id || user._id;
 
-      // Delete from your Express backend directly
       const response = await fetch(`http://localhost:8000/api/upload/profile-image/${userId}`, {
         method: 'DELETE',
       });
@@ -147,13 +137,12 @@ export default function ProfilePage() {
         throw new Error('Failed to delete photo');
       }
 
-      // Clear local state and storage
       setProfilePhoto(null);
       localStorage.removeItem('profilePhoto');
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
-      
+
       alert('Photo deleted successfully!');
     } catch (error) {
       console.error('Error deleting photo:', error);
@@ -163,20 +152,12 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     try {
-      // Save to localStorage
       const userData = localStorage.getItem('user');
       if (userData) {
         const user = JSON.parse(userData);
         const updatedUser = { ...user, ...editedProfile };
         localStorage.setItem('user', JSON.stringify(updatedUser));
       }
-
-      // OR save to API if you have backend
-      // await fetch('/api/user/profile', {
-      //   method: 'PUT',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(editedProfile)
-      // });
 
       setProfile(editedProfile);
       setIsEditing(false);
@@ -216,7 +197,6 @@ export default function ProfilePage() {
             )}
           </div>
 
-          {/* Profile Photo Section - Always visible */}
           <div className="mb-6 flex items-center gap-6">
             <div className="relative flex-shrink-0">
               <div className="w-24 h-24 rounded-full overflow-hidden border-3 border-pink-200 bg-gray-100 flex items-center justify-center">
@@ -237,8 +217,7 @@ export default function ProfilePage() {
                 )}
               </div>
             </div>
-            
-            {/* Upload/Delete buttons - Only show when editing */}
+
             {isEditing && (
               <div className="flex gap-3">
                 <input

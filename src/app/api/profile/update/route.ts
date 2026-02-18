@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-
 const API = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 
 export async function POST(req: NextRequest) {
@@ -25,12 +24,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // ✅ Proxy to Express backend
     const response = await fetch(`${API}/api/auth/${userId}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
-        // ✅ Don't set Content-Type — fetch sets it automatically for FormData
       },
       body: formData,
     });
@@ -68,7 +65,6 @@ export async function GET(req: NextRequest) {
       );
     }
 
-    // ✅ Proxy to Express backend
     const response = await fetch(`${API}/api/auth/${userId}`, {
       method: "GET",
       headers: {

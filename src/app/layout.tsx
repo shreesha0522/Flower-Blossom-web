@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import { CartProvider } from "./context/CartContext"; // <- Import CartProvider
+import { CartProvider } from "./context/CartContext";
 
-// Fonts
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -14,13 +13,11 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-// Metadata
 export const metadata: Metadata = {
   title: "Flower Shop App",
   description: "Flower Blossom Shop built with Next.js",
 };
 
-// RootLayout
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -31,7 +28,6 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* Wrap everything in CartProvider for global cart state */}
         <CartProvider>{children}</CartProvider>
       </body>
     </html>

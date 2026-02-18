@@ -14,7 +14,6 @@ export default function DashboardNav({ user }: { user: any }) {
     setMounted(true);
   }, []);
 
-  // Use try-catch to handle potential context errors
   let cart: any[] = [];
   let favorites = [];
 

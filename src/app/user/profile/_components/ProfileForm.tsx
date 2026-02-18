@@ -22,7 +22,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
-  // Helper function to get proxied image URL
   const getProxiedImageUrl = (url: string | undefined) => {
     if (!url) {
       return `https://ui-avatars.com/api/?name=${encodeURIComponent(
@@ -30,17 +29,14 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
       )}&size=200&background=fbb6ce&color=fff`;
     }
 
-    // If it's a data URL (preview), return as-is
     if (url.startsWith('data:')) {
       return url;
     }
 
-    // If it's already a full URL with localhost, proxy it
     if (url.includes('localhost') || url.includes('127.0.0.1')) {
       return `/api/image-proxy?url=${encodeURIComponent(url)}`;
     }
 
-    // If it's a relative path, make it absolute and proxy it
     if (url.startsWith('/uploads')) {
       const fullUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${url}`;
       return `/api/image-proxy?url=${encodeURIComponent(fullUrl)}`;
@@ -112,18 +108,18 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
 
     try {
       const formData = new FormData();
-      
+
       formData.append("userId", userId);
       formData.append("name", data.name);
       formData.append("email", data.email);
-      
+
       if (data.bio) {
         formData.append("bio", data.bio);
       }
       if (data.phone) {
         formData.append("phone", data.phone);
       }
-      
+
       if (selectedFile) {
         formData.append("image", selectedFile);
       }
@@ -140,23 +136,21 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
       }
 
       setSuccess("Profile updated successfully!");
-      
-      // Use proxy for the returned image URL
+
       if (result.imageUrl) {
-        const backendUrl = result.imageUrl.startsWith('http') 
-          ? result.imageUrl 
+        const backendUrl = result.imageUrl.startsWith('http')
+          ? result.imageUrl
           : `${process.env.NEXT_PUBLIC_API_BASE_URL}${result.imageUrl}`;
-        
-        // Proxy the URL
+
         const proxiedUrl = `/api/image-proxy?url=${encodeURIComponent(backendUrl)}`;
-        
+
         setImagePreview(proxiedUrl);
         setSelectedFile(null);
         if (fileInputRef.current) {
           fileInputRef.current.value = "";
         }
       }
-      
+
     } catch (err: any) {
       setError(err.message || "Failed to update profile. Please try again.");
       console.error("Profile update error:", err);
@@ -168,11 +162,9 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
       onSubmit={handleSubmit(onSubmit)}
       className="space-y-6 p-6 bg-white rounded-lg shadow-md w-full max-w-md mx-auto"
     >
-      {/* Messages */}
       {error && <p className="text-sm text-red-600">{error}</p>}
       {success && <p className="text-sm text-green-600">{success}</p>}
 
-      {/* Profile Image */}
       <div className="flex flex-col items-center space-y-3">
         <div className="relative group">
           <div className="relative w-24 h-24 rounded-full overflow-hidden border-4 border-pink-200 shadow-lg">
@@ -226,7 +218,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
         </p>
       </div>
 
-      {/* Name */}
       <div className="space-y-1">
         <label htmlFor="name" className="text-sm font-medium">
           Full Name
@@ -243,7 +234,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
         )}
       </div>
 
-      {/* Email */}
       <div className="space-y-1">
         <label htmlFor="email" className="text-sm font-medium">
           Email
@@ -260,7 +250,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
         )}
       </div>
 
-      {/* Phone */}
       <div className="space-y-1">
         <label htmlFor="phone" className="text-sm font-medium">
           Phone (optional)
@@ -277,7 +266,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
         )}
       </div>
 
-      {/* Bio */}
       <div className="space-y-1">
         <label htmlFor="bio" className="text-sm font-medium">
           Bio (optional)
@@ -294,7 +282,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
         )}
       </div>
 
-      {/* Submit Button */}
       <button
         type="submit"
         disabled={isSubmitting}

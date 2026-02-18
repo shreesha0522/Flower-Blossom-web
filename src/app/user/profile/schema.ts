@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// Profile Update Schema
 export const profileSchema = z.object({
   name: z
     .string()
@@ -30,10 +29,8 @@ export const profileSchema = z.object({
     .or(z.literal(null)),
 });
 
-// TypeScript type for form data
 export type ProfileData = z.infer<typeof profileSchema>;
 
-// Type for API response
 export interface ProfileUpdateResponse {
   success: boolean;
   message?: string;

@@ -1,9 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
-
 const API = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 
-// GET /api/admin/users/[id] - Get single user
 export async function GET(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -12,7 +10,6 @@ export async function GET(
     const { id } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
-
     const response = await fetch(API + "/api/admin/users/" + id, {
       method: "GET",
       headers: {
@@ -20,7 +17,6 @@ export async function GET(
         ...(token ? { Authorization: "Bearer " + token } : {}),
       },
     });
-
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
@@ -31,7 +27,6 @@ export async function GET(
   }
 }
 
-// PUT /api/admin/users/[id] - Update user
 export async function PUT(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -40,18 +35,14 @@ export async function PUT(
     const { id } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
-
     const formData = await req.formData();
-
     const response = await fetch(API + "/api/admin/users/" + id, {
       method: "PUT",
       headers: {
         ...(token ? { Authorization: "Bearer " + token } : {}),
-        // Don't set Content-Type for FormData
       },
       body: formData,
     });
-
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {
@@ -62,7 +53,6 @@ export async function PUT(
   }
 }
 
-// DELETE /api/admin/users/[id] - Delete user
 export async function DELETE(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -71,7 +61,6 @@ export async function DELETE(
     const { id } = await params;
     const cookieStore = await cookies();
     const token = cookieStore.get("auth_token")?.value;
-
     const response = await fetch(API + "/api/admin/users/" + id, {
       method: "DELETE",
       headers: {
@@ -79,7 +68,6 @@ export async function DELETE(
         ...(token ? { Authorization: "Bearer " + token } : {}),
       },
     });
-
     const data = await response.json();
     return NextResponse.json(data, { status: response.status });
   } catch (error) {

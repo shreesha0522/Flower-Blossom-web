@@ -1,13 +1,4 @@
 {
-  "/(auth)/forgot-password/page": "app/(auth)/forgot-password/page.js",
-  "/(auth)/login/page": "app/(auth)/login/page.js",
-  "/(auth)/reset-password/[token]/page": "app/(auth)/reset-password/[token]/page.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/admin/stats/page": "app/admin/stats/page.js",
-  "/admin/users/create/page": "app/admin/users/create/page.js",
-  "/admin/users/page": "app/admin/users/page.js",
-  "/api/user/me/route": "app/api/user/me/route.js",
-  "/page": "app/page.js",
-  "/user/profile/client/page": "app/user/profile/client/page.js",
-  "/user/profile/page": "app/user/profile/page.js"
+  "/dashboard/page": "app/dashboard/page.js",
+  "/page": "app/page.js"
 }

@@ -36,16 +36,16 @@ axiosInstance.interceptors.request.use((config) => {
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error) => {
-    const status  = error.response?.status;
-    const message = error.response?.data?.message
-                 || error.response?.data?.error
-                 || error.message
-                 || "Unknown error";
-    const url     = error.config?.url;
+    const status = error.response?.status;
+    const message =
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      error.message ||
+      "Unknown error";
+    const url = error.config?.url;
 
     console.error("API Error:", { status, message, url });
 
-    // ✅ Attach clean message so components can use err.userMessage
     error.userMessage = message;
 
     return Promise.reject(error);

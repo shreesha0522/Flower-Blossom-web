@@ -5,7 +5,6 @@ export default function NotFound() {
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-white to-purple-50 flex items-center justify-center px-4">
       <div className="max-w-md w-full">
         <div className="bg-white rounded-lg shadow-lg p-8 text-center space-y-6">
-          {/* 404 Illustration */}
           <div className="flex justify-center">
             <div className="relative">
               <div className="text-8xl font-bold text-pink-200">404</div>
@@ -15,7 +14,6 @@ export default function NotFound() {
             </div>
           </div>
 
-          {/* Title and Description */}
           <div>
             <h1 className="text-2xl font-bold text-gray-800 mb-2">
               Profile Not Found
@@ -25,7 +23,6 @@ export default function NotFound() {
             </p>
           </div>
 
-          {/* Possible Reasons */}
           <div className="bg-pink-50 border border-pink-200 rounded-md p-4 text-left">
             <p className="text-sm font-semibold text-pink-800 mb-2">
               Possible reasons:
@@ -38,7 +35,6 @@ export default function NotFound() {
             </ul>
           </div>
 
-          {/* Action Buttons */}
           <div className="space-y-3">
             <Link
               href="/user/profile"
@@ -46,14 +42,12 @@ export default function NotFound() {
             >
               👤 Go to My Profile
             </Link>
-
             <Link
               href="/dashboard"
               className="block w-full h-10 rounded-md bg-gray-100 text-gray-700 text-sm font-semibold hover:bg-gray-200 transition-colors leading-10"
             >
               🏠 Go to Dashboard
             </Link>
-
             <Link
               href="/"
               className="block text-sm text-pink-500 hover:text-pink-600 font-medium"
@@ -62,7 +56,6 @@ export default function NotFound() {
             </Link>
           </div>
 
-          {/* Help Text */}
           <div className="pt-4 border-t border-gray-200">
             <p className="text-xs text-gray-500">
               Need help? Contact support or check your account settings.

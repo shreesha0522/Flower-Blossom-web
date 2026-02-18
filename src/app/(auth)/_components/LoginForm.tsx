@@ -31,7 +31,6 @@ export default function LoginForm() {
         return;
       }
 
-      // ✅ SAVE USER DATA TO LOCALSTORAGE
       if (res.user) {
         const user = res.user as any;
         localStorage.setItem('user', JSON.stringify({
@@ -43,10 +42,8 @@ export default function LoginForm() {
         }));
       }
 
-      // ✅ Wait for cookies to be set server-side
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      // ✅ Use window.location for hard navigation
       if (res.user?.role === "admin") {
         window.location.href = "/admin/dashboard";
       } else if (res.user?.role === "user") {
@@ -67,7 +64,6 @@ export default function LoginForm() {
     >
       {error && <p className="text-sm text-red-600">{error}</p>}
 
-      {/* Email */}
       <div className="space-y-1">
         <label htmlFor="email" className="text-sm font-medium">
           Email
@@ -85,7 +81,6 @@ export default function LoginForm() {
         )}
       </div>
 
-      {/* Password */}
       <div className="space-y-1">
         <label htmlFor="password" className="text-sm font-medium">
           Password
@@ -102,7 +97,6 @@ export default function LoginForm() {
           <p className="text-xs text-red-600">{errors.password.message}</p>
         )}
         
-        {/* 👇 FORGOT PASSWORD LINK - ADDED HERE */}
         <div className="text-right">
           <Link
             href="/forgot-password"
@@ -113,7 +107,6 @@ export default function LoginForm() {
         </div>
       </div>
 
-      {/* Submit Button */}
       <button
         type="submit"
         disabled={pending}
@@ -122,7 +115,6 @@ export default function LoginForm() {
         {pending ? "Logging in..." : "Log in"}
       </button>
 
-      {/* Register Link */}
       <div className="mt-2 text-center text-sm text-gray-600">
         Don&apos;t have an account?{" "}
         <Link

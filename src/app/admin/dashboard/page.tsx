@@ -43,7 +43,6 @@ export default async function AdminDashboard() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Top Bar */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex items-center justify-between">
           <div>
@@ -65,9 +64,7 @@ export default async function AdminDashboard() {
       </div>
 
       <div className="p-6 space-y-6 max-w-7xl mx-auto">
-        {/* Welcome Banner */}
         <div className="relative overflow-hidden bg-gradient-to-r from-pink-500 via-rose-400 to-pink-400 rounded-2xl p-6 text-white shadow-lg">
-          {/* Decorative circles */}
           <div className="absolute -top-8 -right-8 w-40 h-40 bg-white/10 rounded-full" />
           <div className="absolute -bottom-6 -right-4 w-24 h-24 bg-white/10 rounded-full" />
           <div className="absolute top-4 right-32 w-12 h-12 bg-white/10 rounded-full" />
@@ -79,7 +76,7 @@ export default async function AdminDashboard() {
               </span>
             </div>
             <h2 className="text-2xl sm:text-3xl font-bold mb-1">
-              Good day, {userData?.name || "Admin"}! 👋
+              Good day, {userData?.name || "Admin"}!
             </h2>
             <p className="text-pink-100 text-sm">
               Here's what's happening with your store today.
@@ -87,7 +84,6 @@ export default async function AdminDashboard() {
           </div>
         </div>
 
-        {/* Stats Grid */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
           {stats.map((stat) => (
             <div key={stat.label} className="bg-white rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md transition-shadow">
@@ -105,9 +101,7 @@ export default async function AdminDashboard() {
           ))}
         </div>
 
-        {/* Quick Links + Recent Activity */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Quick Links */}
           <div className="lg:col-span-2">
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
               Quick Actions
@@ -129,7 +123,6 @@ export default async function AdminDashboard() {
             </div>
           </div>
 
-          {/* Recent Activity */}
           <div>
             <h2 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">
               Recent Activity

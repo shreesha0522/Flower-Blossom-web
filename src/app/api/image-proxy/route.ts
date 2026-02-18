@@ -10,13 +10,10 @@ export async function GET(request: NextRequest) {
 
   try {
     const response = await fetch(imageUrl);
-    
     if (!response.ok) {
       throw new Error('Failed to fetch image');
     }
-    
     const blob = await response.blob();
-    
     return new NextResponse(blob, {
       headers: {
         'Content-Type': response.headers.get('Content-Type') || 'image/jpeg',
