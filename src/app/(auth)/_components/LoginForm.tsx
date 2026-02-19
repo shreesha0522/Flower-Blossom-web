@@ -25,32 +25,19 @@ export default function LoginForm() {
     setError("");
     try {
       const res = await handleLogin(data);
-      console.log("Login response:", res);
       if (!res.success) {
         setError(res.message || "Login Failed");
         return;
       }
-
-      if (res.user) {
-        const user = res.user as any;
-        localStorage.setItem('user', JSON.stringify({
-          id: user._id || user.id,
-          _id: user._id || user.id,
-          name: user.username || user.name,
-          email: user.email,
-          role: user.role
-        }));
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 200));
-
-      if (res.user?.role === "admin") {
-        window.location.href = "/admin/dashboard";
-      } else if (res.user?.role === "user") {
-        window.location.href = "/dashboard";
-      } else {
-        window.location.href = "/";
-      }
+      startTransition(() => {
+        if (res.user?.role === "admin") {
+          router.push("/admin/dashboard");
+        } else if (res.user?.role === "user") {
+          router.push("/dashboard");
+        } else {
+          router.push("/");
+        }
+      });
     } catch (err: any) {
       console.error("Login error:", err);
       setError(err?.message || "Login Failed");
@@ -96,12 +83,8 @@ export default function LoginForm() {
         {errors.password && (
           <p className="text-xs text-red-600">{errors.password.message}</p>
         )}
-        
         <div className="text-right">
-          <Link
-            href="/forgot-password"
-            className="text-xs text-pink-400 hover:underline"
-          >
+          <Link href="/forgot-password" className="text-xs text-pink-400 hover:underline">
             Forgot Password?
           </Link>
         </div>
@@ -117,10 +100,7 @@ export default function LoginForm() {
 
       <div className="mt-2 text-center text-sm text-gray-600">
         Don&apos;t have an account?{" "}
-        <Link
-          href="/register"
-          className="font-semibold text-pink-400 hover:underline"
-        >
+        <Link href="/register" className="font-semibold text-pink-400 hover:underline">
           Sign up
         </Link>
       </div>

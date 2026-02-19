@@ -40,19 +40,36 @@ export default function RegisterForm() {
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       <div className="space-y-1">
-        <label className="text-sm font-medium" htmlFor="name">
-          Full name
+        <label className="text-sm font-medium" htmlFor="firstName">
+          First name
         </label>
         <input
-          id="name"
+          id="firstName"
           type="text"
-          autoComplete="name"
+          autoComplete="given-name"
           className="h-10 w-full rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm outline-none focus:border-foreground/40"
-          {...register("name")}
-          placeholder="Shreesha Shrestha"
+          {...register("firstName")}
+          placeholder="Shreesha"
         />
-        {errors.name && (
-          <p className="text-xs text-red-600">{errors.name.message}</p>
+        {errors.firstName && (
+          <p className="text-xs text-red-600">{errors.firstName.message}</p>
+        )}
+      </div>
+
+      <div className="space-y-1">
+        <label className="text-sm font-medium" htmlFor="lastName">
+          Last name
+        </label>
+        <input
+          id="lastName"
+          type="text"
+          autoComplete="family-name"
+          className="h-10 w-full rounded-md border border-black/10 dark:border-white/15 bg-background px-3 text-sm outline-none focus:border-foreground/40"
+          {...register("lastName")}
+          placeholder="Shrestha"
+        />
+        {errors.lastName && (
+          <p className="text-xs text-red-600">{errors.lastName.message}</p>
         )}
       </div>
 

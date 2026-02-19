@@ -1,4 +1,5 @@
 import axiosInstance from "@/lib/api/axiosInstance";
+import { API } from "@/lib/api/endpoint";
 
 export const getAllUsers = async (params?: {
   page?: number;
@@ -13,31 +14,31 @@ export const getAllUsers = async (params?: {
   if (params?.role) query.set("role", params.role);
 
   const response = await axiosInstance.get(
-    "/api/admin/users?" + query.toString()
+    `${API.ADMIN.USERS}?${query.toString()}`
   );
   return response.data;
 };
 
 export const getUserById = async (id: string) => {
-  const response = await axiosInstance.get("/api/admin/users/" + id);
+  const response = await axiosInstance.get(API.ADMIN.USER_BY_ID(id));
   return response.data;
 };
 
 export const createUser = async (formData: FormData) => {
-  const response = await axiosInstance.post("/api/admin/users", formData, {
+  const response = await axiosInstance.post(API.ADMIN.USERS, formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
   return response.data;
 };
 
 export const updateUser = async (id: string, formData: FormData) => {
-  const response = await axiosInstance.put("/api/admin/users/" + id, formData, {
+  const response = await axiosInstance.put(API.ADMIN.USER_BY_ID(id), formData, {
     headers: { "Content-Type": "multipart/form-data" },
   });
   return response.data;
 };
 
 export const deleteUser = async (id: string) => {
-  const response = await axiosInstance.delete("/api/admin/users/" + id);
+  const response = await axiosInstance.delete(API.ADMIN.USER_BY_ID(id));
   return response.data;
 };

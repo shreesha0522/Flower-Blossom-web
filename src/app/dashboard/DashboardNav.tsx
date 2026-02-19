@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useCart } from "@/app/context/CartContext";
 import { useFavorites } from "@/app/context/FavoritesContext";
 
@@ -49,12 +50,12 @@ export default function DashboardNav({ user }: { user: any }) {
     <nav className="bg-black text-white shadow-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
+          {/* Logo */}
           <Link
             href="/dashboard"
-            className="flex items-center gap-2 text-white font-bold text-xl hover:text-pink-300 transition"
+            className="flex items-center gap-2"
           >
-            <span className="text-2xl">🌸</span>
-            <span className="hidden sm:inline">Flower Blossom</span>
+            <Image src="/logo.png" alt="Logo" width={180} height={40} className="object-contain" />
           </Link>
 
           <div className="hidden md:flex gap-6 text-sm font-medium">

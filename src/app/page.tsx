@@ -91,9 +91,9 @@ export default function HomePage() {
     <main className="min-h-screen bg-white">
       <div className="w-full">
         <nav className="flex items-center justify-between px-6 md:px-10 py-6 max-w-7xl mx-auto">
-          <div className="flex items-center gap-2 text-pink-500 font-bold text-xl">
-            🌸 <span>Flower Blossom</span>
-          </div>
+         <div className="flex items-center gap-2">
+  <Image src="/logo.png" alt="Flower Blossom Logo" width={220} height={40} className="object-contain" />
+</div>
           <ul className="hidden md:flex gap-8 text-gray-600 font-medium">
             <li className="hover:text-pink-500 cursor-pointer">Home</li>
             <li className="hover:text-pink-500 cursor-pointer">

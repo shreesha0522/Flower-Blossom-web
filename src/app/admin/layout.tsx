@@ -3,6 +3,8 @@
 import { useEffect, useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import { clearAuthCookies } from "@/lib/cookie";
 
 const navItems = [
   {
@@ -54,9 +56,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     fetchUser();
   }, [router]);
 
-  const handleLogout = () => {
-    document.cookie = "auth_token=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
-    document.cookie = "user_data=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
+  const handleLogout = async () => {
+    await clearAuthCookies();
     router.push("/login");
   };
 
@@ -76,6 +77,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
 
   return (
     <div className="min-h-screen bg-gray-50 flex">
+      {/* Overlay for mobile sidebar */}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-20 lg:hidden"
@@ -83,6 +85,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         />
       )}
 
+      {/* Sidebar */}
       <aside
         className={`
           fixed lg:static inset-y-0 left-0 z-30 w-64 bg-white border-r border-gray-100
@@ -90,18 +93,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
+        {/* Logo */}
         <div className="p-5 border-b border-gray-100">
-          <div className="flex items-center gap-2">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center shadow-sm">
-              <span className="text-white text-lg">🌸</span>
-            </div>
-            <div>
-              <p className="text-sm font-bold text-gray-800">Flower Blossom</p>
-              <p className="text-xs text-gray-400">Admin Panel</p>
-            </div>
+          <div className="relative w-full h-12">
+            <Image
+              src="/logo.png"
+              alt="Logo"
+              fill
+              className="object-contain"
+            />
           </div>
         </div>
 
+        {/* Navigation */}
         <nav className="flex-1 p-4 space-y-5 overflow-y-auto">
           {navItems.map((section) => (
             <div key={section.section}>
@@ -134,6 +138,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ))}
         </nav>
 
+        {/* User info & logout */}
         <div className="p-4 border-t border-gray-100">
           <div className="flex items-center gap-3 mb-3 px-1">
             <div className="w-9 h-9 rounded-full bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-white text-sm font-bold shadow-sm flex-shrink-0">
@@ -159,11 +164,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         </div>
       </aside>
 
+      {/* Main content */}
       <div className="flex-1 flex flex-col min-w-0">
+        {/* Mobile top bar */}
         <div className="lg:hidden flex items-center justify-between px-4 py-3 bg-white border-b border-gray-100 shadow-sm">
-          <div className="flex items-center gap-2">
-            <span className="text-xl">🌸</span>
-            <span className="text-sm font-bold text-gray-800">Flower Blossom</span>
+          <div className="relative w-32 h-10">
+            <Image src="/logo.png" alt="Logo" fill className="object-contain" />
           </div>
           <button
             onClick={() => setSidebarOpen(true)}
