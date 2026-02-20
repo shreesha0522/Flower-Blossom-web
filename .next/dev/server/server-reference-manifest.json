@@ -15,20 +15,41 @@
       "filename": "src/lib/action/auth-action.ts",
       "exportedName": "handleLogin"
     },
-    "406cc0ea14c84a36f2a1894713b4a5b7144fc2cf2c": {
+    "00dbf8ef3a7ad32a030537ce2a91568c2bb341ae2e": {
       "workers": {
-        "app/(auth)/register/page": {
-          "moduleId": "[project]/.next-internal/server/app/(auth)/register/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/action/auth-action.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+        "app/admin/dashboard/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/dashboard/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/cookie.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
-          "exportedName": "handleRegister",
-          "filename": "src/lib/action/auth-action.ts"
+          "exportedName": "clearAuthCookies",
+          "filename": "src/lib/cookie.ts"
+        },
+        "app/admin/products/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/cookie.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "clearAuthCookies",
+          "filename": "src/lib/cookie.ts"
+        },
+        "app/admin/users/create/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/users/create/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/cookie.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "clearAuthCookies",
+          "filename": "src/lib/cookie.ts"
+        },
+        "app/admin/users/page": {
+          "moduleId": "[project]/.next-internal/server/app/admin/users/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/cookie.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
+          "async": false,
+          "exportedName": "clearAuthCookies",
+          "filename": "src/lib/cookie.ts"
         }
       },
       "layer": {
-        "app/(auth)/register/page": "action-browser"
+        "app/admin/dashboard/page": "action-browser",
+        "app/admin/products/page": "action-browser",
+        "app/admin/users/create/page": "action-browser",
+        "app/admin/users/page": "action-browser"
       },
-      "filename": "src/lib/action/auth-action.ts",
-      "exportedName": "handleRegister"
+      "filename": "src/lib/cookie.ts",
+      "exportedName": "clearAuthCookies"
     }
   },
   "edge": {},

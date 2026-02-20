@@ -1,10 +1,10 @@
 {
   "/(auth)/login/page": "app/(auth)/login/page.js",
-  "/(auth)/register/page": "app/(auth)/register/page.js",
-  "/dashboard/about/page": "app/dashboard/about/page.js",
-  "/dashboard/contact/page": "app/dashboard/contact/page.js",
-  "/dashboard/orders/page": "app/dashboard/orders/page.js",
+  "/admin/dashboard/page": "app/admin/dashboard/page.js",
+  "/admin/products/page": "app/admin/products/page.js",
+  "/admin/users/create/page": "app/admin/users/create/page.js",
+  "/admin/users/page": "app/admin/users/page.js",
+  "/api/user/me/route": "app/api/user/me/route.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/settings/page": "app/dashboard/settings/page.js",
   "/page": "app/page.js"
 }

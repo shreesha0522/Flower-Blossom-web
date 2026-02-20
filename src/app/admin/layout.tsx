@@ -18,8 +18,8 @@ const navItems = [
     links: [
       { href: "/admin/users", label: "All Users" },
       { href: "/admin/users/create", label: "Create User" },
+      { href: "/admin/products", label: "Products" },
       { href: "#orders", label: "Orders" },
-      { href: "#products", label: "Products" },
     ],
   },
   {
@@ -96,12 +96,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Logo */}
         <div className="p-5 border-b border-gray-100">
           <div className="relative w-full h-12">
-            <Image
-              src="/logo.png"
-              alt="Logo"
-              fill
-              className="object-contain"
-            />
+            <Image src="/logo.png" alt="Logo" fill className="object-contain" />
           </div>
         </div>
 
@@ -124,7 +119,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                         ? "bg-pink-50 text-pink-600 shadow-sm"
                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-800"
                       }
-                      ${link.href === "#" ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}
+                      ${link.href === "#orders" || link.href === "#settings" ? "opacity-50 cursor-not-allowed pointer-events-none" : ""}
                     `}
                   >
                     {link.label}
