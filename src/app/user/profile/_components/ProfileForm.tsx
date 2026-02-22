@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState, useRef, ChangeEvent } from "react";
@@ -28,25 +27,18 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
         initialData?.name || "User"
       )}&size=200&background=fbb6ce&color=fff`;
     }
-
-    if (url.startsWith('data:')) {
-      return url;
-    }
-
-    if (url.includes('localhost') || url.includes('127.0.0.1')) {
+    if (url.startsWith("data:")) return url;
+    if (url.includes("localhost") || url.includes("127.0.0.1")) {
       return `/api/image-proxy?url=${encodeURIComponent(url)}`;
     }
-
-    if (url.startsWith('/uploads')) {
+    if (url.startsWith("/uploads")) {
       const fullUrl = `${process.env.NEXT_PUBLIC_API_BASE_URL}${url}`;
       return `/api/image-proxy?url=${encodeURIComponent(fullUrl)}`;
     }
-
     return url;
   };
 
   const defaultAvatar = getProxiedImageUrl(initialData?.image);
-
   const [imagePreview, setImagePreview] = useState<string>(defaultAvatar);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -69,29 +61,17 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
     setError("");
     const file = e.target.files?.[0];
     if (!file) return;
-
-    const validTypes = [
-      "image/jpeg",
-      "image/jpg",
-      "image/png",
-      "image/gif",
-      "image/webp",
-    ];
-
+    const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif", "image/webp"];
     if (!validTypes.includes(file.type)) {
       setError("Please upload a valid image (JPG, PNG, GIF, WebP)");
       return;
     }
-
     if (file.size > 5 * 1024 * 1024) {
       setError("Image size must be under 5MB");
       return;
     }
-
     const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result as string);
-    };
+    reader.onloadend = () => setImagePreview(reader.result as string);
     reader.readAsDataURL(file);
     setSelectedFile(file);
   };
@@ -105,52 +85,38 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
   const onSubmit = async (data: ProfileData) => {
     setError("");
     setSuccess("");
-
     try {
+      const nameParts = data.name.trim().split(" ");
+      const firstName = nameParts[0] || "";
+      const lastName = nameParts.slice(1).join(" ") || "";
+
       const formData = new FormData();
-
       formData.append("userId", userId);
-      formData.append("name", data.name);
+      formData.append("firstName", firstName);
+      formData.append("lastName", lastName);
       formData.append("email", data.email);
+      if (data.bio) formData.append("bio", data.bio);
+      if (data.phone) formData.append("phone", data.phone);
+      if (selectedFile) formData.append("image", selectedFile);
 
-      if (data.bio) {
-        formData.append("bio", data.bio);
-      }
-      if (data.phone) {
-        formData.append("phone", data.phone);
-      }
-
-      if (selectedFile) {
-        formData.append("image", selectedFile);
-      }
-
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/api/profile/update`, {
+      const response = await fetch(`/api/profile/update`, {
         method: "POST",
         body: formData,
       });
 
       const result = await response.json();
-
       if (!response.ok) {
         throw new Error(result.message || "Failed to update profile");
       }
-
       setSuccess("Profile updated successfully!");
-
-      if (result.imageUrl) {
-        const backendUrl = result.imageUrl.startsWith('http')
-          ? result.imageUrl
-          : `${process.env.NEXT_PUBLIC_API_BASE_URL}${result.imageUrl}`;
-
-        const proxiedUrl = `/api/image-proxy?url=${encodeURIComponent(backendUrl)}`;
-
-        setImagePreview(proxiedUrl);
+      if (result.data?.profileImage) {
+        const backendUrl = result.data.profileImage.startsWith("http")
+          ? result.data.profileImage
+          : `${process.env.NEXT_PUBLIC_API_BASE_URL}${result.data.profileImage}`;
+        setImagePreview(`/api/image-proxy?url=${encodeURIComponent(backendUrl)}`);
         setSelectedFile(null);
-        if (fileInputRef.current) {
-          fileInputRef.current.value = "";
-        }
+        if (fileInputRef.current) fileInputRef.current.value = "";
       }
-
     } catch (err: any) {
       setError(err.message || "Failed to update profile. Please try again.");
       console.error("Profile update error:", err);
@@ -177,7 +143,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
               unoptimized
             />
           </div>
-
           <div
             onClick={() => fileInputRef.current?.click()}
             className="absolute inset-0 rounded-full bg-black/50 opacity-0 group-hover:opacity-100 transition flex items-center justify-center cursor-pointer"
@@ -185,7 +150,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
             <span className="text-xs text-white font-medium">Change</span>
           </div>
         </div>
-
         <input
           ref={fileInputRef}
           type="file"
@@ -193,7 +157,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
           onChange={handleImageChange}
           className="hidden"
         />
-
         <div className="flex gap-2 w-full">
           <button
             type="button"
@@ -202,7 +165,6 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
           >
             Choose Photo
           </button>
-
           <button
             type="button"
             onClick={handleRemoveImage}
@@ -212,16 +174,13 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
             Remove
           </button>
         </div>
-
         <p className="text-xs text-gray-500 text-center">
           JPG, PNG, GIF, WebP • Max 5MB
         </p>
       </div>
 
       <div className="space-y-1">
-        <label htmlFor="name" className="text-sm font-medium">
-          Full Name
-        </label>
+        <label htmlFor="name" className="text-sm font-medium">Full Name</label>
         <input
           id="name"
           type="text"
@@ -229,15 +188,11 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
           className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
           {...register("name")}
         />
-        {errors.name && (
-          <p className="text-xs text-red-600">{errors.name.message}</p>
-        )}
+        {errors.name && <p className="text-xs text-red-600">{errors.name.message}</p>}
       </div>
 
       <div className="space-y-1">
-        <label htmlFor="email" className="text-sm font-medium">
-          Email
-        </label>
+        <label htmlFor="email" className="text-sm font-medium">Email</label>
         <input
           id="email"
           type="email"
@@ -245,15 +200,11 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
           className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
           {...register("email")}
         />
-        {errors.email && (
-          <p className="text-xs text-red-600">{errors.email.message}</p>
-        )}
+        {errors.email && <p className="text-xs text-red-600">{errors.email.message}</p>}
       </div>
 
       <div className="space-y-1">
-        <label htmlFor="phone" className="text-sm font-medium">
-          Phone (optional)
-        </label>
+        <label htmlFor="phone" className="text-sm font-medium">Phone (optional)</label>
         <input
           id="phone"
           type="text"
@@ -261,15 +212,11 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
           className="h-10 w-full rounded-md border border-gray-300 bg-gray-50 px-3 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
           {...register("phone")}
         />
-        {errors.phone && (
-          <p className="text-xs text-red-600">{errors.phone.message}</p>
-        )}
+        {errors.phone && <p className="text-xs text-red-600">{errors.phone.message}</p>}
       </div>
 
       <div className="space-y-1">
-        <label htmlFor="bio" className="text-sm font-medium">
-          Bio (optional)
-        </label>
+        <label htmlFor="bio" className="text-sm font-medium">Bio (optional)</label>
         <textarea
           id="bio"
           rows={3}
@@ -277,9 +224,7 @@ export default function ProfileForm({ userId, initialData }: ProfileFormProps) {
           className="w-full rounded-md border border-gray-300 bg-gray-50 px-3 py-2 text-sm outline-none resize-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400"
           {...register("bio")}
         />
-        {errors.bio && (
-          <p className="text-xs text-red-600">{errors.bio.message}</p>
-        )}
+        {errors.bio && <p className="text-xs text-red-600">{errors.bio.message}</p>}
       </div>
 
       <button

@@ -21,7 +21,7 @@ export default async function AdminDashboard() {
   // Fetch real total users from API
   let totalUsers = "0";
   try {
-    const usersData = await getAllUsers({ limit: 1 });
+    const usersData = await getAllUsers({ limit: 1 }, authToken.value);
     totalUsers = String(usersData.pagination?.totalUsers || 0);
   } catch {}
 

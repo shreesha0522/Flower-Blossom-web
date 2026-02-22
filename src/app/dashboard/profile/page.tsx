@@ -15,6 +15,7 @@ interface ProfileData {
 
 export default function ProfilePage() {
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [userId, setUserId] = useState<string>("");
   const [profile, setProfile] = useState<ProfileData>({
     firstName: "",
     lastName: "",
@@ -38,6 +39,7 @@ export default function ProfilePage() {
       try {
         const res = await axiosInstance.get(API.AUTH.ME);
         const user = res.data?.data || res.data;
+        setUserId(user.id || user._id || "");
         const userProfile: ProfileData = {
           firstName: user.firstName || "",
           lastName: user.lastName || "",
@@ -66,7 +68,6 @@ export default function ProfilePage() {
   const handleImageChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-
     const validTypes = ["image/jpeg", "image/jpg", "image/png", "image/webp"];
     if (!validTypes.includes(file.type)) {
       setError("Please upload a valid image (JPG, PNG, WebP)");
@@ -76,7 +77,6 @@ export default function ProfilePage() {
       setError("Image size must be under 5MB");
       return;
     }
-
     const reader = new FileReader();
     reader.onloadend = () => setImagePreview(reader.result as string);
     reader.readAsDataURL(file);
@@ -96,9 +96,18 @@ export default function ProfilePage() {
       form.append("bio", editedProfile.bio);
       if (selectedFile) form.append("image", selectedFile);
 
-      await axiosInstance.put(API.PROFILE.UPDATE, form, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const res = await axiosInstance.put(
+        `${API.AUTH.UPDATE_USER}/${userId}`,
+        form,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      const updatedUser = res.data?.data;
+      if (updatedUser?.profileImage) {
+        setImagePreview(
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}${updatedUser.profileImage}`
+        );
+      }
 
       setProfile(editedProfile);
       setSuccess("Profile updated successfully!");
@@ -148,7 +157,6 @@ export default function ProfilePage() {
               </button>
             )}
           </div>
-
           {error && <p className="text-sm text-red-600 mb-4">{error}</p>}
           {success && <p className="text-sm text-green-600 mb-4">{success}</p>}
 
@@ -165,7 +173,6 @@ export default function ProfilePage() {
                 )}
               </div>
             </div>
-
             {isEditing && (
               <div className="flex gap-3">
                 <input
@@ -216,12 +223,10 @@ export default function ProfilePage() {
                 )}
               </div>
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Username</label>
               <p className="text-gray-800">@{profile.username || "—"}</p>
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Email</label>
               {isEditing ? (
@@ -235,7 +240,6 @@ export default function ProfilePage() {
                 <p className="text-gray-800">{profile.email || "—"}</p>
               )}
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Phone</label>
               {isEditing ? (
@@ -249,7 +253,6 @@ export default function ProfilePage() {
                 <p className="text-gray-800">{profile.phone || "—"}</p>
               )}
             </div>
-
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Bio</label>
               {isEditing ? (
@@ -263,7 +266,6 @@ export default function ProfilePage() {
                 <p className="text-gray-800">{profile.bio || "—"}</p>
               )}
             </div>
-
             {isEditing && (
               <div className="flex gap-3 pt-4">
                 <button

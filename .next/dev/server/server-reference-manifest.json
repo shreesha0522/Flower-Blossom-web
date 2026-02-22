@@ -23,12 +23,6 @@
           "exportedName": "clearAuthCookies",
           "filename": "src/lib/cookie.ts"
         },
-        "app/admin/products/page": {
-          "moduleId": "[project]/.next-internal/server/app/admin/products/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/cookie.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
-          "async": false,
-          "exportedName": "clearAuthCookies",
-          "filename": "src/lib/cookie.ts"
-        },
         "app/admin/users/create/page": {
           "moduleId": "[project]/.next-internal/server/app/admin/users/create/page/actions.js { ACTIONS_MODULE0 => \"[project]/src/lib/cookie.ts [app-rsc] (ecmascript)\" } [app-rsc] (server actions loader, ecmascript)",
           "async": false,
@@ -44,7 +38,6 @@
       },
       "layer": {
         "app/admin/dashboard/page": "action-browser",
-        "app/admin/products/page": "action-browser",
         "app/admin/users/create/page": "action-browser",
         "app/admin/users/page": "action-browser"
       },

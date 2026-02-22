@@ -1,24 +1,10 @@
-[00:00:01.705] Server  LOG     ✓ Ready in 1336ms
-[00:05:14.972] Browser WARN    Image with src "/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:05:14.972] Browser ERROR   API Error: {"message":"Network Error","url":"/api/products"}
-[00:05:14.972] Browser ERROR   Failed to fetch products: {"code":"ERR_NETWORK","config":{"adapter":["xhr","http","fetch"],"allowAbsoluteUrls":true,"baseURL":"http://localhost:8000","env":{},"headers":{"Accept":"application/json, text/plain, */*","Authorization":"Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5ODI0ODk2Y2VlNTBlMzIxZmE2NGU4NCIsInVzZXJuYW1lIjoid2F0ZXIiLCJlbWFpbCI6IndhdGVyQGdtYWlsLmNvbSIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzcxNTI1OTcyLCJleHAiOjE3NzQxMTc5NzJ9.a2WH9o10S9UYBrRHbmYhQOSsz9x-Ha4t6oHHHJGzaYk","Content-Type":"application/json"},"maxBodyLength":-1,"maxContentLength":-1,"method":"get","params":{"limit":100},"timeout":0,"transformRequest":[null],"transformResponse":[null],"transitional":{"clarifyTimeoutError":false,"forcedJSONParsing":true,"legacyInterceptorReqResOrdering":true,"silentJSONParsing":true},"url":"/api/products","withCredentials":true,"xsrfCookieName":"XSRF-TOKEN","xsrfHeaderName":"X-XSRF-TOKEN"},"message":"Network Error","name":"AxiosError","stack":"AxiosError@http://localhost:3000/_next/static/chunks/node_modules_1004abc2._.js:2236:14\nhandleError@http://localhost:3000/_next/static/chunks/node_modules_1004abc2._.js:4029:189\n@http://localhost:3000/_next/static/chunks/node_modules_1004abc2._.js:4789:66"}
-[00:05:37.329] Browser WARN    Image with src "/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
-[00:05:37.329] Browser WARN    Image with src "/new.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:05:37.329] Browser WARN    Image with src "/images/flower4.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:05:37.329] Browser WARN    Image with src "/images/flower3.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:05:37.329] Browser WARN    Image with src "/images/flower2.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:05:37.329] Browser WARN    Image with src "/images/flower1.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:05:50.786] Server  ERROR   (node:34678) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
+[00:00:01.086] Server  LOG     ✓ Ready in 837ms
+[00:00:13.893] Browser WARN    Image with src "/logo.png" has either width or height modified, but not the other. If you use CSS to change the size of your image, also include the styles 'width: "auto"' or 'height: "auto"' to maintain the aspect ratio.
+[00:00:13.893] Browser WARN    Image with src "/new.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:13.894] Browser WARN    Image with src "/images/flower3.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:13.894] Browser WARN    Image with src "/images/flower4.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:13.894] Browser WARN    Image with src "/images/flower1.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:13.894] Browser WARN    Image with src "/images/flower2.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:24.731] Server  ERROR   (node:2811) [DEP0169] DeprecationWarning: `url.parse()` behavior is not standardized and prone to errors that have security implications. Use the WHATWG URL API instead. CVEs are not issued for `url.parse()` vulnerabilities.
 (Use `node --trace-deprecation ...` to show where the warning was created)
-[00:05:50.791] Server  ERROR   API Error: {}
-[00:05:51.093] Server  ERROR   Login error: AggregateError
-[00:06:07.141] Server  ERROR   API Error: {}
-[00:06:07.329] Server  ERROR   Login error: AggregateError
-[00:06:12.460] Server  ERROR   API Error: {}
-[00:06:12.622] Server  ERROR   Login error: AggregateError
-[00:07:11.172] Server  ERROR   API Error: {}
-[00:07:11.491] Server  ERROR   Login error: AxiosError: Request failed with status code 401
-[00:07:18.493] Server  ERROR   API Error: {}
-[00:07:18.558] Server  ERROR   API Error: {}
-[00:07:19.393] Browser WARN    Image with src "/logo.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
-[00:09:29.723] Browser WARN    Image with src "/logo.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes
+[00:00:25.401] Browser WARN    Image with src "/logo.png" has "fill" but is missing "sizes" prop. Please add it to improve page performance. Read more: https://nextjs.org/docs/api-reference/next/image#sizes

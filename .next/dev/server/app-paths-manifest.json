@@ -1,10 +1,9 @@
 {
   "/(auth)/login/page": "app/(auth)/login/page.js",
   "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/admin/products/page": "app/admin/products/page.js",
   "/admin/users/create/page": "app/admin/users/create/page.js",
   "/admin/users/page": "app/admin/users/page.js",
+  "/api/image-proxy/route": "app/api/image-proxy/route.js",
   "/api/user/me/route": "app/api/user/me/route.js",
-  "/dashboard/page": "app/dashboard/page.js",
   "/page": "app/page.js"
 }
