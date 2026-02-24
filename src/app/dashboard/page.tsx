@@ -1,11 +1,13 @@
 "use client";
 import Image from "next/image";
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { useCart } from "@/app/context/CartContext";
 import { useFavorites } from "@/app/context/FavoritesContext";
+import axiosInstance from "@/lib/api/axiosInstance";
+import { API } from "@/lib/api/endpoint";
 
 interface Flower {
-  id: number;
+  id: number | string;
   name: string;
   pricePerRose: number;
   bouquetPrice: number;
@@ -17,220 +19,47 @@ interface Flower {
   category: string;
 }
 
-const flowers: Flower[] = [
-  { 
-    id: 1, 
-    name: "Pink Rose", 
-    pricePerRose: 150,
-    bouquetPrice: 1500,
-    originalPricePerRose: 200,
-    originalBouquetPrice: 2000,
-    discount: 25,
-    image: "/images/flower1.png",
-    description: "Fresh, handpicked pink roses with vibrant colors and long-lasting freshness. Perfect for any occasion.",
-    category: "Roses"
-  },
-  { 
-    id: 6, 
-    name: "Red Rose", 
-    pricePerRose: 190,
-    bouquetPrice: 1900,
-    originalPricePerRose: 240,
-    originalBouquetPrice: 2400,
-    discount: 21,
-    image: "/images/flower6.png",
-    description: "Classic red roses representing deep love and passion. A timeless gift choice.",
-    category: "Roses"
-  },
-  { 
-    id: 11, 
-    name: "Rose and Lily", 
-    pricePerRose: 170,
-    bouquetPrice: 1700,
-    originalPricePerRose: 170,
-    originalBouquetPrice: 1700,
-    discount: 0,
-    image: "/images/flower3.png",
-    description: "Beautiful combination of roses and lilies creating an elegant mixed bouquet.",
-    category: "Roses"
-  },
-  { 
-    id: 16, 
-    name: "Pink Lily", 
-    pricePerRose: 220,
-    bouquetPrice: 2200,
-    originalPricePerRose: 220,
-    originalBouquetPrice: 2200,
-    discount: 0,
-    image: "/images/flower8.png",
-    description: "Elegant pink lilies symbolizing prosperity and abundance.",
-    category: "Roses"
-  },
-  { 
-    id: 2, 
-    name: "White and Pink Tulip", 
-    pricePerRose: 200,
-    bouquetPrice: 2000,
-    originalPricePerRose: 200,
-    originalBouquetPrice: 2000,
-    discount: 0,
-    image: "/images/flower2.png",
-    description: "Delicate tulips in white and pink shades symbolizing purity and beauty. Ideal for celebrations and special moments.",
-    category: "Lilies"
-  },
-  { 
-    id: 14, 
-    name: "White Tulip", 
-    pricePerRose: 195,
-    bouquetPrice: 1950,
-    originalPricePerRose: 195,
-    originalBouquetPrice: 1950,
-    discount: 0,
-    image: "/images/flower6.png",
-    description: "Pure white tulips representing elegance and grace.",
-    category: "Lilies"
-  },
-  { 
-    id: 8, 
-    name: "Baby's Breath", 
-    pricePerRose: 240,
-    bouquetPrice: 2400,
-    originalPricePerRose: 240,
-    originalBouquetPrice: 2400,
-    discount: 0,
-    image: "/images/flower8.png",
-    description: "Delicate baby's breath flowers perfect for elegant events and arrangements.",
-    category: "Lilies"
-  },
-  { 
-    id: 3, 
-    name: "Blue Baby's Breath", 
-    pricePerRose: 180,
-    bouquetPrice: 1800,
-    originalPricePerRose: 220,
-    originalBouquetPrice: 2200,
-    discount: 18,
-    image: "/images/flower3.png",
-    description: "Unique blue baby's breath flowers that bring a touch of whimsy and charm to any space.",
-    category: "Sale"
-  },
-  { 
-    id: 9, 
-    name: "Pastel Flower", 
-    pricePerRose: 160,
-    bouquetPrice: 1600,
-    originalPricePerRose: 200,
-    originalBouquetPrice: 2000,
-    discount: 20,
-    image: "/images/flower1.png",
-    description: "Soft pastel flowers creating a gentle and calming arrangement.",
-    category: "Sale"
-  },
-  { 
-    id: 13, 
-    name: "Cherry Blossom", 
-    pricePerRose: 280,
-    bouquetPrice: 2800,
-    originalPricePerRose: 350,
-    originalBouquetPrice: 3500,
-    discount: 20,
-    image: "/images/flower5.png",
-    description: "Delicate cherry blossoms representing the beauty of life.",
-    category: "Sale"
-  },
-  { 
-    id: 4, 
-    name: "Orchid", 
-    pricePerRose: 250,
-    bouquetPrice: 2500,
-    originalPricePerRose: 250,
-    originalBouquetPrice: 2500,
-    discount: 0,
-    image: "/images/flower4.png",
-    description: "Exotic orchids representing luxury and elegance. A premium choice for special occasions.",
-    category: "Premium"
-  },
-  { 
-    id: 5, 
-    name: "Pink Peony", 
-    pricePerRose: 220,
-    bouquetPrice: 2200,
-    originalPricePerRose: 220,
-    originalBouquetPrice: 2200,
-    discount: 0,
-    image: "/images/flower5.png",
-    description: "Soft romantic peonies in beautiful pink shades. Perfect for weddings and celebrations.",
-    category: "Premium"
-  },
-  { 
-    id: 7, 
-    name: "Spring Flower", 
-    pricePerRose: 210,
-    bouquetPrice: 2100,
-    originalPricePerRose: 210,
-    originalBouquetPrice: 2100,
-    discount: 0,
-    image: "/images/flower7.png",
-    description: "Vibrant mix of seasonal flowers bringing color and freshness to your home.",
-    category: "Premium"
-  },
-  { 
-    id: 10, 
-    name: "Garden Mix", 
-    pricePerRose: 230,
-    bouquetPrice: 2300,
-    originalPricePerRose: 230,
-    originalBouquetPrice: 2300,
-    discount: 0,
-    image: "/images/flower2.png",
-    description: "Lively collection of garden-fresh flowers in bold beautiful colors.",
-    category: "Premium"
-  },
-  { 
-    id: 12, 
-    name: "Sunset Flower", 
-    pricePerRose: 260,
-    bouquetPrice: 2600,
-    originalPricePerRose: 260,
-    originalBouquetPrice: 2600,
-    discount: 0,
-    image: "/images/flower4.png",
-    description: "Warm orange and yellow tones reminiscent of beautiful sunsets.",
-    category: "Premium"
-  },
-  { 
-    id: 15, 
-    name: "Tropical Mix", 
-    pricePerRose: 270,
-    bouquetPrice: 2700,
-    originalPricePerRose: 270,
-    originalBouquetPrice: 2700,
-    discount: 0,
-    image: "/images/flower7.png",
-    description: "Exotic tropical flowers bringing island vibes and bold colors.",
-    category: "Premium"
-  },
-];
+const getDefaultImage = (name: string, category: string) => {
+  const nameImages: { [key: string]: string } = {
+    "Pink Rose": "/images/flower1.png",
+    "Red Rose": "/images/flower2.png",
+    "Rose and Lily": "/images/flower3.png",
+    "Pink Lily": "/images/flower4.png",
+    "White and Pink Tulip": "/images/flower5.png",
+    "White Tulip": "/images/flower6.png",
+    "Baby's Breath": "/images/flower7.png",
+    "Blue Baby's breath": "/images/flower8.png",
+    "Pastel Flower": "/images/flower9.png",
+    "Cherry Blossom": "/images/flower10.png",
+    "Orchid": "/images/flower11.png",
+    "Pink Peony": "/images/flower12.png",
+    "Spring Flower": "/images/flower13.png",
+    "Garden Mix": "/images/flower14.png",
+    "Sunset Flower": "/images/flower15.png",
+    "Tropical Mix": "/images/flower16.png",
+  };
+  const categoryImages: { [key: string]: string } = {
+    Roses: "/images/flower1.png",
+    Lilies: "/images/flower2.png",
+    Sale: "/images/flower3.png",
+    Premium: "/images/flower4.png",
+  };
+  return nameImages[name] || categoryImages[category] || "/images/flower1.png";
+};
 
 const bannerSlides = [
-  {
-    id: 1,
-    image: "/images/banner-1.jpg",
-    title: "Valentine's Day",
-    subtitle: "MEGA SALE - Up to 30% OFF",
-    bgColor: "bg-gradient-to-r from-pink-100 to-rose-100"
-  },
-  {
-    id: 2,
-    image: "/images/banner-2.jpg",
-    title: " ",
-    subtitle: " ",
-    bgColor: "bg-gradient-to-r from-pink-200 to-rose-200"
-  },
+  { id: 1, image: "/images/banners-1.jpg", title: "Valentine's Day", subtitle: "MEGA SALE - Up to 30% OFF" },
+  { id: 2, image: "/images/banners-2.jpg", title: " ", subtitle: " " },
 ];
 
+const CATEGORIES = ["All", "Roses", "Lilies", "Sale", "Premium"];
+
 export default function DashboardPage() {
+  const [flowers, setFlowers] = useState<Flower[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [search, setSearch] = useState<string>("");
+  const [searchInput, setSearchInput] = useState<string>("");
+  const [activeCategory, setActiveCategory] = useState<string>("All");
   const [selectedFlower, setSelectedFlower] = useState<Flower | null>(null);
   const [quantity, setQuantity] = useState<number>(1);
   const [isBouquet, setIsBouquet] = useState<boolean>(false);
@@ -238,45 +67,62 @@ export default function DashboardPage() {
   const { addToCart } = useCart();
   const { addToFavorites, removeFromFavorites, isFavorite } = useFavorites();
 
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % bannerSlides.length);
-    }, 4000);
+  const fetchProducts = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await axiosInstance.get(API.PRODUCTS.GET_ALL, {
+        params: { limit: 100, search, category: activeCategory === "All" ? "" : activeCategory },
+      });
+      const data = res.data?.data || [];
+      const mapped: Flower[] = data.map((p: any) => ({
+        id: p._id,
+        name: p.name,
+        pricePerRose: p.pricePerRose,
+        bouquetPrice: p.bouquetPrice,
+        originalPricePerRose: p.originalPricePerRose,
+        originalBouquetPrice: p.originalBouquetPrice,
+        image: p.image && p.image !== ""
+          ? `${process.env.NEXT_PUBLIC_API_BASE_URL}${p.image}`
+          : getDefaultImage(p.name, p.category),
+        description: p.description,
+        discount: p.discount,
+        category: p.category,
+      }));
+      setFlowers(mapped);
+    } catch (error) {
+      console.error("Failed to fetch products:", error);
+    } finally {
+      setLoading(false);
+    }
+  }, [search, activeCategory]);
 
+  useEffect(() => { fetchProducts(); }, [fetchProducts]);
+  useEffect(() => {
+    const timer = setTimeout(() => setSearch(searchInput), 400);
+    return () => clearTimeout(timer);
+  }, [searchInput]);
+  useEffect(() => {
+    const timer = setInterval(() => setCurrentSlide((p) => (p + 1) % bannerSlides.length), 4000);
     return () => clearInterval(timer);
   }, []);
 
-  const goToSlide = (index: number) => {
-    setCurrentSlide(index);
-  };
-
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % bannerSlides.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + bannerSlides.length) % bannerSlides.length);
-  };
-
   const categorizedFlowers = useMemo(() => {
+    if (activeCategory !== "All") return { [activeCategory]: flowers };
     const categories: { [key: string]: Flower[] } = {};
-    flowers.forEach((flower) => {
-      if (!categories[flower.category]) {
-        categories[flower.category] = [];
-      }
-      categories[flower.category].push(flower);
+    flowers.forEach((f) => {
+      if (!categories[f.category]) categories[f.category] = [];
+      categories[f.category].push(f);
     });
     return categories;
-  }, []);
+  }, [flowers, activeCategory]);
 
   const handleToggleFavorite = (flower: Flower, e: React.MouseEvent) => {
     e.stopPropagation();
-
-    if (isFavorite(flower.id)) {
-      removeFromFavorites(flower.id);
+    if (isFavorite(flower.id as number)) {
+      removeFromFavorites(flower.id as number);
     } else {
       addToFavorites({
-        id: flower.id,
+        id: flower.id as number,
         name: flower.name,
         price: flower.originalPricePerRose,
         discountedPrice: flower.pricePerRose,
@@ -291,328 +137,247 @@ export default function DashboardPage() {
 
   const handleAddToCart = () => {
     if (!selectedFlower) return;
-
     const price = isBouquet ? selectedFlower.bouquetPrice : selectedFlower.pricePerRose;
     const originalPrice = isBouquet ? selectedFlower.originalBouquetPrice : selectedFlower.originalPricePerRose;
-
     addToCart({
-      id: selectedFlower.id,
-      name: `${selectedFlower.name}${isBouquet ? ' (Bouquet)' : ''}`,
+      id: selectedFlower.id as number,
+      name: `${selectedFlower.name}${isBouquet ? " (Bouquet)" : ""}`,
       price: originalPrice,
       discountedPrice: price,
-      quantity: quantity,
-      isBouquet: isBouquet,
+      quantity,
+      isBouquet,
       image: selectedFlower.image,
       description: selectedFlower.description,
       discount: selectedFlower.discount,
     });
-
-    alert(`Added ${quantity} ${isBouquet ? 'bouquet(s)' : 'rose(s)'} to cart!`);
-
+    alert(`Added ${quantity} ${isBouquet ? "bouquet(s)" : "rose(s)"} to cart!`);
     setSelectedFlower(null);
     setQuantity(1);
     setIsBouquet(false);
   };
 
-  const getCurrentPrice = () => {
-    if (!selectedFlower) return 0;
-    return isBouquet ? selectedFlower.bouquetPrice : selectedFlower.pricePerRose;
-  };
-
-  const getOriginalPrice = () => {
-    if (!selectedFlower) return 0;
-    return isBouquet ? selectedFlower.originalBouquetPrice : selectedFlower.originalPricePerRose;
-  };
+  const getCurrentPrice = () => !selectedFlower ? 0 : isBouquet ? selectedFlower.bouquetPrice : selectedFlower.pricePerRose;
+  const getOriginalPrice = () => !selectedFlower ? 0 : isBouquet ? selectedFlower.originalBouquetPrice : selectedFlower.originalPricePerRose;
 
   const renderFlowerCard = (flower: Flower) => (
     <div
-      key={flower.id}
-      className="bg-white rounded-xl shadow-md p-4 hover:shadow-lg transition relative"
+      key={flower.id as number}
+      className="bg-white rounded-lg border border-gray-200 hover:shadow-md transition-all duration-200 hover:-translate-y-0.5 relative overflow-hidden group"
     >
-      <div className="w-full aspect-square relative mb-4">
-        <Image
-          src={flower.image}
-          alt={flower.name}
-          fill
-          className="object-cover rounded-lg"
-        />
-
-        <button
-          onClick={(e) => handleToggleFavorite(flower, e)}
-          className="absolute top-2 left-2 bg-white rounded-full p-2 shadow-md hover:scale-110 transition z-20"
-        >
-          <svg 
-            className="w-5 h-5" 
-            fill={isFavorite(flower.id) ? "#ec4899" : "white"}
-            stroke="#ec4899" 
-            viewBox="0 0 24 24"
-            strokeWidth={2}
-          >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" 
-            />
-          </svg>
-        </button>
-
-        {flower.discount > 0 && (
-          <div className="absolute top-2 right-2 bg-red-500 text-white px-2.5 py-1 rounded-lg text-xs font-bold shadow-md z-20">
-            {flower.discount}% OFF
-          </div>
-        )}
+      {flower.discount > 0 && (
+        <div className="absolute top-2 left-2 z-10 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded">
+          -{flower.discount}%
+        </div>
+      )}
+      <button
+        onClick={(e) => handleToggleFavorite(flower, e)}
+        className="absolute top-2 right-2 z-10 bg-white rounded-full p-1.5 shadow opacity-0 group-hover:opacity-100 transition-opacity"
+      >
+        <svg className="w-4 h-4" fill={isFavorite(flower.id as number) ? "#ef4444" : "none"} stroke="#ef4444" viewBox="0 0 24 24" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z" />
+        </svg>
+      </button>
+      <div className="relative w-full aspect-square bg-gray-50">
+        <Image src={flower.image} alt={flower.name} fill className="object-cover" />
       </div>
-
-      <h2 className="text-lg font-semibold text-gray-800">
-        {flower.name}
-      </h2>
-      <div className="mt-2">
-        <div className="flex items-center gap-2">
-          <p className="text-pink-600 font-bold text-lg">
-            Rs {flower.pricePerRose}
-          </p>
+      <div className="p-3">
+        <h3 className="text-sm font-medium text-gray-800 truncate">{flower.name}</h3>
+        <div className="mt-1 flex items-center gap-2">
+          <span className="text-pink-600 font-bold text-base">Rs {flower.pricePerRose}</span>
           {flower.discount > 0 && (
-            <p className="text-gray-400 line-through text-sm">
-              Rs {flower.originalPricePerRose}
-            </p>
+            <span className="text-gray-400 line-through text-xs">Rs {flower.originalPricePerRose}</span>
           )}
         </div>
-        <p className="text-gray-500 text-xs">per rose</p>
+        <p className="text-gray-400 text-xs mb-3">per rose</p>
+        <button
+          onClick={() => { setSelectedFlower(flower); setQuantity(1); setIsBouquet(false); }}
+          className="w-full bg-pink-500 hover:bg-pink-600 text-white text-sm py-1.5 rounded transition font-medium"
+        >
+          View Details
+        </button>
       </div>
-      <button 
-        onClick={() => {
-          setSelectedFlower(flower);
-          setQuantity(1);
-          setIsBouquet(false);
-        }}
-        className="mt-4 w-full bg-pink-500 text-white py-2 rounded-lg hover:bg-pink-600 transition"
-      >
-        View Details
-      </button>
     </div>
   );
 
   return (
-    <div className="min-h-screen bg-white">
-      <div className="relative w-full h-[400px] overflow-hidden bg-gray-100">
-        <div 
-          className="flex transition-transform duration-500 ease-in-out h-full"
-          style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-        >
+    <div className="min-h-screen bg-gray-100">
+      {/* Banner */}
+      <div className="relative w-full h-[280px] sm:h-[380px] overflow-hidden bg-gray-200">
+        <div className="flex transition-transform duration-500 ease-in-out h-full" style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
           {bannerSlides.map((slide) => (
-            <div
-              key={slide.id}
-              className="min-w-full h-full relative"
-            >
-              <Image
-                src={slide.image}
-                alt={slide.title}
-                fill
-                className="object-top"
-                priority={slide.id === 1}
-              />
-
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
-
-              <div className="absolute bottom-12 left-0 right-0 text-center text-white px-4 z-10">
-                <h1 className="text-5xl font-bold mb-4 drop-shadow-lg">
-                  {slide.title}
-                </h1>
-                <p className="text-2xl drop-shadow-md mb-6">
-                  {slide.subtitle}
-                </p>
-                <button className="bg-white text-pink-600 px-8 py-3 rounded-full font-bold hover:bg-gray-100 transition shadow-lg">
-                  Shop Now
-                </button>
+            <div key={slide.id} className="min-w-full h-full relative">
+              <Image src={slide.image} alt={slide.title} fill className="object-cover object-center" priority={slide.id === 1} />
+              <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-transparent to-transparent" />
+              <div className="absolute bottom-10 left-10 text-white z-10">
+                <h1 className="text-3xl sm:text-4xl font-bold drop-shadow-lg">{slide.title}</h1>
+                <p className="text-base sm:text-lg drop-shadow-md mt-1">{slide.subtitle}</p>
+                {slide.title.trim() && (
+                  <button className="mt-4 bg-pink-500 hover:bg-pink-600 text-white px-6 py-2.5 rounded font-semibold transition text-sm shadow-lg">
+                    Shop Now
+                  </button>
+                )}
               </div>
             </div>
           ))}
         </div>
-
-        <button
-          onClick={prevSlide}
-          className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-3 shadow-lg transition z-10"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button onClick={() => setCurrentSlide((p) => (p - 1 + bannerSlides.length) % bannerSlides.length)}
+          className="absolute left-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow transition z-10">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
           </svg>
         </button>
-
-        <button
-          onClick={nextSlide}
-          className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray.800 rounded-full p-3 shadow-lg transition z-10"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button onClick={() => setCurrentSlide((p) => (p + 1) % bannerSlides.length)}
+          className="absolute right-3 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white text-gray-800 rounded-full p-2 shadow transition z-10">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
           </svg>
         </button>
-
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-          {bannerSlides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-3 h-3 rounded-full transition ${
-                currentSlide === index ? 'bg-white w-8' : 'bg-white/50'
-              }`}
-            />
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5 z-10">
+          {bannerSlides.map((_, i) => (
+            <button key={i} onClick={() => setCurrentSlide(i)}
+              className={`h-1.5 rounded-full transition-all ${currentSlide === i ? "bg-white w-5" : "bg-white/50 w-1.5"}`} />
           ))}
         </div>
       </div>
 
-      <div className="p-6">
-        {Object.entries(categorizedFlowers).map(([category, categoryFlowers]) => (
-          <div key={category} className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-800 mb-6">{category}</h2>
-
-            <div className="overflow-x-auto pb-4">
-              <div className="flex gap-6" style={{ minWidth: 'min-content' }}>
-                {categoryFlowers.map((flower) => (
-                  <div key={flower.id} className="flex-shrink-0 w-72">
-                    {renderFlowerCard(flower)}
-                  </div>
-                ))}
-              </div>
+      {/* Sticky Category + Search bar */}
+      <div className="bg-white border-b border-gray-200 sticky top-0 z-20 shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between gap-4 py-3">
+            <div className="flex gap-1 overflow-x-auto">
+              {CATEGORIES.map((cat) => (
+                <button key={cat} onClick={() => setActiveCategory(cat)}
+                  className={`px-4 py-1.5 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                    activeCategory === cat ? "bg-pink-500 text-white shadow-sm" : "text-gray-600 hover:bg-gray-100"
+                  }`}>
+                  {cat}
+                </button>
+              ))}
             </div>
-          </div>
-        ))}
-      </div>
-
-      {selectedFlower && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div 
-            className="relative bg-white rounded-2xl max-w-md w-full max-h-[90vh] overflow-y-auto shadow-2xl z-10"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              onClick={() => setSelectedFlower(null)}
-              className="absolute top-4 right-4 bg-white rounded-full w-10 h-10 flex items-center justify-center text-gray-600 hover:text-gray-900 hover:bg-gray-100 shadow-md z-20 transition"
-            >
-              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </button>
-
-            <div className="relative h-56 bg-white rounded-t-2xl overflow-hidden">
-              <Image
-                src={selectedFlower.image}
-                alt={selectedFlower.name}
-                fill
-                className="object-cover"
-                priority
-              />
-              {selectedFlower.discount > 0 && (
-                <div className="absolute top-4 left-4 bg-red-500 text-white px-2.5 py-1 rounded-md font-semibold text-sm shadow">
-                  {selectedFlower.discount}% OFF
-                </div>
+            <div className="relative flex-shrink-0 w-56">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </span>
+              <input type="text" placeholder="Search flowers..." value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+                className="w-full pl-9 pr-8 h-9 rounded-full border border-gray-200 text-sm outline-none focus:border-pink-400 focus:ring-1 focus:ring-pink-400 bg-gray-50" />
+              {searchInput && (
+                <button onClick={() => { setSearchInput(""); setSearch(""); }}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 text-xs">✕</button>
               )}
             </div>
+          </div>
+        </div>
+      </div>
 
-            <div className="p-6">
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                {selectedFlower.name}
-              </h2>
-
-              <p className="text-gray-600 text-sm mb-6 leading-relaxed">
-                {selectedFlower.description}
-              </p>
-
-              <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Select Option
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  <button
-                    onClick={() => setIsBouquet(false)}
-                    className={`p-3 rounded-lg border-2 transition ${
-                      !isBouquet
-                        ? 'border-pink-500 bg-white'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="text-sm font-medium text-gray-700 mb-1">Per Rose</div>
-                    <div className="text-pink-600 font-bold text-lg">
-                      Rs {selectedFlower.pricePerRose}
-                    </div>
-                    {selectedFlower.discount > 0 && (
-                      <div className="text-gray-400 line-through text-xs">
-                        Rs {selectedFlower.originalPricePerRose}
-                      </div>
-                    )}
-                  </button>
-
-                  <button
-                    onClick={() => setIsBouquet(true)}
-                    className={`p-3 rounded-lg border-2 transition ${
-                      isBouquet
-                        ? 'border-pink-500 bg-white'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className="text-sm font-medium text-gray-700 mb-1">Bouquet</div>
-                    <div className="text-pink-600 font-bold text-lg">
-                      Rs {selectedFlower.bouquetPrice}
-                    </div>
-                    {selectedFlower.discount > 0 && (
-                      <div className="text-gray-400 line-through text-xs">
-                        Rs {selectedFlower.originalBouquetPrice}
-                      </div>
-                    )}
-                    <div className="text-[10px] text-gray-500 mt-0.5">12 pieces</div>
-                  </button>
+      {/* Products */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        {loading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {Array.from({ length: 10 }).map((_, i) => (
+              <div key={i} className="bg-white rounded-lg animate-pulse">
+                <div className="aspect-square bg-gray-200 rounded-t-lg" />
+                <div className="p-3 space-y-2">
+                  <div className="h-3 bg-gray-200 rounded w-3/4" />
+                  <div className="h-3 bg-gray-200 rounded w-1/2" />
+                  <div className="h-7 bg-gray-200 rounded mt-2" />
                 </div>
               </div>
+            ))}
+          </div>
+        ) : flowers.length === 0 ? (
+          <div className="text-center py-20 bg-white rounded-xl">
+            <div className="text-5xl mb-3">🌸</div>
+            <p className="text-gray-500 font-medium">
+              {search ? `No flowers found for "${search}"` : "No products available"}
+            </p>
+            {search && (
+              <button onClick={() => { setSearchInput(""); setSearch(""); }}
+                className="mt-3 text-pink-500 text-sm hover:underline">Clear search</button>
+            )}
+          </div>
+        ) : (
+          Object.entries(categorizedFlowers).map(([category, categoryFlowers]) => (
+            <div key={category} className="mb-8">
+              <div className="flex items-center justify-between mb-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-1 h-6 bg-pink-500 rounded-full" />
+                  <h2 className="text-lg font-bold text-gray-800">{category}</h2>
+                  <span className="text-sm text-gray-400">({categoryFlowers.length} items)</span>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+                {categoryFlowers.map((flower) => renderFlowerCard(flower))}
+              </div>
+            </div>
+          ))
+        )}
+      </div>
 
-              <div className="mb-6">
-                <label className="block text-sm font-semibold text-gray-700 mb-3">
-                  Quantity
-                </label>
-                <div className="flex items-center justify-center gap-4">
-                  <button
-                    onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold w-10 h-10 rounded-lg transition"
-                  >
-                    −
-                  </button>
-                  <div className="bg-white border-2 border-gray-300 rounded-lg px-6 py-2 min-w-[80px] text-center">
-                    <span className="text-2xl font-bold text-gray-900">
-                      {quantity}
+      {/* Product Detail Modal */}
+      {selectedFlower && (
+        <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4" onClick={() => setSelectedFlower(null)}>
+          <div className="bg-white rounded-xl max-w-lg w-full max-h-[90vh] overflow-y-auto shadow-2xl" onClick={(e) => e.stopPropagation()}>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <h2 className="text-lg font-bold text-gray-900">{selectedFlower.name}</h2>
+              <button onClick={() => setSelectedFlower(null)}
+                className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-gray-100 text-gray-500 transition text-lg">✕</button>
+            </div>
+            <div className="flex flex-col sm:flex-row">
+              <div className="relative sm:w-56 h-56 bg-gray-50 flex-shrink-0">
+                <Image src={selectedFlower.image} alt={selectedFlower.name} fill className="object-cover" priority />
+                {selectedFlower.discount > 0 && (
+                  <div className="absolute top-3 left-3 bg-red-500 text-white text-xs font-bold px-2 py-0.5 rounded">
+                    -{selectedFlower.discount}%
+                  </div>
+                )}
+              </div>
+              <div className="flex-1 p-5">
+                <p className="text-gray-500 text-sm leading-relaxed mb-4">{selectedFlower.description}</p>
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-pink-600 font-bold text-2xl">
+                    Rs {isBouquet ? selectedFlower.bouquetPrice : selectedFlower.pricePerRose}
+                  </span>
+                  {selectedFlower.discount > 0 && (
+                    <span className="text-gray-400 line-through text-sm">
+                      Rs {isBouquet ? selectedFlower.originalBouquetPrice : selectedFlower.originalPricePerRose}
                     </span>
-                  </div>
-                  <button
-                    onClick={() => setQuantity(quantity + 1)}
-                    className="bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold w-10 h-10 rounded-lg transition"
-                  >
-                    +
+                  )}
+                </div>
+                <div className="flex gap-2 mb-4">
+                  <button onClick={() => setIsBouquet(false)}
+                    className={`flex-1 py-2 rounded-lg border-2 text-sm font-medium transition ${!isBouquet ? "border-pink-500 bg-pink-50 text-pink-600" : "border-gray-200 text-gray-600"}`}>
+                    Per Rose
+                  </button>
+                  <button onClick={() => setIsBouquet(true)}
+                    className={`flex-1 py-2 rounded-lg border-2 text-sm font-medium transition ${isBouquet ? "border-pink-500 bg-pink-50 text-pink-600" : "border-gray-200 text-gray-600"}`}>
+                    Bouquet
                   </button>
                 </div>
-              </div>
-
-              <div className="bg-gray-50 rounded-lg p-4 mb-6">
-                <div className="flex justify-between items-center">
-                  <div>
-                    <span className="text-gray-700 font-semibold">Total</span>
-                    <p className="text-xs text-gray-500">
-                      {quantity} {isBouquet ? 'bouquet(s)' : 'piece(s)'}
-                    </p>
-                  </div>
-                  <div className="text-right">
-                    <div className="text-pink-600 font-bold text-2xl">
-                      Rs {getCurrentPrice() * quantity}
-                    </div>
-                    {selectedFlower.discount > 0 && (
-                      <div className="text-gray-400 line-through text-xs">
-                        Rs {getOriginalPrice() * quantity}
-                      </div>
-                    )}
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-medium text-gray-700">Qty:</span>
+                  <div className="flex items-center border border-gray-200 rounded-lg overflow-hidden">
+                    <button onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                      className="w-9 h-9 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition font-bold">−</button>
+                    <span className="w-10 text-center font-semibold text-gray-800">{quantity}</span>
+                    <button onClick={() => setQuantity(quantity + 1)}
+                      className="w-9 h-9 flex items-center justify-center text-gray-600 hover:bg-gray-100 transition font-bold">+</button>
                   </div>
                 </div>
               </div>
-
-              <button
-                onClick={handleAddToCart}
-                className="w-full bg-pink-500 hover:bg-pink-600 text-white py-3 rounded-lg transition font-semibold shadow-md"
-              >
+            </div>
+            <div className="px-5 py-4 border-t border-gray-100 flex items-center justify-between">
+              <div>
+                <p className="text-xs text-gray-500">Total ({quantity} {isBouquet ? "bouquet(s)" : "piece(s)"})</p>
+                <p className="text-pink-600 font-bold text-xl">Rs {getCurrentPrice() * quantity}</p>
+                {selectedFlower.discount > 0 && (
+                  <p className="text-gray-400 line-through text-xs">Rs {getOriginalPrice() * quantity}</p>
+                )}
+              </div>
+              <button onClick={handleAddToCart}
+                className="bg-pink-500 hover:bg-pink-600 text-white px-8 py-2.5 rounded-lg font-semibold transition shadow-sm">
                 Add to Cart
               </button>
             </div>

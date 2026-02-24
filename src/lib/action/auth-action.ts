@@ -41,15 +41,12 @@ export const handleRegister = async (formData: any): Promise<AuthResponse> => {
 export const handleLogin = async (formData: any): Promise<AuthResponse> => {
   try {
     const res = await loginUser(formData);
-    console.log("Backend login response:", res);
-
     if (!res.success) {
       return {
         success: false,
         message: res.message || "Login failed",
       };
     }
-
     const token = res.token;
     if (!token) {
       return {
@@ -57,10 +54,8 @@ export const handleLogin = async (formData: any): Promise<AuthResponse> => {
         message: "Token missing from backend response",
       };
     }
-
     await setAuthToken(token);
     await setUserData(res.data);
-
     return {
       success: true,
       data: res.data,

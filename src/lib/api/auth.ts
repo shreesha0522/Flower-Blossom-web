@@ -2,11 +2,12 @@ import axiosInstance from "@/lib/api/axiosInstance";
 import { API } from "@/lib/api/endpoint";
 
 export const registerUser = async (data: {
+  firstName: string;
+  lastName: string;
   username: string;
   email: string;
   password: string;
-  firstName?: string;
-  lastName?: string;
+  confirmPassword: string;
 }) => {
   const response = await axiosInstance.post(API.AUTH.REGISTER, data);
   return response.data;
@@ -29,7 +30,7 @@ export const forgotPassword = async (email: string) => {
 
 export const resetPassword = async (token: string, newPassword: string) => {
   const response = await axiosInstance.post(
-    API.AUTH.RESET_PASSWORD + "/" + token,
+    `${API.AUTH.RESET_PASSWORD}/${token}`,
     { newPassword }
   );
   return response.data;

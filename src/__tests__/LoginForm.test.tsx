@@ -55,7 +55,7 @@ describe("LoginForm", () => {
     const submitButton = screen.getByRole("button", { name: /log in/i });
     fireEvent.click(submitButton);
     await waitFor(() => {
-      expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+      expect(screen.getByText(/enter a valid email/i)).toBeInTheDocument();
     });
   });
 

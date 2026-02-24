@@ -30,7 +30,8 @@ describe("RegisterForm", () => {
 
   test("should render all form fields", () => {
     render(<RegisterForm />);
-    expect(screen.getByLabelText(/full name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/first name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/last name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/username/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByLabelText("Password")).toBeInTheDocument();
@@ -47,13 +48,22 @@ describe("RegisterForm", () => {
     expect(screen.getByText(/log in/i)).toBeInTheDocument();
   });
 
+  test("should show validation error for empty form", async () => {
+    render(<RegisterForm />);
+    fireEvent.click(screen.getByRole("button", { name: /register/i }));
+    await waitFor(() => {
+      expect(screen.getByText(/enter your first name/i)).toBeInTheDocument();
+    });
+  });
+
   test("should show error on failed registration", async () => {
     mockHandleRegister.mockResolvedValue({
       success: false,
       message: "Email already exists",
     });
     render(<RegisterForm />);
-    await userEvent.type(screen.getByLabelText(/full name/i), "Shreesha Shrestha");
+    await userEvent.type(screen.getByLabelText(/first name/i), "Shreesha");
+    await userEvent.type(screen.getByLabelText(/last name/i), "Shrestha");
     await userEvent.type(screen.getByLabelText(/username/i), "shreesha123");
     await userEvent.type(screen.getByLabelText(/email/i), "existing@example.com");
     await userEvent.type(screen.getByLabelText("Password"), "password123");
@@ -64,40 +74,47 @@ describe("RegisterForm", () => {
     });
   });
 
-  test("should call handleRegister with correct data", async () => {
-    mockHandleRegister.mockResolvedValue({
-      success: true,
-    });
+  test("should show error when passwords do not match", async () => {
     render(<RegisterForm />);
-    await userEvent.type(screen.getByLabelText(/full name/i), "Shreesha Shrestha");
+    await userEvent.type(screen.getByLabelText(/first name/i), "Shreesha");
+    await userEvent.type(screen.getByLabelText(/last name/i), "Shrestha");
+    await userEvent.type(screen.getByLabelText(/username/i), "shreesha123");
+    await userEvent.type(screen.getByLabelText(/email/i), "shreesha@example.com");
+    await userEvent.type(screen.getByLabelText("Password"), "password123");
+    await userEvent.type(screen.getByLabelText(/confirm password/i), "differentpassword");
+    fireEvent.click(screen.getByRole("button", { name: /register/i }));
+    await waitFor(() => {
+      expect(screen.getByText(/passwords do not match/i)).toBeInTheDocument();
+    });
+  });
+
+  test("should call handleRegister with correct data", async () => {
+    mockHandleRegister.mockResolvedValue({ success: true });
+    render(<RegisterForm />);
+    await userEvent.type(screen.getByLabelText(/first name/i), "Shreesha");
+    await userEvent.type(screen.getByLabelText(/last name/i), "Shrestha");
     await userEvent.type(screen.getByLabelText(/username/i), "shreesha123");
     await userEvent.type(screen.getByLabelText(/email/i), "shreesha@example.com");
     await userEvent.type(screen.getByLabelText("Password"), "password123");
     await userEvent.type(screen.getByLabelText(/confirm password/i), "password123");
     fireEvent.click(screen.getByRole("button", { name: /register/i }));
     await waitFor(() => {
-      expect(mockHandleRegister).toHaveBeenCalled();
+      expect(mockHandleRegister).toHaveBeenCalledWith({
+        firstName: "Shreesha",
+        lastName: "Shrestha",
+        username: "shreesha123",
+        email: "shreesha@example.com",
+        password: "password123",
+        confirmPassword: "password123",
+      });
     });
   });
 
- test("should show error when passwords do not match", async () => {
-  render(<RegisterForm />);
-  await userEvent.type(screen.getByLabelText(/full name/i), "Shreesha Shrestha");
-  await userEvent.type(screen.getByLabelText(/username/i), "shreesha123");
-  await userEvent.type(screen.getByLabelText(/email/i), "shreesha@example.com");
-  await userEvent.type(screen.getByLabelText("Password"), "password123");
-  await userEvent.type(screen.getByLabelText(/confirm password/i), "differentpassword");
-  fireEvent.click(screen.getByRole("button", { name: /register/i }));
-  await waitFor(() => {
-    const errorMessages = screen.getAllByRole("paragraph");
-    expect(errorMessages.length).toBeGreaterThan(0);
-  });
-});
-
-  test("should call handleRegister when form is submitted successfully", async () => {
+  test("should call handleRegister when form submitted successfully", async () => {
     mockHandleRegister.mockResolvedValue({ success: true });
     render(<RegisterForm />);
-    await userEvent.type(screen.getByLabelText(/full name/i), "Shreesha Shrestha");
+    await userEvent.type(screen.getByLabelText(/first name/i), "Shreesha");
+    await userEvent.type(screen.getByLabelText(/last name/i), "Shrestha");
     await userEvent.type(screen.getByLabelText(/username/i), "shreesha123");
     await userEvent.type(screen.getByLabelText(/email/i), "shreesha@example.com");
     await userEvent.type(screen.getByLabelText("Password"), "password123");

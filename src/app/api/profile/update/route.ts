@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { cookies } from "next/headers";
+
 const API = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8000";
 
 export async function POST(req: NextRequest) {
@@ -16,6 +17,12 @@ export async function POST(req: NextRequest) {
 
     const formData = await req.formData();
     const userId = formData.get("userId") as string;
+    const firstName = formData.get("firstName") as string;
+    const lastName = formData.get("lastName") as string;
+    const email = formData.get("email") as string;
+    const bio = formData.get("bio") as string;
+    const phone = formData.get("phone") as string;
+    const image = formData.get("image") as File | null;
 
     if (!userId) {
       return NextResponse.json(
@@ -24,12 +31,20 @@ export async function POST(req: NextRequest) {
       );
     }
 
+    const backendForm = new FormData();
+    if (firstName) backendForm.append("firstName", firstName);
+    if (lastName) backendForm.append("lastName", lastName);
+    if (email) backendForm.append("email", email);
+    if (bio) backendForm.append("bio", bio);
+    if (phone) backendForm.append("phone", phone);
+    if (image && image.size > 0) backendForm.append("image", image);
+
     const response = await fetch(`${API}/api/auth/${userId}`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      body: formData,
+      body: backendForm,
     });
 
     const data = await response.json();
