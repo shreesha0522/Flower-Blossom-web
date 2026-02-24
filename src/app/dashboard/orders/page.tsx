@@ -171,9 +171,9 @@ export default function OrdersPage() {
         </div>
       ) : (
         <div className="space-y-4">
-          {filteredOrders.map((order) => (
+          {filteredOrders.map((order, orderIndex) => (
             <div
-              key={`order-${order.id}-${order.orderNumber}`}
+              key={`order-${order.id}-${orderIndex}`}
               className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow"
             >
               <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
@@ -206,9 +206,9 @@ export default function OrdersPage() {
 
               <div className="p-6">
                 <div className="space-y-4 mb-4">
-                  {order.items.map((item) => (
+                  {order.items.map((item, itemIndex) => (
                     <div
-                      key={`item-${item.id}-order-${order.id}`}
+                      key={`item-${orderIndex}-${itemIndex}`}
                       className="flex items-center gap-4"
                     >
                       <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center flex-shrink-0">
